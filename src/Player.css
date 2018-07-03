@@ -1,0 +1,65 @@
+.player {
+	margin-top: 15px;
+	background: white;
+	text-align: center;
+   	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	width: 600px;
+	height: 50px;
+	position: relative;
+}
+
+
+.controls {
+	float: left;
+}
+
+.controls > a {
+	color: black;
+	text-decoration: none;
+	height: 50px;
+	/*width:50px;*/
+	box-sizing: border-box;
+	padding: 15px 10px;
+	float: left;
+}
+
+.controls> a:hover {
+	background-color: gray;
+	color: lightgray;
+}
+
+.progress {
+	position: absolute;
+	left: 95.45px;
+	top: 17px;
+	right: 100px;
+	bottom: 17px;
+	background: gray;
+	padding: 0 5 px;
+}
+
+.progress > .bar {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	background: white;
+
+}
+
+.progress > .bar > div {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	background: white;
+}
+
+.hide {
+	display:none;
+}
+

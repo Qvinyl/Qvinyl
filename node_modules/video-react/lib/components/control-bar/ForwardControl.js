@@ -1,0 +1,17 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _ForwardReplayControl = require('./ForwardReplayControl');
+
+var _ForwardReplayControl2 = _interopRequireDefault(_ForwardReplayControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Pass mode into parent function
+var ForwardControl = (0, _ForwardReplayControl2.default)('forward');
+
+ForwardControl.displayName = 'ForwardControl';
+exports.default = ForwardControl;
