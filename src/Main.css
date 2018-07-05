@@ -1,0 +1,57 @@
+.main{
+  width:80%;
+  height: 100vh;
+  /* background: white; */
+  position: static;
+  background: #232323;
+  display: block;
+}
+
+.mainTitle {
+  margin-top: 120px;
+  font-size: 36px;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.inputcontainer{
+  margin-left: 20px;
+  height: 22px;
+}
+
+.linkT {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  float: left;
+}
+
+.inputL {
+  width: 200px;
+  float: left;
+  margin-left: 10px;
+}
+
+.inputB {
+  float: left;
+  margin-left: 10px;
+  background-color: #0078ce;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.videoplayer {
+  display: flex;
+}
+
+.flexbox2 {
+  padding-top: 20px;
+  margin-left: 150px;
+  margin-right: 60px;
+  display: flex;
+}

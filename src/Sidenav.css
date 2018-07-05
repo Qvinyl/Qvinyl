@@ -1,0 +1,27 @@
+.sidenav{
+  width:20%;
+  height: 100vh;
+  position: static;
+  background: #3a3a3a;
+  display: block;
+}
+
+.table1 {
+  margin-top: 100px;
+  width: 100%;
+}
+
+.td1 {
+  text-align: center;
+	color: white;
+  font-size: 20px;
+  font-weight: bold;
+  height: 40px;
+  margin: auto;
+}
+
+.td1:hover {
+	color: #0078ce;
+  background-color: #262626;
+
+}

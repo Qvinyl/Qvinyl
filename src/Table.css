@@ -1,20 +1,19 @@
-.list{
-	margin-top: 50px;
-}
 
-th {
-	height: 50px;
-	width: 100%;
-	color: white;
-	background: black;
-}
-
-tr{
-	color: white;
-	
-}
-table, th, td {
-    border: 1px solid black;
-}
 
 /*<ReactPlayer url='https://www.youtube.com/watch?v=fYn5-tW6y7o&start_radio=1&list=RDfYn5-tW6y7o' playing />*/
+
+
+/* <table className="table">
+  <tr>
+    <th>Track Name</th>
+    <th>Queued by</th>
+    <th>Veto</th>
+  </tr>
+  <tr>
+    <td className="listings"> song name </td>
+    <td className="listings"> Queued by </td>
+    <td className="listings">
+    </td>
+  </tr>
+</table>
+/*

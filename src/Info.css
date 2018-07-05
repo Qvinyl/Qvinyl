@@ -1,0 +1,74 @@
+.info {
+  margin-left: 10px;
+  color: white;
+  width: auto;
+  height: 30px;
+  float: left;
+}
+
+.listing {
+  color: white;
+  height: 30px;
+  float: center;
+}
+
+.infoTitle{
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+}
+
+.vetobox {
+  margin-top: 30px;
+  width:100%;
+  height: 50px;
+}
+
+.vetotext {
+  color: white;
+  font-size: 20px;
+  float: left;
+  margin-left: 40px;
+}
+
+.trackplayinginfo {
+  width: 100%;
+  height: 45%;
+}
+
+.trackinfo {
+  color: white;
+  height: 50px;
+  font-size: 20px;
+}
+
+.thumbsi {
+  margin-left: 75px;
+  color: #0078ce;
+  font-size: 50px;
+
+}
+
+.thumbsi:hover  {
+  color: #d8593c;
+}
+
+.infobox{
+  display: flex;
+  margin-left: 5%;
+  width: 300px;
+  height: 360px;
+  border: 1px solid black;
+}
+
+.table2 {
+  width:100%;
+  margin-top: 30px;
+}
+
+.infobanner {
+  width: 100%;
+  height: 40px;
+  background: black;
+}

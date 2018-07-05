@@ -1,0 +1,27 @@
+.chatbar {
+  width:20%;
+  height: 100vh;
+  position: static;
+  background: #3a3a3a;
+  display: block;
+}
+
+.textbox {
+  height: 50px;
+  width: 50px;
+}
+
+.messagebox{
+  margin-left: 24px;
+  margin-right: 18px;
+  background: grey;
+  margin-top: 10px;
+  height: 83%;
+  width: 85%;
+}
+
+.chattitle {
+  margin-top: 110px;
+  font-size: 20px;
+  color: white;
+}

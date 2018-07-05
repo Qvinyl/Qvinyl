@@ -1,0 +1,18 @@
+.scrollbox {
+  margin: 15px 15px 15px 15px;
+  height: 30%;
+  background-color: #1c1f23;
+  overflow: auto;
+  color:white;
+  scrollbar-base-color: gold;
+  font-family:sans-serif;
+  padding:10px;
+}
+
+.table {
+  width: 100%;
+}
+
+.tr2 {
+  height: 30px;
+}
