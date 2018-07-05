@@ -33,8 +33,9 @@
 }
 
 .trackplayinginfo {
+  /* background: white; */
   width: 100%;
-  height: 45%;
+  height: 41.5%;
 }
 
 .trackinfo {
