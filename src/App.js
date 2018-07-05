@@ -9,8 +9,6 @@ class App extends Component {
       <div className="app">
         <div className="title">Q vinyl</div>
         <Player />
-        <Table />
-
       </div>
     );
   }
