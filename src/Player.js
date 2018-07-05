@@ -8,29 +8,33 @@ class Player extends Component {
 		this.state = {
 			isHidden: true,
 			song: 'https://www.youtube.com/watch?v=jgMfYgsRvQ8',
-			songQueue: ['https://www.youtube.com/watch?v=PQSljVL5ARA',
-						 'https://www.youtube.com/watch?v=m45dfKYezow',
-						 'https://www.youtube.com/watch?v=6M78EWZlCvE',
-						 'https://www.youtube.com/watch?v=7LEmer7wwHI',
-						 'https://www.youtube.com/watch?v=hWUWXqa1w1Q']
+			songQueue: ['https://www.youtube.com/watch?v=PQSljVL5ARA'],
+			songBeingQueued: ''
 		}
+		this.newSong = this.newSong.bind(this)
+		this.addSongToQueue = this.addSongToQueue.bind(this)
+		this.skipVideo = this.skipVideo.bind(this)
+		this.hideVideo = this.hideVideo.bind(this)
 	}
 	hideVideo () {
 		this.setState({
 			isHidden: !this.state.isHidden
 		})
 	}
-	loadVideo () {
-		this.setState({
-			song: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-		})
-	}
 	newSong(event) {
 		this.setState({
-			song: event.target.value
+			songBeingQueued: event.target.value
 		})
 	}
+	addSongToQueue () {
+		console.log(this.state.songBeingQueued);
+		this.state.songQueue.push(this.state.songBeingQueued)
+		this.setState(
+			this.state
+		)
+	}
 	skipVideo () {
+		console.log(this.state.songQueue);
 		this.setState({
 			song: this.state.songQueue.shift()
 		})
@@ -43,17 +47,14 @@ class Player extends Component {
 		return (
 			<div className="player">
 				<div className="controls">
-					<a onClick={this.skipVideo.bind(this)}>
+					<a onClick={this.skipVideo}>
 						<i className="fa fa-chevron-right"></i>
 					</a>
-					<a onClick={this.hideVideo.bind(this)}>
+					<a onClick={this.hideVideo}>
 						<i className="fa fa-plus"></i>
 					</a>
-					<a onClick={this.loadVideo.bind(this)}>
-						<i className="fa fa-music"></i>
-					</a>
-					<input type="text" value={this.state.song} />
-					<button onClick={this.newSong}>
+					<input type="text" onChange={this.newSong}/>
+					<button onClick={this.addSongToQueue}>
 						Submit
 					</button>
 				</div>
