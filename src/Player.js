@@ -3,15 +3,36 @@ import ReactPlayer from 'react-player'
 import './Player.css';
  
 class Player extends Component {
-	constructor () {
-		super()
+	constructor (props) {
+		super(props)
 		this.state = {
-			isHidden: true
+			isHidden: true,
+			song: 'https://www.youtube.com/watch?v=jgMfYgsRvQ8',
+			songQueue: ['https://www.youtube.com/watch?v=PQSljVL5ARA',
+						 'https://www.youtube.com/watch?v=m45dfKYezow',
+						 'https://www.youtube.com/watch?v=6M78EWZlCvE',
+						 'https://www.youtube.com/watch?v=7LEmer7wwHI',
+						 'https://www.youtube.com/watch?v=hWUWXqa1w1Q']
 		}
 	}
 	hideVideo () {
 		this.setState({
 			isHidden: !this.state.isHidden
+		})
+	}
+	loadVideo () {
+		this.setState({
+			song: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+		})
+	}
+	newSong(event) {
+		this.setState({
+			song: event.target.value
+		})
+	}
+	skipVideo () {
+		this.setState({
+			song: this.state.songQueue.shift()
 		})
 	}
 	render () {
@@ -22,31 +43,37 @@ class Player extends Component {
 		return (
 			<div className="player">
 				<div className="controls">
-					<a href="javascript():void();">
-						<i className="fa fa-chevron-left"></i>
-					</a>
-					<a href="javascript():void();">
-						<i className="fa fa-play"></i>
-					</a>
-					<a href="javascript():void();">
+					<a onClick={this.skipVideo.bind(this)}>
 						<i className="fa fa-chevron-right"></i>
 					</a>
 					<a onClick={this.hideVideo.bind(this)}>
 						<i className="fa fa-plus"></i>
 					</a>
-					
+					<a onClick={this.loadVideo.bind(this)}>
+						<i className="fa fa-music"></i>
+					</a>
+					<input type="text" value={this.state.song} />
+					<button onClick={this.newSong}>
+						Submit
+					</button>
 				</div>
+				
 				<div className="progress">
 					<div className="bar">
 					</div>
 				</div>
+				
 				<div style={video}>
-					<ReactPlayer url='https://www.youtube.com/watch?v=fYn5-tW6y7o&start_radio=1&list=RDfYn5-tW6y7o' playing />
+					<ReactPlayer 
+						playing
+						controls
+						url={this.state.song}
+						width='100%'
+					/>
 				</div>
 			</div>
 		);
 	}
-    
 }
 
 export default Player;
