@@ -15,6 +15,10 @@ class Player extends Component {
 		})
 	}
 	render () {
+		var video = {
+			display: this.state.isHidden ? "none" : "block"
+		};
+		
 		return (
 			<div className="player">
 				<div className="controls">
@@ -36,18 +40,14 @@ class Player extends Component {
 					<div className="bar">
 					</div>
 				</div>
-				{!this.state.isHidden && <Video />}
+				<div style={video}>
+					<ReactPlayer url='https://www.youtube.com/watch?v=fYn5-tW6y7o&start_radio=1&list=RDfYn5-tW6y7o' playing />
+				</div>
 			</div>
 		);
 	}
     
 }
-
-const Video = () => (
-	<div className='video'>
-		<ReactPlayer url='https://www.youtube.com/watch?v=fYn5-tW6y7o&start_radio=1&list=RDfYn5-tW6y7o' playing />
-	</div>
-)
 
 export default Player;
 
