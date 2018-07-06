@@ -53,6 +53,7 @@
   position: absolute;
   background: blue;
   margin-left: 35px;
+  display: none;
 }
 
 .inlink {
