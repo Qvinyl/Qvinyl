@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import Queue from './Queue'
 import Info from './Info'
+import Player from './Player'
 import './Main.css';
 import firebase from 'firebase'
 
@@ -33,9 +34,7 @@ class Main extends Component {
         <div className="mainTitle">Audio Room</div>
         <div className="trackplayinginfo">
           <div className="flexbox2">
-            <div className="videoplayer">
-              <ReactPlayer url='https://www.youtube.com/watch?v=fYn5-tW6y7o&start_radio=1&list=RDfYn5-tW6y7o' playing />
-            </div>
+            <Player />
             <Info />
           </div>
         </div>
