@@ -30,6 +30,7 @@
 	color: lightgray;
 }
 
+/*
 .progress {
 	position: absolute;
 	left: 95.45px;
@@ -39,6 +40,7 @@
 	background: gray;
 	padding: 0 5 px;
 }
+
 
 .progress > .bar {
 	position: absolute;
@@ -58,7 +60,7 @@
 	bottom: 5px;
 	background: white;
 }
-
+*/
 .hide {
 	display:none;
 }
