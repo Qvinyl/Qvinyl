@@ -38,7 +38,6 @@ class Main extends Component {
           </div>
         </div>
         <div className="inputcontainer">
-
           <label className="linkT">
             Music Link:
           </label>

@@ -28,6 +28,7 @@ class App extends Component {
       <div className="app">
         <div className="banner">
           <div className="flexbox">
+          
             <div className="title">Qvinyl</div>
             <pre id="object"></pre>
             <div className="settings">Settings</div>

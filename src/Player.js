@@ -11,7 +11,7 @@ class Player extends Component {
 			hiddenAddSong: true,
 			hiddenVolume: true,
 			volume: 0.5,
-			song: 'https://www.youtube.com/watch?v=jgMfYgsRvQ8',
+			song: '',
 			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
 			songBeingQueued: ''
 		}
@@ -34,7 +34,7 @@ class Player extends Component {
 			hiddenVideo: !this.state.hiddenVideo
 		})
 	}
-  
+
   // skip current video
 	skipVideo () {
     var url;
@@ -91,6 +91,18 @@ class Player extends Component {
 		})
 	}
 
+  componentDidMount() {
+    var url;
+    var database = firebase.database().ref('URLS').limitToFirst(1);
+      database.once('value').then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          url = childSnapshot.val();
+          var key = childSnapshot.key;
+        });
+        this.setState({song: url});
+      }.bind(this));
+      console.log("HELLO");
+ }
 
 	render () {
 		// initializing css style inject
