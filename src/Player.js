@@ -38,17 +38,18 @@ class Player extends Component {
   // skip current video
 	skipVideo () {
     var url;
-    var database = firebase.database().ref('URLS').limitToFirst(1);
+    var database = firebase.database().ref('Room1/songs').limitToFirst(1);
       database.once('value').then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           url = childSnapshot.val();
           var key = childSnapshot.key;
-          firebase.database().ref('URLS/' + key).remove();
+          console.log("KEY: " + key);
+          firebase.database().ref('Room1/songs/' + key).remove();
         });
         this.setState({song: url});
       }.bind(this));
 
-      const dbRefObject = firebase.database().ref().child('URLS');
+      const dbRefObject = firebase.database().ref().child('Room1/songs');
 
       dbRefObject.on('value', snap => console.log(snap.val()));
   }

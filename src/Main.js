@@ -14,14 +14,14 @@ class Main extends Component {
 
   pushToDB() {
     var database = firebase.database();
-    var urlRef = database.ref('URLS');
+    var urlRef = database.ref('Room1/songs');
     var link = document.getElementById("myLink").value;
     if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
         link.includes("https://vimeo.com/")) {
       var pushDB = urlRef.push(link);
     }
     const preObject = document.getElementById('myLink');
-    const dbRefObject = firebase.database().ref().child('URLS');
+    const dbRefObject = firebase.database().ref().child('Room1/songs');
     dbRefObject.on('value', snap => console.log(snap.val()));
   }
 
