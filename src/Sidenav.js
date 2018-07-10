@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 // import ReactPlayer from 'react-player'
 import './Sidenav.css';
+import firebase from 'firebase';
+
 class Sidenav extends Component {
   constructor() {
     super();
@@ -30,6 +32,22 @@ class Sidenav extends Component {
    }
  }
 
+ createRoom() {
+    var database = firebase.database();
+    var roomName = document.getElementById("roomname").value;
+    var roomPush = database.ref().push();
+    var roomKey = roomPush.key;
+    database.ref(roomKey).push(roomName);
+    var password = database.ref(roomKey).push(document.getElementById("roompw").value);
+    var songs = database.ref(roomKey).push("Songs");
+    var users = database.ref(roomKey).push("Users");
+    var songKey = songs.key;
+    var userKey = users.key;
+    console.log("SONGKEY: " + songKey);
+    console.log("USERKEY: " + userKey);
+ }
+
+
   render () {
     return (
       <div className="sidenav">
@@ -41,11 +59,13 @@ class Sidenav extends Component {
           <label className="linkT">
             Room Name:
           </label>
-          <input className="inlink"/>
+          <input className="inlink" id="roomname"/>
           <label className="linkT">
             Room password:
           </label>
-          <input className="inlink"/>
+          <input className="inlink" id="roompw"/>
+          <button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</button>
+
         </div>
         <div className="sidescrollbox">
           <table className="table1" id="roomList">

@@ -20,7 +20,6 @@ class Main extends Component {
         link.includes("https://vimeo.com/")) {
       var pushDB = urlRef.push(link);
     }
-    const preObject = document.getElementById('myLink');
     const dbRefObject = firebase.database().ref().child('Room1/songs');
     dbRefObject.on('value', snap => console.log(snap.val()));
   }
