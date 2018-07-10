@@ -12,21 +12,18 @@ class Main extends Component {
     super();
   }
 
-  insertToQueuedb() {
+  pushToDB() {
     var database = firebase.database();
-    var urlRef = database.ref("URLS");
+    var urlRef = database.ref('URLS');
     var link = document.getElementById("myLink").value;
     if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
         link.includes("https://vimeo.com/")) {
-      var key = urlRef.push({
-        Link: link
-      });
+      var pushDB = urlRef.push(link);
     }
     const preObject = document.getElementById('myLink');
     const dbRefObject = firebase.database().ref().child('URLS');
     dbRefObject.on('value', snap => console.log(snap.val()));
   }
-
 
   render () {
     return (
@@ -34,7 +31,9 @@ class Main extends Component {
         <div className="mainTitle">Audio Room</div>
         <div className="trackplayinginfo">
           <div className="flexbox2">
-            <Player />
+            <div className="videoplayer">
+              <Player/>
+            </div>
             <Info />
           </div>
         </div>
@@ -44,7 +43,7 @@ class Main extends Component {
             Music Link:
           </label>
           <input id="myLink" className="inputL" type="text"/>
-          <button className="inputB" id="myBtn" onClick={()=> this.insertToQueuedb()}>Submit</button>
+          <button className="inputB" id="myBtn" onClick={()=> this.pushToDB()}>Submit</button>
 
         </div>
           <Queue />

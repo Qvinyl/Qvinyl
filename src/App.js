@@ -16,11 +16,11 @@ var config = {
 };
 firebase.initializeApp(config);
 
-const preObject = document.getElementById('object');
-
-const dbRefObject = firebase.database().ref().child('URLS');
-
-dbRefObject.on('value', snap => console.log(snap.val()));
+// const preObject = document.getElementById('object');
+//
+// const dbRefObject = firebase.database().ref().child('URLS');
+//
+// dbRefObject.on('value', snap => console.log(snap.val()));
 
 class App extends Component {
   render () {
