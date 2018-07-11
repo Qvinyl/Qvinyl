@@ -28,7 +28,7 @@
 }
 
 .inputL {
-  width: 200px;
+  width: 75%;
   float: left;
   margin-left: 10px;
   height: 20px;
@@ -50,13 +50,13 @@
 
 .videoplayer {
   display: flex;
-  height: 360px;
-  width: 480px;
+  float:left;
+  width: 50%;
+  height: 30%;
 }
 
 .flexbox2 {
   padding-top: 20px;
   margin-left: 60px;
   margin-right: 60px;
-  display: flex;
 }

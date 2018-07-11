@@ -57,7 +57,7 @@
 
 .infobox{
   display: flex;
-  margin-left: 5%;
+  margin-left: 50%;
   width: 300px;
   height: 360px;
   border: 1px solid black;

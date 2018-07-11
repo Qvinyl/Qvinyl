@@ -4,7 +4,6 @@ import './App.css';
 import Sidenav from './Sidenav'
 import Main from './Main'
 import Chat from './Chat'
-import Player from './Player'
 import * as firebase from 'firebase';
 
 var config = {
@@ -18,10 +17,6 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render () {
     return (
       <div className="app">
@@ -34,18 +29,8 @@ class App extends Component {
           </div>
         </div>
         <div className="flexbox">
-          <Sidenav songKey={this.state.songKey} userKey={this.state.userKey}
-          roomKey = {this.state.roomKey}
-          getSongKey={this.getSongKey.bind(this)} getUserKey={this.getUserKey.bind(this)}
-          getRoomKey={this.getRoomKey.bind(this)}/>
-          <Player songKey={this.state.songKey} userKey={this.state.userKey}
-          roomKey={this.state.roomKey}
-          getSongKey={this.getSongKey.bind(this)} getUserKey={this.getUserKey.bind(this)}
-          getRoomKey={this.getRoomKey.bind(this)}/>
-          <Main songKey={this.state.songKey} userKey={this.state.userKey}
-          roomKey={this.state.roomKey}
-          getSongKey={this.getSongKey.bind(this)} getUserKey={this.getUserKey.bind(this)}
-          getRoomKey={this.getRoomKey.bind(this)}/>
+          <Sidenav />
+          <Main />
           <Chat />
         </div>
       </div>

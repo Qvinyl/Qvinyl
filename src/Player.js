@@ -38,13 +38,13 @@ class Player extends Component {
   // skip current video
 	skipVideo () {
     var url;
-    var database = firebase.database().ref(this.props.roomKey + '/' + this.props.songKey).limitToFirst(1);
+    var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
       database.once('value').then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           url = childSnapshot.val();
           var key = childSnapshot.key;
-          console.log("KEY: " + key);
-          firebase.database().ref('key/songs/' + key).remove();
+          firebase.database().ref('-LH6hGwS7408VhVl989S/songs/' + key).remove();
+          console.log(firebase.database());
         });
         this.setState({song: url});
       }.bind(this));
@@ -91,15 +91,13 @@ class Player extends Component {
 
   componentDidMount() {
     var url;
-    var database = firebase.database().ref('URLS').limitToFirst(1);
+    var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
       database.once('value').then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           url = childSnapshot.val();
-          var key = childSnapshot.key;
         });
         this.setState({song: url});
       }.bind(this));
-      console.log("HELLO");
  }
 
 	render () {
