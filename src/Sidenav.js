@@ -4,8 +4,8 @@ import './Sidenav.css';
 import firebase from 'firebase';
 
 class Sidenav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
  }
  addRoom() {
   // alert("Add room was pressed");
@@ -35,18 +35,17 @@ class Sidenav extends Component {
  createRoom() {
     var database = firebase.database();
     var roomName = document.getElementById("roomname").value;
+    var roomPW = document.getElementById("roompw").value;
     var roomPush = database.ref().push();
     var roomKey = roomPush.key;
     database.ref(roomKey).push(roomName);
-    var password = database.ref(roomKey).push(document.getElementById("roompw").value);
-    var songs = database.ref(roomKey).push("Songs");
-    var users = database.ref(roomKey).push("Users");
-    var songKey = songs.key;
-    var userKey = users.key;
-    console.log("SONGKEY: " + songKey);
-    console.log("USERKEY: " + userKey);
+    var songs = database.ref(roomKey).set({
+      roomname: roomName,
+      password: roomPW,
+      songs: '',
+      users: '',
+    });
  }
-
 
   render () {
     return (

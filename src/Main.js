@@ -2,26 +2,31 @@ import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import Queue from './Queue'
 import Info from './Info'
-import Player from './Player'
+import Sidenav from './Sidenav'
 import './Main.css';
 import firebase from 'firebase'
 
 
 class Main extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   pushToDB() {
-    var database = firebase.database();
-    var urlRef = database.ref('Room1/songs');
     var link = document.getElementById("myLink").value;
-    if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
-        link.includes("https://vimeo.com/")) {
-      var pushDB = urlRef.push(link);
-    }
-    const dbRefObject = firebase.database().ref().child('Room1/songs');
-    dbRefObject.on('value', snap => console.log(snap.val()));
+    var database = firebase.database().ref().limitToFirst(1);
+      database.once('value').then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var url = childSnapshot.val();
+          var key = childSnapshot.key;
+          console.log("KEY: " + key);
+          var selected = firebase.database().ref(key + '/songs');
+          if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
+              link.includes("https://vimeo.com/")) {
+            selected.push(link);
+          }
+        });
+     });
   }
 
   render () {
@@ -31,7 +36,8 @@ class Main extends Component {
         <div className="trackplayinginfo">
           <div className="flexbox2">
             <div className="videoplayer">
-              <Player/>
+
+
             </div>
             <Info />
           </div>

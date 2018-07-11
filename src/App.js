@@ -4,6 +4,7 @@ import './App.css';
 import Sidenav from './Sidenav'
 import Main from './Main'
 import Chat from './Chat'
+import Player from './Player'
 import * as firebase from 'firebase';
 
 var config = {
@@ -16,27 +17,35 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// const preObject = document.getElementById('object');
-//
-// const dbRefObject = firebase.database().ref().child('URLS');
-//
-// dbRefObject.on('value', snap => console.log(snap.val()));
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render () {
     return (
       <div className="app">
         <div className="banner">
           <div className="flexbox">
-          
+
             <div className="title">Qvinyl</div>
             <pre id="object"></pre>
             <div className="settings">Settings</div>
           </div>
         </div>
         <div className="flexbox">
-          <Sidenav />
-          <Main />
+          <Sidenav songKey={this.state.songKey} userKey={this.state.userKey}
+          roomKey = {this.state.roomKey}
+          getSongKey={this.getSongKey.bind(this)} getUserKey={this.getUserKey.bind(this)}
+          getRoomKey={this.getRoomKey.bind(this)}/>
+          <Player songKey={this.state.songKey} userKey={this.state.userKey}
+          roomKey={this.state.roomKey}
+          getSongKey={this.getSongKey.bind(this)} getUserKey={this.getUserKey.bind(this)}
+          getRoomKey={this.getRoomKey.bind(this)}/>
+          <Main songKey={this.state.songKey} userKey={this.state.userKey}
+          roomKey={this.state.roomKey}
+          getSongKey={this.getSongKey.bind(this)} getUserKey={this.getUserKey.bind(this)}
+          getRoomKey={this.getRoomKey.bind(this)}/>
           <Chat />
         </div>
       </div>
