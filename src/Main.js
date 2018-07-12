@@ -29,7 +29,8 @@ class Main extends Component {
       });
     });
     */
-    firebase.database().ref('users/' + userID + '/roomKeys').once('value').then(function(snapshot){
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().room;
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
       if (link.includes("https://www.youtube.com/")  
