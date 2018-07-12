@@ -30,12 +30,12 @@ class Player extends Component {
 
 	// hide playing video
 	hideVideo () {
-    var userId = firebase.auth().currentUser.uid;
-    console.log(userId);
-    var database = firebase.database();
-    database.ref('users/' + userId).set({
-      roomKeys: '',
-    });
+	    var userId = firebase.auth().currentUser.uid;
+	    console.log(userId);
+	    var database = firebase.database();
+	    database.ref('users/' + userId).set({
+	    	roomKeys: '',
+	    });
 		this.setState({
 			hiddenVideo: !this.state.hiddenVideo
 		})
@@ -45,15 +45,17 @@ class Player extends Component {
 	skipVideo () {
     var url;
     var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
-      database.once('value').then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          url = childSnapshot.val();
-          var key = childSnapshot.key;
-          firebase.database().ref('-LH6hGwS7408VhVl989S/songs/' + key).remove();
-          console.log(firebase.database());
-        });
-        this.setState({song: url});
-      }.bind(this));
+		database.once('value').then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				url = childSnapshot.val();
+				var key = childSnapshot.key;
+				firebase.database().ref('-LH6hGwS7408VhVl989S/songs/' + key).remove();
+				console.log(firebase.database());
+			});
+			this.setState({
+				song: url
+			});
+		}.bind(this));
 
   }
 
@@ -98,13 +100,13 @@ class Player extends Component {
   componentDidMount() {
     var url;
     var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
-      database.once('value').then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          url = childSnapshot.val();
-        });
-        this.setState({song: url});
-      }.bind(this));
- }
+		database.once('value').then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				url = childSnapshot.val();
+			});
+			this.setState({song: url});
+		}.bind(this));
+ 	}
 
 	render () {
 		// initializing css style inject

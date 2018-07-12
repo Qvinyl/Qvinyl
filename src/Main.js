@@ -9,8 +9,10 @@ import firebase from 'firebase'
 class Main extends Component {
 
   pushMusicToDB() {
-    var uid = firebase.auth().currentUser.uid;
+    var userID = firebase.auth().currentUser.uid;
+    console.log(userID);
     var link = document.getElementById("myLink").value;
+    /*
     var database = firebase.database().ref('rooms').limitToFirst(1);
       database.once('value').then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
@@ -26,6 +28,12 @@ class Main extends Component {
           }
         });
      });
+     */
+    firebase.database().ref('users' + userID + '/roomKeys').once('value').then(function(snapshot){
+      var roomKey = snapshot.val();
+      console.log("this is roomKey: " + roomKey);
+    });
+    
   }
 
   render () {
