@@ -20,6 +20,21 @@ const preObject = document.getElementById('object');
 
 const dbRefObject = firebase.database().ref().child('URLS');
 
+const messaging = firebase.messaging();
+
+messaging.requestPermission()
+.then(function(){
+  console.log('Have Permission');
+  console.log('hello');
+  return messaging.getToken();
+})
+.then(function(token){
+  console.log(token);
+})
+.catch(function(err){
+  console.log('Error Ocurred.');
+})
+
 dbRefObject.on('value', snap => console.log(snap.val()));
 
 class App extends Component {

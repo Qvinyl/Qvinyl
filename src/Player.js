@@ -6,7 +6,7 @@ class Player extends Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			hiddenVideo: false,
+			hiddenVideo: true,
 			hiddenAddSong: true,
 			hiddenVolume: true,
 			volume: 0.5,
