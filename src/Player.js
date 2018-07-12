@@ -30,6 +30,12 @@ class Player extends Component {
 
 	// hide playing video
 	hideVideo () {
+    var userId = firebase.auth().currentUser.uid;
+    console.log(userId);
+    var database = firebase.database();
+    database.ref('users/' + userId).set({
+      roomKeys: '',
+    });
 		this.setState({
 			hiddenVideo: !this.state.hiddenVideo
 		})

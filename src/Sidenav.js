@@ -35,13 +35,14 @@ class Sidenav extends Component {
     var roomPW = document.getElementById("roompw").value;
     var roomPush = database.ref().push();
     var roomKey = roomPush.key;
-    database.ref(roomKey).push(roomName);
-    var songs = database.ref(roomKey).set({
+    //database.ref(roomKey).push(roomName);
+    var songs = database.ref('rooms/' + roomKey).set({
       roomname: roomName,
       password: roomPW,
       songs: '',
-      users: '',
+      users: firebase.auth().currentUser.uid
     });
+    database.ref('users/' + firebase.auth().currentUser.uid + "/roomKeys").push(roomKey);
  }
 
   render () {

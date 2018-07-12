@@ -8,17 +8,21 @@ import firebase from 'firebase'
 
 class Main extends Component {
 
-  pushToDB() {
+  pushMusicToDB() {
+    var uid = firebase.auth().currentUser.uid;
     var link = document.getElementById("myLink").value;
-    var database = firebase.database().ref().limitToFirst(1);
+    var database = firebase.database().ref('rooms').limitToFirst(1);
       database.once('value').then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           var key = childSnapshot.key;
           console.log("KEY: " + key);
-          var selected = firebase.database().ref(key + '/songs');
-          if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
-              link.includes("https://vimeo.com/")) {
-            selected.push(link);
+          console.log(firebase.database().ref('rooms/' + key + '/users'));
+          if (childSnapshot.hasChild(uid)) {
+            var selected = firebase.database().ref('rooms/' + key + '/songs');
+            if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
+                link.includes("https://vimeo.com/")) {
+              selected.push(link);
+            }
           }
         });
      });
@@ -33,7 +37,7 @@ class Main extends Component {
             Music Link:
           </label>
           <input id="myLink" className="inputL" type="text"/>
-          <button className="inputB" id="myBtn" onClick={()=> this.pushToDB()}>Submit</button>
+          <button className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>Submit</button>
         </div>
         <div className="trackplayinginfo">
           <div className="flexbox2">
