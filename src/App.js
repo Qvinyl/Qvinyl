@@ -7,7 +7,7 @@ class App extends Component {
   render () {
     return (
       <div className="app">
-        <div className="title">Q vinyl</div>
+        <center><img src="Qvinyl.png" width= "25%" height= "25%"/></center>
         <Player />
       </div>
     );
