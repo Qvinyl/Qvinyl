@@ -43,20 +43,6 @@ class Player extends Component {
 
   // skip current video
 	skipVideo (){
-		/*
-	    var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
-		database.once('value').then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				var url = childSnapshot.val();
-				var key = childSnapshot.key;
-				firebase.database().ref('-LH6hGwS7408VhVl989S/songs/' + key).remove();
-				console.log(firebase.database());
-			});
-			this.setState({
-				song: url
-			});
-		}.bind(this));
-		*/
 		var userID = firebase.auth().currentUser.uid;
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
@@ -72,7 +58,6 @@ class Player extends Component {
 					});
 				});
 			});
-			//console.log("this is roomKey: " + roomKey);
 	    });
     }
 
@@ -114,15 +99,25 @@ class Player extends Component {
 		})
 	}
 
-  componentDidMount() {
-    var url;
-    var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
-		database.once('value').then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				url = childSnapshot.val();
+	onPageLoad () {
+		var userID = firebase.auth().currentUser.uid;
+	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+	    getRoom.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().room;
+			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+			songLocation.limitToFirst(1).once('value').then((snapshot) => {
+				snapshot.forEach((childSnapshot) => {
+					var songLink = childSnapshot.val();
+					this.setState({
+						song: songLink
+					});
+				});
 			});
-			this.setState({song: url});
-		}.bind(this));
+	    });
+	}
+
+  	componentDidMount() {
+	    setTimeout(this.onPageLoad.bind(this), 500);
  	}
 
 	render () {
