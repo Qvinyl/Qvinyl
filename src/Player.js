@@ -30,12 +30,14 @@ class Player extends Component {
 
 	// hide playing video
 	hideVideo () {
+		/*
 	    var userId = firebase.auth().currentUser.uid;
 	    console.log(userId);
 	    var database = firebase.database();
 	    database.ref('users/' + userId).set({
 	    	roomKeys: '',
 	    });
+	    */
 		this.setState({
 			hiddenVideo: !this.state.hiddenVideo
 		})
@@ -46,13 +48,29 @@ class Player extends Component {
 		var userID = firebase.auth().currentUser.uid;
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().room;
+			var roomKey = snapshot.val().currentRoom;
 			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
 				snapshot.forEach((childSnapshot) => {
 					var songLink = childSnapshot.val();
 					var songKey = childSnapshot.key;
+					console.log("current song: " + this.state.song);
+					console.log("next song: " + songLink);
 					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
+					// handles duplicate song, song on load
+					if (this.state.song === songLink) {
+						songLocation.limitToFirst(1).once('value').then((snapshot) => {
+							snapshot.forEach((childSnapshot) => {
+								var nextSongLink = childSnapshot.val();
+								var nextSongKey = childSnapshot.key;
+								firebase.database().ref('rooms/' + roomKey + '/songs/' + nextSongKey).remove();
+								this.setState({
+									song: nextSongLink
+								});
+							});
+						});
+						return;
+					}
 					this.setState({
 						song: songLink
 					});
@@ -103,7 +121,11 @@ class Player extends Component {
 		var userID = firebase.auth().currentUser.uid;
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().room;
+			try {
+				var roomKey = snapshot.val().currentRoom;
+			} catch (exception) { 
+				return;
+			}
 			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
 				snapshot.forEach((childSnapshot) => {

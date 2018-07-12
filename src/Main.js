@@ -31,7 +31,7 @@ class Main extends Component {
     */
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().room;
+      var roomKey = snapshot.val().currentRoom;
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
       if (link.includes("https://www.youtube.com/")  
         || link.includes("https://soundcloud.com/") 
