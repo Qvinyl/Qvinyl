@@ -10,6 +10,8 @@ class Player extends Component {
 			hiddenAddSong: true,
 			hiddenVolume: true,
 			volume: 0.5,
+			played: 0,
+			duration: 0,
 			song: 'https://www.youtube.com/watch?v=jgMfYgsRvQ8',
 			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
 			songBeingQueued: ''
@@ -25,6 +27,8 @@ class Player extends Component {
 		
 		this.hideVolume = this.hideVolume.bind(this)
 		this.changeVolume = this.changeVolume.bind(this)
+
+		this.onProgress = this.onProgress.bind(this)
 	}
 	
 	// hide playing video
@@ -80,6 +84,9 @@ class Player extends Component {
 		})
 	}
 	
+	onProgress (state) {
+		this.setState(state)
+	}
 	
 	render () {
 		// initializing css style inject
@@ -108,7 +115,6 @@ class Player extends Component {
 					<a onClick={this.hideVideo}>
 						<i className="fa fa-video"></i>
 					</a>
-					
 				</div>
 						
 				<div style={showAddSong}>
@@ -126,6 +132,13 @@ class Player extends Component {
 						onInput={this.changeVolume}
 						step="0.05" />
 				</div>
+
+				<div>
+					<progress 
+						max={1} 
+						value={this.state.played} 
+					/>
+				</div>
 				
 				<div style={video}>
 					<ReactPlayer 
@@ -133,6 +146,7 @@ class Player extends Component {
 						volume={this.state.volume}
 						url={this.state.song}
 						width="100%"
+						onProgress={this.onProgress}
 					/>
 				</div>
 			</div>
