@@ -14,26 +14,31 @@ class Main extends Component {
     var link = document.getElementById("myLink").value;
     /*
     var database = firebase.database().ref('rooms').limitToFirst(1);
-      database.once('value').then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          var key = childSnapshot.key;
-          console.log("KEY: " + key);
-          console.log(firebase.database().ref('rooms/' + key + '/users'));
-          if (childSnapshot.hasChild(uid)) {
-            var selected = firebase.database().ref('rooms/' + key + '/songs');
-            if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
-                link.includes("https://vimeo.com/")) {
-              selected.push(link);
-            }
+    database.once('value').then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        console.log("KEY: " + key);
+        console.log(firebase.database().ref('rooms/' + key + '/users'));
+        if (childSnapshot.hasChild(uid)) {
+          var selected = firebase.database().ref('rooms/' + key + '/songs');
+          if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
+              link.includes("https://vimeo.com/")) {
+            selected.push(link);
           }
-        });
-     });
-     */
-    firebase.database().ref('users' + userID + '/roomKeys').once('value').then(function(snapshot){
-      var roomKey = snapshot.val();
+        }
+      });
+    });
+    */
+    firebase.database().ref('users/' + userID + '/roomKeys').once('value').then(function(snapshot){
+      var roomKey = snapshot.val().room;
+      var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+      if (link.includes("https://www.youtube.com/")  
+        || link.includes("https://soundcloud.com/") 
+        || link.includes("https://vimeo.com/")) {
+        songLocation.push(link);
+      }
       console.log("this is roomKey: " + roomKey);
     });
-    
   }
 
   render () {

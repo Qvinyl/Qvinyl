@@ -5,7 +5,7 @@ import firebase from 'firebase'
 
 class Player extends Component {
 	constructor (props) {
-		super(props)
+		super(props);
 		this.state = {
 			hiddenVideo: false,
 			hiddenAddSong: true,
@@ -14,18 +14,18 @@ class Player extends Component {
 			song: '',
 			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
 			songBeingQueued: ''
-		}
+		};
 
 		// initialize helper functions
-		this.hideVideo = this.hideVideo.bind(this)
-		this.skipVideo = this.skipVideo.bind(this)
+		this.hideVideo = this.hideVideo.bind(this);
+		this.skipVideo = this.skipVideo.bind(this);
 
-		this.hideAddSong = this.hideAddSong.bind(this)
-		this.newSong = this.newSong.bind(this)
-		this.addSongToQueue = this.addSongToQueue.bind(this)
+		this.hideAddSong = this.hideAddSong.bind(this);
+		this.newSong = this.newSong.bind(this);
+		this.addSongToQueue = this.addSongToQueue.bind(this);
 
-		this.hideVolume = this.hideVolume.bind(this)
-		this.changeVolume = this.changeVolume.bind(this)
+		this.hideVolume = this.hideVolume.bind(this);
+		this.changeVolume = this.changeVolume.bind(this);
 	}
 
 	// hide playing video
@@ -42,12 +42,12 @@ class Player extends Component {
 	}
 
   // skip current video
-	skipVideo () {
-    var url;
-    var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
+	skipVideo (){
+		/*
+	    var database = firebase.database().ref('-LH6hGwS7408VhVl989S/songs').limitToFirst(1);
 		database.once('value').then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
-				url = childSnapshot.val();
+				var url = childSnapshot.val();
 				var key = childSnapshot.key;
 				firebase.database().ref('-LH6hGwS7408VhVl989S/songs/' + key).remove();
 				console.log(firebase.database());
@@ -56,8 +56,25 @@ class Player extends Component {
 				song: url
 			});
 		}.bind(this));
-
-  }
+		*/
+		var userID = firebase.auth().currentUser.uid;
+	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+	    getRoom.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().room;
+			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+			songLocation.limitToFirst(1).once('value').then((snapshot) => {
+				snapshot.forEach((childSnapshot) => {
+					var songLink = childSnapshot.val();
+					var songKey = childSnapshot.key;
+					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
+					this.setState({
+						song: songLink
+					});
+				});
+			});
+			//console.log("this is roomKey: " + roomKey);
+	    });
+    }
 
 	// hide add song button
 	hideAddSong () {
