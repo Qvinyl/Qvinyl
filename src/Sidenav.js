@@ -4,15 +4,27 @@ import './Sidenav.css';
 import firebase from 'firebase';
 
 class Sidenav extends Component {
- addRoom() {
+  constructor (props) {
+    super(props);
+    this.state = {
+      hideAddRoom: true 
+    };
+  }
+
+  addRoom() {
   // alert("Add room was pressed");
+  /*
   var x = document.getElementById("addbox");
    if (x.style.display === "none") {
        x.style.display = "block";
    } else {
        x.style.display = "none";
    }
- }
+   */
+    this.setState({
+      hideAddRoom: !this.state.hideAddRoom
+    })
+  }
 
  searchRoom() {
    var input = document.getElementById("room");
@@ -50,13 +62,16 @@ class Sidenav extends Component {
  }
 
   render () {
+    var addButton = {
+      display: this.state.hideAddRoom ? "none" : "block"
+    }
     return (
       <div className="sidenav">
         <div className="searchroom">
           <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
           <input className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
         </div>
-        <div  className="addbox" id="addbox">
+        <div style={addButton} className="addbox" id="addbox">
           <label className="linkT">
             Room Name:
           </label>
