@@ -122,6 +122,7 @@ class Player extends Component {
 
 	onPageLoad () {
 		var userID = firebase.auth().currentUser.uid;
+		console.log("userID: " + userID);
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
 			try {
@@ -142,7 +143,7 @@ class Player extends Component {
 	}
 
   	componentDidMount() {
-	    setTimeout(this.onPageLoad.bind(this), 500);
+	    setTimeout(this.onPageLoad.bind(this), 1000);
  	}
 
  	onProgress (state) {

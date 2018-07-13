@@ -7,28 +7,17 @@ import firebase from 'firebase'
 
 
 class Main extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      currentRoomKey: ''
+    };
+    this.getRoomName = this.getRoomName.bind(this);
+  }
 
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
-    console.log(userID);
     var link = document.getElementById("myLink").value;
-    /*
-    var database = firebase.database().ref('rooms').limitToFirst(1);
-    database.once('value').then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        var key = childSnapshot.key;
-        console.log("KEY: " + key);
-        console.log(firebase.database().ref('rooms/' + key + '/users'));
-        if (childSnapshot.hasChild(uid)) {
-          var selected = firebase.database().ref('rooms/' + key + '/songs');
-          if (link.includes("https://www.youtube.com/") || link.includes("https://soundcloud.com/") ||
-              link.includes("https://vimeo.com/")) {
-            selected.push(link);
-          }
-        }
-      });
-    });
-    */
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
@@ -42,6 +31,20 @@ class Main extends Component {
     });
   }
 
+  getRoomName() {
+    var userID = firebase.auth().currentUser.uid;
+    var link = document.getElementById("myLink").value;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then((snapshot) => {
+      var roomKey = snapshot.val().currentRoom;
+      this.setState({
+        currentRoomKey: roomKey
+      })
+      console.log("this is roomKey: " + roomKey);
+      console.log("this is state roomKey: " + this.state.currentRoomKey);
+    });
+  }
+
   render () {
     return (
       <div className="main">
@@ -51,7 +54,14 @@ class Main extends Component {
             Music Link:
           </label>
           <input id="myLink" className="inputL" type="text"/>
-          <button className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>Submit</button>
+          <button 
+            className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+            Submit
+          </button>
+          <button onClick={this.getRoomName}>
+            Test
+          </button>
+          {this.state.currentRoomKey}
         </div>
         <div className="trackplayinginfo">
           <div className="flexbox2">
