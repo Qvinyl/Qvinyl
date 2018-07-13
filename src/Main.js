@@ -74,10 +74,13 @@ class Main extends Component {
             Test
           </button>
           {this.state.currentRoomKey}
+
+          <input id="roomLink" type="text"/>
           <button 
             className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
             Join Room
           </button>
+
         </div>
         <div className="trackplayinginfo">
           <div className="flexbox2">
