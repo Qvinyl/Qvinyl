@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Queue from './Queue'
-import Info from './Info'
 import './Main.css';
 import Player from './Player'
 import firebase from 'firebase'
@@ -106,7 +105,6 @@ class Main extends Component {
             <div className="videoplayer">
               <Player />
             </div>
-            <Info />
           </div>
         </div>
           <Queue />
