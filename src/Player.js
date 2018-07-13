@@ -12,6 +12,7 @@ class Player extends Component {
 			hiddenVolume: true,
 			volume: 0.5,
 			song: '',
+			played: 0,
 			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
 			songBeingQueued: ''
 		};
@@ -26,6 +27,8 @@ class Player extends Component {
 
 		this.hideVolume = this.hideVolume.bind(this);
 		this.changeVolume = this.changeVolume.bind(this);
+
+		this.onProgress = this.onProgress.bind(this);
 	}
 
 	// hide playing video
@@ -42,6 +45,7 @@ class Player extends Component {
 			hiddenVideo: !this.state.hiddenVideo
 		})
 	}
+
 
   // skip current video
 	skipVideo (){
@@ -79,6 +83,11 @@ class Player extends Component {
 	    });
     }
 
+
+    onProgress (state) {
+		this.setState(state)
+	}
+	
 	// hide add song button
 	hideAddSong () {
 		this.setState({
@@ -188,6 +197,12 @@ class Player extends Component {
 						onInput={this.changeVolume}
 						step="0.05" />
 				</div>
+				<div>
+					<progress
+						max='1'
+						value={this.state.played}
+					/>
+				</div>
 
 				<div style={video}>
 					<ReactPlayer
@@ -195,6 +210,8 @@ class Player extends Component {
 						volume={this.state.volume}
 						url={this.state.song}
 						width="100%"
+						onProgress={this.onProgress}
+						onEnded={this.skipVideo}
 					/>
 				</div>
 			</div>
