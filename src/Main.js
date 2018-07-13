@@ -8,6 +8,16 @@ import firebase from 'firebase'
 
 class Main extends Component {
 
+  joinRoom() {
+    var link = document.getElementById("roomLink").value;
+    var userID = firebase.auth().currentUser.uid;
+    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+    getRoom.push();
+    getRoom.set({
+      currentRoom: link
+    })
+  }
+
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
     console.log(userID);
@@ -33,14 +43,16 @@ class Main extends Component {
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
-      if (link.includes("https://www.youtube.com/")  
-        || link.includes("https://soundcloud.com/") 
+      if (link.includes("https://www.youtube.com/")
+        || link.includes("https://soundcloud.com/")
         || link.includes("https://vimeo.com/")) {
         songLocation.push(link);
       }
       console.log("this is roomKey: " + roomKey);
     });
   }
+
+
 
   render () {
     return (
@@ -51,7 +63,9 @@ class Main extends Component {
             Music Link:
           </label>
           <input id="myLink" className="inputL" type="text"/>
+          <input id="roomLink" type="text"/>
           <button className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>Submit</button>
+          <button className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>Join Room</button>
         </div>
         <div className="trackplayinginfo">
           <div className="flexbox2">
