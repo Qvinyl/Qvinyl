@@ -7,7 +7,7 @@ class Sidenav extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      hideAddRoom: true 
+      hideAddRoom: true
     };
   }
 
@@ -54,7 +54,8 @@ class Sidenav extends Component {
       songs: '',
       admin: uid,
       users: '',
-      downvotes: 0
+      downvotes: 0,
+      numberOfUsers: 1
     });
     database.ref('rooms/' + roomKey +'/users').push(uid);
     var userID = firebase.auth().currentUser.uid;

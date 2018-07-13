@@ -21,9 +21,18 @@ class Info extends Component {
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
       console.log(roomKey)
-      var downvoteLoc = firebase.database().ref('rooms').child(roomKey).child('downvotes');
-      downvoteLoc.transaction(function(downvotes) {
-         return (downvotes || 0) + 1;
+      var downvoteLoc = firebase.database().ref('rooms/'+roomKey);
+      downvoteLoc.once('value').then(function(snapshot){
+        var downvotes = snapshot.val().downvotes;
+        var numUsers = snapshot.val().numberOfUsers;
+        downvotes += 1;
+        downvoteLoc.push();
+        downvoteLoc.update({
+          downvotes: downvotes
+        });
+        if (downvotes/numUsers >= 0.5) {
+          console.log("skipping song")
+        }
       });
     });
   }

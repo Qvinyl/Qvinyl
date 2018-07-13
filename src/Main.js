@@ -25,6 +25,10 @@ class Main extends Component {
     })
     var updateUsers = firebase.database().ref('rooms/' + link + '/users');
     updateUsers.push(userID);
+    var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
+    numUsers.transaction(function(numberOfUsers) {
+       return (numberOfUsers || 0) + 1;
+    });
   }
 
   pushMusicToDB() {
@@ -34,11 +38,24 @@ class Main extends Component {
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+      songLocation.push('https://www.youtube.com/watch?v=onbC6N-QGPc');
+      songLocation.push('https://www.youtube.com/watch?v=JZjAg6fK-BQ');
+      songLocation.push('https://www.youtube.com/watch?v=fS9m0Ac8PCU');
+      songLocation.push('https://www.youtube.com/watch?v=CJTElVG7EMY');
+      songLocation.push('https://www.youtube.com/watch?v=_t431MAUQlQ');
+      songLocation.push('https://www.youtube.com/watch?v=IZKQUOApw1g');
+      songLocation.push('https://www.youtube.com/watch?v=P2rT2vw9i_k');
+      songLocation.push('https://www.youtube.com/watch?v=zp9I56Vopfg');
+      songLocation.push('https://www.youtube.com/watch?v=U7svgD2yPig');
+      songLocation.push('https://www.youtube.com/watch?v=-hTD6uEgTVw');
+      songLocation.push('https://www.youtube.com/watch?v=W9BM7Poql6c');
+      /*
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
         || link.includes("https://vimeo.com/")) {
         songLocation.push(link);
       }
+      */
       console.log("this is roomKey: " + roomKey);
     });
   }

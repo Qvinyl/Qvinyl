@@ -12,9 +12,9 @@ class Player extends Component {
 			hiddenVolume: true,
 			volume: 0.5,
 			song: '',
-			played: 0,
 			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
-			songBeingQueued: ''
+			songBeingQueued: '',
+			clicks: 0
 		};
 
 		// initialize helper functions
@@ -28,8 +28,33 @@ class Player extends Component {
 		this.hideVolume = this.hideVolume.bind(this);
 		this.changeVolume = this.changeVolume.bind(this);
 
-		this.onProgress = this.onProgress.bind(this);
+		this.incrementDownvotes = this.incrementDownvotes.bind(this);
 	}
+
+
+	incrementDownvotes() {
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then((snapshot) => {
+      var roomKey = snapshot.val().currentRoom;
+      console.log(roomKey)
+      var downvoteLoc = firebase.database().ref('rooms/'+roomKey);
+      downvoteLoc.once('value').then((snapshot) => {
+        var downvotes = snapshot.val().downvotes;
+        var numUsers = snapshot.val().numberOfUsers;
+        downvotes += 1;
+        downvoteLoc.push();
+        downvoteLoc.update({
+          downvotes: downvotes
+        });
+        if (downvotes/numUsers >= 0.5) {
+					this.skipVideo();
+				 	this.setDownvotesToZ();
+        }
+      });
+    });
+  }
+
 
 	// hide playing video
 	hideVideo () {
@@ -46,6 +71,36 @@ class Player extends Component {
 		})
 	}
 
+	// skip() {
+	// 	var userID = firebase.auth().currentUser.uid;
+  //   var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+  //   userRoomKey.once('value').then((snapshot) => {
+  //     var roomKey = snapshot.val().currentRoom;
+  //     var room = firebase.database().ref('rooms').child(roomKey);
+  //   	room.once('value').then((roomData) => {
+  //        var dv = roomData.val().downvotes;
+	// 			 var numUsers = roomData.val().numberOfUsers;
+	// 			 var pc = dv/numUsers;
+	// 			 if(pc >= .5) {
+	// 				 this.skipVideo();
+	// 				 this.setDownvotesToZ();
+	// 				 console.log("pc val: " + pc);
+	// 				 console.log("dv val: " + dv);
+	// 				 console.log("nu val: " + numUsers);
+	// 			 }
+  //     });
+  //   });
+	// }
+
+	setDownvotesToZ() {
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then(function(snapshot){
+      var roomKey = snapshot.val().currentRoom;
+      console.log(roomKey)
+      var downvoteLoc = firebase.database().ref('rooms/'+ roomKey).update({ "downvotes": 0});
+    });
+  }
 
   // skip current video
 	skipVideo (){
@@ -83,11 +138,6 @@ class Player extends Component {
 	    });
     }
 
-
-    onProgress (state) {
-		this.setState(state)
-	}
-	
 	// hide add song button
 	hideAddSong () {
 		this.setState({
@@ -128,7 +178,6 @@ class Player extends Component {
 
 	onPageLoad () {
 		var userID = firebase.auth().currentUser.uid;
-		console.log("userID: " + userID);
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
 			try {
@@ -148,8 +197,8 @@ class Player extends Component {
 	    });
 	}
 
-  	componentDidMount() {
-	    setTimeout(this.onPageLoad.bind(this), 2000);
+  componentDidMount() {
+	 	setTimeout(this.onPageLoad.bind(this), 2000);
  	}
 
 	render () {
@@ -170,7 +219,12 @@ class Player extends Component {
 					<a onClick={this.hideAddSong}>
 						<i className="fa fa-plus buttons"></i>
 					</a>
-					<a onClick={this.skipVideo}>
+
+					<a onClick={this.incrementDownvotes}>
+						<i className="fas fa-thumbs-down buttons"></i>
+					</a>
+
+					<a onClick={this.skip}>
 						<i className="fa fa-fast-forward buttons"></i>
 					</a>
 					<a onClick={this.hideVolume}>
@@ -197,12 +251,6 @@ class Player extends Component {
 						onInput={this.changeVolume}
 						step="0.05" />
 				</div>
-				<div>
-					<progress
-						max='1'
-						value={this.state.played}
-					/>
-				</div>
 
 				<div style={video}>
 					<ReactPlayer
@@ -210,8 +258,6 @@ class Player extends Component {
 						volume={this.state.volume}
 						url={this.state.song}
 						width="100%"
-						onProgress={this.onProgress}
-						onEnded={this.skipVideo}
 					/>
 				</div>
 			</div>
