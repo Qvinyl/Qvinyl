@@ -30,6 +30,7 @@ class Sidenav extends Component {
  }
 
  createRoom() {
+   var uid = firebase.auth().currentUser.uid;
     var database = firebase.database();
     var roomName = document.getElementById("roomname").value;
     var roomPW = document.getElementById("roompw").value;
@@ -39,8 +40,11 @@ class Sidenav extends Component {
       roomname: roomName,
       password: roomPW,
       songs: '',
-      users: firebase.auth().currentUser.uid
+      admin: uid,
+      users: '',
+      downvotes: 0
     });
+    database.ref('rooms/' + roomKey +'/users').push(uid);
     var userID = firebase.auth().currentUser.uid;
     database.ref('users/' + userID + "/roomKeys").push();
     database.ref('users/' + userID + "/roomKeys").set({

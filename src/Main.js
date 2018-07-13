@@ -23,6 +23,8 @@ class Main extends Component {
     getRoom.set({
       currentRoom: link
     })
+    var updateUsers = firebase.database().ref('rooms/' + link + '/users');
+    updateUsers.push(userID);
   }
 
   pushMusicToDB() {
@@ -66,7 +68,7 @@ class Main extends Component {
           </label>
           <input id="myLink" className="inputL" type="text"/>
 
-          <button 
+          <button
             className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
             Submit
           </button>
@@ -76,7 +78,7 @@ class Main extends Component {
           {this.state.currentRoomKey}
 
           <input id="roomLink" type="text"/>
-          <button 
+          <button
             className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
             Join Room
           </button>

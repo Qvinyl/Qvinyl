@@ -1,6 +1,34 @@
 import React, { Component } from 'react'
 import "./Info.css"
+import firebase from 'firebase'
 class Info extends Component {
+
+    constructor(props) {
+    super(props);
+    this.state = {clicks: 0}
+  }
+
+  handleClick() {
+    this.setState((prevState) => ({
+        clicks: prevState.clicks + 1
+    }));
+  }
+
+
+  incrementDownvotes() {
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then(function(snapshot){
+      var roomKey = snapshot.val().currentRoom;
+      console.log(roomKey)
+      var downvoteLoc = firebase.database().ref('rooms').child(roomKey).child('downvotes');
+      downvoteLoc.transaction(function(downvotes) {
+         return (downvotes || 0) + 1;
+      });
+    });
+  }
+
+
   render () {
     return (
         <div className="infobox">
@@ -9,7 +37,15 @@ class Info extends Component {
             <div>
               <div className="vetobox">
                 <div className="vetotext">Veto</div>
-                <i className="fas fa-thumbs-down thumbsi"></i>
+
+
+                <span className="counter" onClick={this.handleClick.bind(this)}> <span className="count">{this.state.clicks} </span>
+
+                <i className="fas fa-thumbs-down thumbsi" onClick={()=> this.incrementDownvotes()}></i>
+                </span>
+
+
+
               </div>
               <table className="table2">
                 <tr>
