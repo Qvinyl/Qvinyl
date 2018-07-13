@@ -140,11 +140,7 @@ class Player extends Component {
 	}
 
   	componentDidMount() {
-<<<<<<< HEAD
-	    setTimeout(this.onPageLoad.bind(this), 1000);
-=======
-	    setTimeout(this.onPageLoad.bind(this), 3000);
->>>>>>> b8d80b9797f1e72c899b2147c074346420ef53a1
+	    setTimeout(this.onPageLoad.bind(this), 2000);
  	}
 
 	render () {
