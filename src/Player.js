@@ -13,24 +13,16 @@ class Player extends Component {
 			volume: 0.5,
 			played: 0, 
 			song: '',
-			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
-			songBeingQueued: '',
 			clicks: 0
 		};
 
 		// initialize helper functions
+		this.onProgress = this.onProgress.bind(this);
 		this.hideVideo = this.hideVideo.bind(this);
 		this.skipVideo = this.skipVideo.bind(this);
 
-		this.hideAddSong = this.hideAddSong.bind(this);
-		this.newSong = this.newSong.bind(this);
-		this.addSongToQueue = this.addSongToQueue.bind(this);
-
 		this.hideVolume = this.hideVolume.bind(this);
 		this.changeVolume = this.changeVolume.bind(this);
-
-		this.onProgress = this.onProgress.bind(this);
-
 		this.incrementDownvotes = this.incrementDownvotes.bind(this);
 	}
 
@@ -39,28 +31,27 @@ class Player extends Component {
 	}
 
 	incrementDownvotes() {
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then((snapshot) => {
-		var roomKey = snapshot.val().currentRoom;
-		console.log(roomKey)
-		var downvoteLoc = firebase.database().ref('rooms/'+roomKey);
-		downvoteLoc.once('value').then((snapshot) => {
-			var downvotes = snapshot.val().downvotes;
-			var numUsers = snapshot.val().numberOfUsers;
-			downvotes += 1;
-			downvoteLoc.push();
-			downvoteLoc.update({
-		    	downvotes: downvotes
+	    var userID = firebase.auth().currentUser.uid;
+	    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+	    userRoomKey.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().currentRoom;
+			console.log(roomKey)
+			var downvoteLocation = firebase.database().ref('rooms/'+roomKey);
+			downvoteLocation.once('value').then((snapshot) => {
+				var downvotes = snapshot.val().downvotes;
+				var numUsers = snapshot.val().numberOfUsers;
+				downvotes += 1;
+				downvoteLocation.push();
+				downvoteLocation.update({
+			    	downvotes: downvotes
+				});
+				if (downvotes/numUsers >= 0.5) {
+					this.skipVideo();
+				 	this.setDownvotesToZ();
+				}
 			});
-			if (downvotes/numUsers >= 0.5) {
-				this.skipVideo();
-			 	this.setDownvotesToZ();
-			}
-		});
-    });
-  }
-
+	    });
+ 	}
 
 	// hide playing video
 	hideVideo () {
@@ -68,7 +59,6 @@ class Player extends Component {
 			hiddenVideo: !this.state.hiddenVideo
 		})
 	}
-
 
 	setDownvotesToZ() {
 		var userID = firebase.auth().currentUser.uid;
@@ -117,29 +107,6 @@ class Player extends Component {
 	    });
     }
 
-	// hide add song button
-	hideAddSong () {
-		this.setState({
-			hiddenAddSong: !this.state.hiddenAddSong
-		})
-	}
-
-	// locate song queue
-	newSong(event) {
-		this.setState({
-			songBeingQueued: event.target.value
-		})
-	}
-
-	// add input song to queue array
-	addSongToQueue () {
-		// console.log(this.state.songBeingQueued);
-		this.state.songQueue.push(this.state.songBeingQueued)
-		this.setState(
-			this.state
-		)
-	}
-
 	// hide volume settings
 	hideVolume () {
 		this.setState({
@@ -171,14 +138,43 @@ class Player extends Component {
 					this.setState({
 						song: songLink
 					});
+					var songProgress = firebase.database().ref('rooms/' + roomKey + '/songProgress');
+					songProgress.once('value').then((snapshot) => {
+						var currentProgress = snapshot.val();
+						console.log("current progress: " + currentProgress);
+						this.setState({
+							played: currentProgress
+						});
+						this.player.seekTo(this.state.played);
+					})
 				});
 			});
 	    });
+	 	setInterval(() => {
+			var userID = firebase.auth().currentUser.uid;
+		    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+		    getRoom.once('value').then((snapshot) => {
+				try {
+					var roomKey = snapshot.val().currentRoom;
+				} catch (exception) {
+					return;
+				}
+				var songProgress = firebase.database().ref('rooms/' + roomKey);
+				songProgress.update({
+			    	songProgress: this.state.played
+				});
+		    });
+	 	}, 500);
 	}
 
   	componentDidMount() {
 	 	setTimeout(this.onPageLoad.bind(this), 2000);
+
  	}
+
+	ref = player => {
+		this.player = player
+	}
 
 	render () {
 		// initializing css style inject
@@ -195,15 +191,11 @@ class Player extends Component {
 		return (
 			<div className="player">
 				<div className="controls">
-					<a onClick={this.hideAddSong}>
-						<i className="fa fa-plus buttons"></i>
-					</a>
-
 					<a onClick={this.incrementDownvotes}>
 						<i className="fas fa-thumbs-down buttons"></i>
 					</a>
 
-					<a onClick={this.skip}>
+					<a onClick={this.middleOfSong}>
 						<i className="fa fa-fast-forward buttons"></i>
 					</a>
 					<a onClick={this.hideVolume}>
@@ -212,13 +204,6 @@ class Player extends Component {
 					<a onClick={this.hideVideo}>
 						<i className="fa fa-video buttons"></i>
 					</a>
-				</div>
-
-				<div style={showAddSong}>
-					<input type="text" placeHolder="URL" onChange={this.newSong}/>
-					<button onClick={this.addSongToQueue}>
-						Submit
-					</button>
 				</div>
 
 				<div style={volumeSettings}>
@@ -241,6 +226,7 @@ class Player extends Component {
 
 				<div style={video}>
 					<ReactPlayer
+						ref={this.ref}
 						playing
 						volume={this.state.volume}
 						url={this.state.song}
