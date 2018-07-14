@@ -71,26 +71,6 @@ class Player extends Component {
 		})
 	}
 
-	// skip() {
-	// 	var userID = firebase.auth().currentUser.uid;
-  //   var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-  //   userRoomKey.once('value').then((snapshot) => {
-  //     var roomKey = snapshot.val().currentRoom;
-  //     var room = firebase.database().ref('rooms').child(roomKey);
-  //   	room.once('value').then((roomData) => {
-  //        var dv = roomData.val().downvotes;
-	// 			 var numUsers = roomData.val().numberOfUsers;
-	// 			 var pc = dv/numUsers;
-	// 			 if(pc >= .5) {
-	// 				 this.skipVideo();
-	// 				 this.setDownvotesToZ();
-	// 				 console.log("pc val: " + pc);
-	// 				 console.log("dv val: " + dv);
-	// 				 console.log("nu val: " + numUsers);
-	// 			 }
-  //     });
-  //   });
-	// }
 
 	setDownvotesToZ() {
     var userID = firebase.auth().currentUser.uid;

@@ -15,6 +15,10 @@
   padding: 10px;
 }
 
+.white {
+  color: white;
+}
+
 .inputcontainer{
   margin-left: 20px;
   height: 22px;

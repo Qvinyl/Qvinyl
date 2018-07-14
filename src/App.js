@@ -26,6 +26,7 @@ class App extends Component {
             <div className="title">Qvinyl</div>
             <pre id="object"></pre>
             <div className="settings">Settings</div>
+            <a className="white" href='login.html'><span class="glyphicon glyphicon-log-in"></span> Sign Out</a>
           </div>
         </div>
         <div className="flexbox">
