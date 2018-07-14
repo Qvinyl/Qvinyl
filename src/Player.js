@@ -86,6 +86,7 @@ class Player extends Component {
 					console.log("next song: " + songLink);
 					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
 					// handles duplicate song, song on load
+					/*
 					if (this.state.song === songLink) {
 						songLocation.limitToFirst(1).once('value').then((snapshot) => {
 							snapshot.forEach((childSnapshot) => {
@@ -99,6 +100,7 @@ class Player extends Component {
 						});
 						return;
 					}
+					*/
 					this.setState({
 						song: songLink
 					});
@@ -236,7 +238,7 @@ class Player extends Component {
 				<div style={video}>
 					<ReactPlayer
 						ref={this.ref}
-						playing
+						playing={true}
 						volume={this.state.volume}
 						url={this.state.song}
 						width="100%"
