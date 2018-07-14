@@ -89,7 +89,7 @@ class Main extends Component {
             Submit
           </button>
           <button onClick={this.getRoomName}>
-            Test
+            Room ID
           </button>
           {this.state.currentRoomKey}
 

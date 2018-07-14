@@ -11,6 +11,7 @@ class Player extends Component {
 			hiddenAddSong: true,
 			hiddenVolume: true,
 			volume: 0.5,
+			played: 0, 
 			song: '',
 			songQueue: ['https://www.youtube.com/watch?v=onbC6N-QGPc'],
 			songBeingQueued: '',
@@ -28,44 +29,41 @@ class Player extends Component {
 		this.hideVolume = this.hideVolume.bind(this);
 		this.changeVolume = this.changeVolume.bind(this);
 
+		this.onProgress = this.onProgress.bind(this);
+
 		this.incrementDownvotes = this.incrementDownvotes.bind(this);
 	}
 
+	onProgress (state) {
+		this.setState(state)
+	}
 
 	incrementDownvotes() {
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then((snapshot) => {
-      var roomKey = snapshot.val().currentRoom;
-      console.log(roomKey)
-      var downvoteLoc = firebase.database().ref('rooms/'+roomKey);
-      downvoteLoc.once('value').then((snapshot) => {
-        var downvotes = snapshot.val().downvotes;
-        var numUsers = snapshot.val().numberOfUsers;
-        downvotes += 1;
-        downvoteLoc.push();
-        downvoteLoc.update({
-          downvotes: downvotes
-        });
-        if (downvotes/numUsers >= 0.5) {
-					this.skipVideo();
-				 	this.setDownvotesToZ();
-        }
-      });
+		var roomKey = snapshot.val().currentRoom;
+		console.log(roomKey)
+		var downvoteLoc = firebase.database().ref('rooms/'+roomKey);
+		downvoteLoc.once('value').then((snapshot) => {
+			var downvotes = snapshot.val().downvotes;
+			var numUsers = snapshot.val().numberOfUsers;
+			downvotes += 1;
+			downvoteLoc.push();
+			downvoteLoc.update({
+		    	downvotes: downvotes
+			});
+			if (downvotes/numUsers >= 0.5) {
+				this.skipVideo();
+			 	this.setDownvotesToZ();
+			}
+		});
     });
   }
 
 
 	// hide playing video
 	hideVideo () {
-		/*
-	    var userId = firebase.auth().currentUser.uid;
-	    console.log(userId);
-	    var database = firebase.database();
-	    database.ref('users/' + userId).set({
-	    	roomKeys: '',
-	    });
-	    */
 		this.setState({
 			hiddenVideo: !this.state.hiddenVideo
 		})
@@ -73,16 +71,17 @@ class Player extends Component {
 
 
 	setDownvotesToZ() {
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().currentRoom;
-      console.log(roomKey)
-      var downvoteLoc = firebase.database().ref('rooms/'+ roomKey).update({ "downvotes": 0});
-    });
-  }
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then(function(snapshot){
+			var roomKey = snapshot.val().currentRoom;
+			firebase.database().ref('rooms/'+ roomKey).update({ 
+				downvotes: 0
+			});
+		});
+  	}
 
-  // skip current video
+  	// skip current video
 	skipVideo (){
 		var userID = firebase.auth().currentUser.uid;
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -177,7 +176,7 @@ class Player extends Component {
 	    });
 	}
 
-  componentDidMount() {
+  	componentDidMount() {
 	 	setTimeout(this.onPageLoad.bind(this), 2000);
  	}
 
@@ -213,7 +212,6 @@ class Player extends Component {
 					<a onClick={this.hideVideo}>
 						<i className="fa fa-video buttons"></i>
 					</a>
-
 				</div>
 
 				<div style={showAddSong}>
@@ -232,12 +230,21 @@ class Player extends Component {
 						step="0.05" />
 				</div>
 
+				<div>
+					<progress
+						max='1'
+						value={this.state.played}
+					/>
+				</div>
+
 				<div style={video}>
 					<ReactPlayer
 						playing
 						volume={this.state.volume}
 						url={this.state.song}
 						width="100%"
+						onProgress={this.onProgress}
+						onEnded={this.skipVideo}
 					/>
 				</div>
 			</div>
