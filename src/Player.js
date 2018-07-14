@@ -159,6 +159,15 @@ class Player extends Component {
 				} catch (exception) {
 					return;
 				}
+			    var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+				songLocation.limitToFirst(1).once('value').then((snapshot) => {
+					snapshot.forEach((childSnapshot) => {
+						var songLink = childSnapshot.val();
+						this.setState({
+							song: songLink
+						});
+					});
+				});
 				var songProgress = firebase.database().ref('rooms/' + roomKey);
 				songProgress.update({
 			    	songProgress: this.state.played
