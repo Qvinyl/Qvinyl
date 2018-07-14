@@ -12,15 +12,6 @@ class Sidenav extends Component {
   }
 
   addRoom() {
-  // alert("Add room was pressed");
-  /*
-  var x = document.getElementById("addbox");
-   if (x.style.display === "none") {
-       x.style.display = "block";
-   } else {
-       x.style.display = "none";
-   }
-   */
     this.setState({
       hideAddRoom: !this.state.hideAddRoom
     })

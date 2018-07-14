@@ -23,44 +23,10 @@
 .buttons {
 	font-size: 25px;
 	width: 50px;
+	text-align: center;
 }
 
 .controls> a:hover {
 	background-color: gray;
 	color: lightgray;
-}
-
-/*
-.progress {
-	position: absolute;
-	left: 95.45px;
-	top: 17px;
-	right: 100px;
-	bottom: 17px;
-	background: gray;
-	padding: 0 5 px;
-}
-
-
-.progress > .bar {
-	position: absolute;
-	left: 5px;
-	top: 5px;
-	right: 5px;
-	bottom: 5px;
-	background: white;
-
-}
-
-.progress > .bar > div {
-	position: absolute;
-	left: 5px;
-	top: 5px;
-	right: 5px;
-	bottom: 5px;
-	background: white;
-}
-*/
-.hide {
-	display:none;
 }

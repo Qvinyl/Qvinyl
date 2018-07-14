@@ -20,8 +20,10 @@
 }
 
 .inputcontainer{
-  margin-left: 20px;
-  height: 22px;
+  width: 600px;
+  height: 50px;
+  margin: 0 auto;
+  display: block;
 }
 
 .linkT {
@@ -32,7 +34,7 @@
 }
 
 .inputL {
-  width: 75%;
+  width: 25%;
   float: left;
   margin-left: 10px;
   height: 20px;
@@ -55,7 +57,7 @@
 .videoplayer {
   display: flex;
   float:left;
-  width: 50%;
+  width: 100%;
   height: 30%;
 }
 

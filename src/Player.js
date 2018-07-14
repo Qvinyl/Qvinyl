@@ -230,6 +230,8 @@ class Player extends Component {
 						step="0.05" />
 				</div>
 
+				<br />
+
 				<div>
 					<progress
 						max='1'

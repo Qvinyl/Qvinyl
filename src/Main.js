@@ -79,35 +79,54 @@ class Main extends Component {
       <div className="main">
         <div className="mainTitle">Audio Room</div>
         <div className="inputcontainer">
-          <label className="linkT">
-            Music Link:
-          </label>
-          <input id="myLink" className="inputL" type="text"/>
+        
+          <p>
+            <label className="linkT">
+              Music Link:
+            </label>
+            <input id="myLink" className="inputL" type="text"/>
 
-          <button
-            className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
-            Submit
-          </button>
-          <button onClick={this.getRoomName}>
-            Room ID
-          </button>
-          {this.state.currentRoomKey}
+            <button
+              className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+              Submit
+            </button>
+          </p>
 
-          <input id="roomLink" type="text"/>
-          <button
-            className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
-            Join Room
-          </button>
+          <br />
+
+          <p>
+            <label className="linkT">
+              Room Link:
+            </label>
+            <input id="roomLink" className="inputL" type="text"/>
+            <button
+              className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
+              Join Room
+            </button>
+          </p>
+
+          <br />
+
+          <p>
+            <button 
+              className="inputB" onClick={this.getRoomName}>
+              Room ID
+            </button>
+            <label style={{marginLeft: 10}} className="linkT">
+              {this.state.currentRoomKey}
+            </label>
+          </p>
 
         </div>
-        <div className="trackplayinginfo">
+
+        <div style={{margin: 100}} className="trackplayinginfo">
           <div className="flexbox2">
             <div className="videoplayer">
               <Player />
             </div>
           </div>
         </div>
-          <Queue />
+
       </div>
     );
   }
