@@ -42,6 +42,7 @@ class Sidenav extends Component {
     var songs = database.ref('rooms/' + roomKey).set({
       roomname: roomName,
       password: roomPW,
+      downvoters: '',
       songs: '',
       admin: uid,
       users: '',

@@ -11,16 +11,15 @@ class Player extends Component {
 			hiddenAddSong: true,
 			hiddenVolume: true,
 			volume: 0.5,
-			played: 0, 
+			played: 0,
 			song: '',
-			clicks: 0
 		};
 
 		// initialize helper functions
 		this.onProgress = this.onProgress.bind(this);
 		this.hideVideo = this.hideVideo.bind(this);
 		this.skipVideo = this.skipVideo.bind(this);
-
+		this.checkUserDownVote = this.checkUserDownVote.bind(this);
 		this.hideVolume = this.hideVolume.bind(this);
 		this.changeVolume = this.changeVolume.bind(this);
 		this.incrementDownvotes = this.incrementDownvotes.bind(this);
@@ -35,7 +34,6 @@ class Player extends Component {
 	    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 	    userRoomKey.once('value').then((snapshot) => {
 			var roomKey = snapshot.val().currentRoom;
-			console.log(roomKey)
 			var downvoteLocation = firebase.database().ref('rooms/'+roomKey);
 			downvoteLocation.once('value').then((snapshot) => {
 				var downvotes = snapshot.val().downvotes;
@@ -48,10 +46,44 @@ class Player extends Component {
 				if (downvotes/numUsers >= 0.5) {
 					this.skipVideo();
 				 	this.setDownvotesToZ();
+					this.setDownvotersToNone();
 				}
 			});
-	    });
+	  });
  	}
+
+	checkUserDownVote() {
+		 var userID = firebase.auth().currentUser.uid;
+		 console.log("userID: " + userID);
+		 var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		 userRoomKey.once('value').then((snapshot) => {
+		 var roomKey = snapshot.val().currentRoom;
+		 console.log("Room Key: " + roomKey);
+		 var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
+		 downvotersLocation.once('value').then((snapshot) => {
+			 var downvoter = snapshot.val();
+			 if(downvoter === '') {
+				 var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
+				 downvotersLoc.push(userID);
+				 this.incrementDownvotes();
+			 }
+			 else{
+				 snapshot.forEach((childSnapshot) => {
+					 var downvoter = childSnapshot.val();
+					 console.log("child: " + childSnapshot.val())
+						if(downvoter == userID) {
+							console.log("Already downVoted");
+							// 	//if user has already downvoted
+							// 	//do nothing
+						}
+						else{
+							this.incrementDownvotes();
+						}
+					});
+			 }
+		 });
+	 });
+	}
 
 	// hide playing video
 	hideVideo () {
@@ -65,13 +97,24 @@ class Player extends Component {
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		userRoomKey.once('value').then(function(snapshot){
 			var roomKey = snapshot.val().currentRoom;
-			firebase.database().ref('rooms/'+ roomKey).update({ 
+			firebase.database().ref('rooms/'+ roomKey).update({
 				downvotes: 0
 			});
 		});
   	}
 
-  	// skip current video
+		setDownvotersToNone() {
+			var userID = firebase.auth().currentUser.uid;
+			var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+			userRoomKey.once('value').then(function(snapshot){
+				var roomKey = snapshot.val().currentRoom;
+				firebase.database().ref('rooms/'+ roomKey).update({
+					downvoters: ''
+				});
+			});
+	  }
+
+  // skip current video
 	skipVideo (){
 		var userID = firebase.auth().currentUser.uid;
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -152,6 +195,7 @@ class Player extends Component {
 				});
 			});
 	    });
+
 	 	setInterval(() => {
 			var userID = firebase.auth().currentUser.uid;
 		    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -202,10 +246,9 @@ class Player extends Component {
 		return (
 			<div className="player">
 				<div className="controls">
-					<a onClick={this.incrementDownvotes}>
-						<i className="fas fa-thumbs-down buttons"></i>
+					<a onClick={this.checkUserDownVote}>
+						<i id = "downvote" className="fas fa-thumbs-down buttons" ></i>
 					</a>
-
 					<a onClick={this.middleOfSong}>
 						<i className="fa fa-fast-forward buttons"></i>
 					</a>

@@ -23,7 +23,20 @@ class Main extends Component {
       currentRoom: link
     })
     var updateUsers = firebase.database().ref('rooms/' + link + '/users');
-    updateUsers.push(userID);
+    updateUsers.once('value').then((snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        var user = childSnapshot.val();
+        console.log("child: " + childSnapshot.val())
+         if(user == userID) {
+           console.log("Already in USERS");
+           // 	//if user has already downvoted
+           // 	//do nothing
+         }
+         else{
+             updateUsers.push(userID);
+         }
+       });
+     });
     var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
     numUsers.transaction(function(numberOfUsers) {
        return (numberOfUsers || 0) + 1;
@@ -79,7 +92,7 @@ class Main extends Component {
       <div className="main">
         <div className="mainTitle">Audio Room</div>
         <div className="inputcontainer">
-        
+
           <p>
             <label className="linkT">
               Music Link:
@@ -108,7 +121,7 @@ class Main extends Component {
           <br />
 
           <p>
-            <button 
+            <button
               className="inputB" onClick={this.getRoomName}>
               Room ID
             </button>
