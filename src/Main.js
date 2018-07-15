@@ -15,6 +15,7 @@ class Main extends Component {
   }
 
   joinRoom() {
+    var temp = false;
     var link = document.getElementById("roomLink").value;
     var userID = firebase.auth().currentUser.uid;
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -26,19 +27,20 @@ class Main extends Component {
     updateUsers.once('value').then((snapshot) => {
       snapshot.forEach((childSnapshot) => {
         var user = childSnapshot.val();
-        console.log("child: " + childSnapshot.val())
-          if(user == userID) {
-            console.log("Already in USERS");
-            return;
-          }
-          else{
-            updateUsers.push(userID);
-            var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
-            numUsers.transaction(function(numberOfUsers) {
-              return (numberOfUsers || 0) + 1;
-            });
-          }
+         if (childSnapshot.val() === userID) {
+             console.log(childSnapshot.val() === userID);
+             temp = true;
+             return true;
+         }
        });
+       if (temp == false) {
+         console.log(userID);
+         updateUsers.push(userID);
+         var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
+         numUsers.transaction(function(numberOfUsers) {
+           return (numberOfUsers || 0) + 1;
+         });
+       }
      });
   }
 
