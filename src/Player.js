@@ -46,41 +46,40 @@ class Player extends Component {
 				if (downvotes/numUsers >= 0.5) {
 					this.skipVideo();
 				 	this.setDownvotesToZ();
-					this.setDownvotersToNone();
 				}
 			});
 	  });
  	}
 
+
+
 	checkUserDownVote() {
+		var temp= false;
 		 var userID = firebase.auth().currentUser.uid;
-		 console.log("userID: " + userID);
+		 console.log(userID);
 		 var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		 userRoomKey.once('value').then((snapshot) => {
 		 var roomKey = snapshot.val().currentRoom;
-		 console.log("Room Key: " + roomKey);
 		 var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
 		 downvotersLocation.once('value').then((snapshot) => {
 			 var downvoter = snapshot.val();
-			 if(downvoter === '') {
+			 var count = 0;
+			 snapshot.forEach((childSnapshot) => {
+				 var downvoter = childSnapshot.val();
+				 count += 1;
+				 console.log("child: " + childSnapshot.val())
+					if (childSnapshot.val() === userID) {
+							console.log("count: " + count);
+							console.log(childSnapshot.val() === userID);
+							temp = true;
+							return true;
+					}
+				});
+			 if(temp == false || downvoter === '') {
 				 var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
 				 downvotersLoc.push(userID);
 				 this.incrementDownvotes();
-			 }
-			 else{
-				 snapshot.forEach((childSnapshot) => {
-					 var downvoter = childSnapshot.val();
-					 console.log("child: " + childSnapshot.val())
-						if(downvoter == userID) {
-							console.log("Already downVoted");
-							// 	//if user has already downvoted
-							// 	//do nothing
-							return;
-						}
-						else{
-							this.incrementDownvotes();
-						}
-					});
+				 temp = true;
 			 }
 		 });
 	 });
@@ -99,21 +98,11 @@ class Player extends Component {
 		userRoomKey.once('value').then(function(snapshot){
 			var roomKey = snapshot.val().currentRoom;
 			firebase.database().ref('rooms/'+ roomKey).update({
-				downvotes: 0
-			});
-		});
-  	}
-
-	setDownvotersToNone() {
-		var userID = firebase.auth().currentUser.uid;
-		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-		userRoomKey.once('value').then(function(snapshot){
-			var roomKey = snapshot.val().currentRoom;
-			firebase.database().ref('rooms/'+ roomKey).update({
+				downvotes: 0,
 				downvoters: ''
 			});
 		});
-  	}
+  }
 
   // skip current video
 	skipVideo (){
