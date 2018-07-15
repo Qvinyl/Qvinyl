@@ -75,6 +75,7 @@ class Player extends Component {
 							console.log("Already downVoted");
 							// 	//if user has already downvoted
 							// 	//do nothing
+							return;
 						}
 						else{
 							this.incrementDownvotes();
@@ -103,16 +104,16 @@ class Player extends Component {
 		});
   	}
 
-		setDownvotersToNone() {
-			var userID = firebase.auth().currentUser.uid;
-			var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-			userRoomKey.once('value').then(function(snapshot){
-				var roomKey = snapshot.val().currentRoom;
-				firebase.database().ref('rooms/'+ roomKey).update({
-					downvoters: ''
-				});
+	setDownvotersToNone() {
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then(function(snapshot){
+			var roomKey = snapshot.val().currentRoom;
+			firebase.database().ref('rooms/'+ roomKey).update({
+				downvoters: ''
 			});
-	  }
+		});
+  	}
 
   // skip current video
 	skipVideo (){

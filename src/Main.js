@@ -27,20 +27,19 @@ class Main extends Component {
       snapshot.forEach((childSnapshot) => {
         var user = childSnapshot.val();
         console.log("child: " + childSnapshot.val())
-         if(user == userID) {
-           console.log("Already in USERS");
-           // 	//if user has already downvoted
-           // 	//do nothing
-         }
-         else{
-             updateUsers.push(userID);
-         }
+          if(user == userID) {
+            console.log("Already in USERS");
+            return;
+          }
+          else{
+            updateUsers.push(userID);
+            var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
+            numUsers.transaction(function(numberOfUsers) {
+              return (numberOfUsers || 0) + 1;
+            });
+          }
        });
      });
-    var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
-    numUsers.transaction(function(numberOfUsers) {
-       return (numberOfUsers || 0) + 1;
-    });
   }
 
   pushMusicToDB() {
