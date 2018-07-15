@@ -16,6 +16,10 @@ var config = {
 };
 firebase.initializeApp(config);
 
+function logoutButton(){
+    firebase.auth().signOut();
+}
+
 class App extends Component {
   render () {
     return (
@@ -25,8 +29,7 @@ class App extends Component {
 
             <div className="title">Qvinyl</div>
             <pre id="object"></pre>
-            <div className="settings">Settings</div>
-            <a className="white" href='login.html'><span class="glyphicon glyphicon-log-in"></span> Sign Out</a>
+            <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
           </div>
         </div>
         <div className="flexbox">

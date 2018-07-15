@@ -21,33 +21,6 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-    	var testRef = firebase.database().ref('/rooms/-LHUzP7MB-uDB_xJUGRq/chats/');
-    	console.log('Testref: '+testRef);
-		testRef.on('value', (snapshot) => {
-			let chats = snapshot.val();
-			console.log(chats);
-			var keys = Object.keys(chats);
-			console.log(keys);
-			let newState = [];
-			this.setState({
-				chats: newState
-			});
-			for(var i =0; i<keys.length; i++){
-				var k = keys[i];
-				var message = chats[k].message;
-				var user = chats[k].user;
-				console.log(message);
-				console.log(user);
-				this.setState({
-					chats: this.state.chats.concat([{
-						username: user,
-						content: message,
-					}])
-				}, () => {
-					ReactDOM.findDOMNode(this.refs.msg).value = "";
-				});
-			}
-   		});
 
 		setTimeout(this.getUserID.bind(this), 1000);
 
@@ -59,6 +32,47 @@ class Chat extends React.Component {
     	this.setState({
     		userID: userID
     	})
+    	var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+    	getRoom.once('value').then((snapshot) => {
+			try {
+				var roomKey = snapshot.val().currentRoom;
+			} catch (exception) {
+				return;
+			}
+			var testRef = firebase.database().ref('/rooms/' + roomKey + '/chats/');
+	    	console.log('Testref: '+testRef);
+			testRef.on('value', (snapshot) => {
+				let chats = snapshot.val();
+				console.log(chats);
+				try {
+					var keys = Object.keys(chats);
+				} catch (exception) {
+					return;
+				}
+				
+				console.log(keys);
+				let newState = [];
+				this.setState({
+					chats: newState
+				});
+				for(var i =0; i<keys.length; i++){
+					var k = keys[i];
+					var message = chats[k].message;
+					var user = chats[k].user;
+					console.log(message);
+					console.log(user);
+					this.setState({
+						chats: this.state.chats.concat([{
+							username: user,
+							content: message,
+						}])
+					}, () => {
+						ReactDOM.findDOMNode(this.refs.msg).value = "";
+					});
+				}
+	   		});
+	    });
+    	
     }
 
     componentDidUpdate() {

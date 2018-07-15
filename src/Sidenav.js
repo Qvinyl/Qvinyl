@@ -44,6 +44,7 @@ class Sidenav extends Component {
       password: roomPW,
       downvoters: '',
       songs: '',
+      chats: '',
       admin: uid,
       users: '',
       downvotes: 0,
