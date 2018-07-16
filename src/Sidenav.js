@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 // import ReactPlayer from 'react-player'
+import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
 import './Sidenav.css';
 import firebase from 'firebase';
 
@@ -59,168 +60,185 @@ class Sidenav extends Component {
     console.log(userID);
  }
 
+
+
+//  <InputGroup>
+//     <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
+//     <Input placeholder="youtube.com" /> 
+  
+//    <Button outline color="primary"
+//     className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+//     Submit
+//    </Button>
+// </InputGroup>
+
   render () {
     var addButton = {
       display: this.state.hideAddRoom ? "none" : "block"
     }
     return (
-      <div className="sidenav">
-        <div className="searchroom">
-          <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
-          <input className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
-        </div>
-        <div style={addButton} className="addbox" id="addbox">
-          <label className="linkT">
-            Room Name:
-          </label>
-          <input className="inlink" id="roomname"/>
-          <label className="linkT">
-            Room password:
-          </label>
-          <input className="inlink" id="roompw"/>
-          <button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</button>
+      <Container className="sidenav">
+          <Row className="searchroom">
+             <InputGroup>
+              <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
+             
+               <Input placeholder="Search for Room Name..." className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
+              </InputGroup>
+          </Row>
 
-        </div>
-        <div className="sidescrollbox">
-          <table className="table1" id="roomList">
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+            <div style={addButton} className="addbox" id="addbox">
+              <label className="linkT">
+                Room Name:
+              </label>
+              <input className="inlink" id="roomname"/>
+              <label className="linkT">
+                Room password:
+              </label>
+              <input className="inlink" id="roompw"/>
+              <button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</button>
+
+            </div>
+
+            <div className="sidescrollbox">
+              <table className="table1" id="roomList">
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Audio room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Study Music room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Alternative room </td>
+                </tr>
+                <tr>
+                  <td className="td1"> Friends room </td>
+                </tr>
+              </table>
+            </div>
+      </Container>
     );
   }
 }

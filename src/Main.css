@@ -1,14 +1,14 @@
 .main{
-  width:80%;
-  height: 100vh;
+  width:100%;
+  height: 100%;
   /* background: white; */
-  position: static;
-  background: #232323;
+  
+  background: green;
   display: block;
 }
 
 .mainTitle {
-  margin-top: 120px;
+  margin-top:0px;
   font-size: 36px;
   color: white;
   font-weight: bold;
@@ -20,7 +20,7 @@
 }
 
 .inputcontainer{
-  width: 600px;
+  width: 20%;
   height: 50px;
   margin: 0 auto;
   display: block;
@@ -34,18 +34,18 @@
 }
 
 .inputL {
-  width: 25%;
+  width: 100%;
   float: left;
   margin-left: 10px;
-  height: 20px;
+  height: 100%;
   font-size: 16px;
 }
 
 .inputB {
   float: left;
-  height: 27px;
+  height: 100%;
   font-size: 22px;
-  margin-left: 10px;
+  margin-left: 20px;
   background-color: #0078ce;
   border: none;
   color: white;
@@ -63,6 +63,6 @@
 
 .flexbox2 {
   padding-top: 20px;
-  margin-left: 60px;
+  margin-left: 600px;
   margin-right: 60px;
 }

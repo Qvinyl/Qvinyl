@@ -1,6 +1,11 @@
+
 body {
   background: #232323;
+  width:100%;
+  margin:0%;
 }
+
+
 
 .app {
   text-align: center;

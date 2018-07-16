@@ -22,34 +22,14 @@ class Player extends Component {
 		this.checkUserDownVote = this.checkUserDownVote.bind(this);
 		this.hideVolume = this.hideVolume.bind(this);
 		this.changeVolume = this.changeVolume.bind(this);
-		this.incrementDownvotes = this.incrementDownvotes.bind(this);
+		{/*this.incrementDownvotes = this.incrementDownvotes.bind(this);*/}
 	}
 
 	onProgress (state) {
 		this.setState(state)
 	}
 
-	incrementDownvotes() {
-	    var userID = firebase.auth().currentUser.uid;
-	    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-	    userRoomKey.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().currentRoom;
-			var downvoteLocation = firebase.database().ref('rooms/'+roomKey);
-			downvoteLocation.once('value').then((snapshot) => {
-				var downvotes = snapshot.val().downvotes;
-				var numUsers = snapshot.val().numberOfUsers;
-				downvotes += 1;
-				downvoteLocation.push();
-				downvoteLocation.update({
-			    	downvotes: downvotes
-				});
-				if (downvotes/numUsers >= 0.5) {
-					this.skipVideo();
-				 	this.setDownvotesToZ();
-				}
-			});
-	  });
- 	}
+	
 
 
 
@@ -158,65 +138,7 @@ class Player extends Component {
 		})
 	}
 
-	onPageLoad () {
-		var userID = firebase.auth().currentUser.uid;
-	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-	    getRoom.once('value').then((snapshot) => {
-			try {
-				var roomKey = snapshot.val().currentRoom;
-			} catch (exception) {
-				return;
-			}
-			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
-			songLocation.limitToFirst(1).once('value').then((snapshot) => {
-				snapshot.forEach((childSnapshot) => {
-					var songLink = childSnapshot.val();
-					this.setState({
-						song: songLink
-					});
-					var songProgress = firebase.database().ref('rooms/' + roomKey + '/songProgress');
-					songProgress.once('value').then((snapshot) => {
-						var currentProgress = snapshot.val();
-						console.log("current progress: " + currentProgress);
-						this.setState({
-							played: currentProgress
-						});
-						this.player.seekTo(this.state.played);
-					})
-				});
-			});
-	    });
-
-	 	setInterval(() => {
-			var userID = firebase.auth().currentUser.uid;
-		    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-		    getRoom.once('value').then((snapshot) => {
-				try {
-					var roomKey = snapshot.val().currentRoom;
-				} catch (exception) {
-					return;
-				}
-			    var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
-				songLocation.limitToFirst(1).once('value').then((snapshot) => {
-					snapshot.forEach((childSnapshot) => {
-						var songLink = childSnapshot.val();
-						this.setState({
-							song: songLink
-						});
-					});
-				});
-				var songProgress = firebase.database().ref('rooms/' + roomKey);
-				songProgress.update({
-			    	songProgress: this.state.played
-				});
-		    });
-	 	}, 500);
-	}
-
-  	componentDidMount() {
-	 	setTimeout(this.onPageLoad.bind(this), 2000);
-
- 	}
+	
 
 	ref = player => {
 		this.player = player

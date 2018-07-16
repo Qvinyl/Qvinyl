@@ -27,10 +27,9 @@ body{
 }
 
 #chatroom{
-  width:360px;
+  width:100%;
   height:100vh;
-  
-  position: fixed; 
+
   display: block;
   right:0;
   top:0;
