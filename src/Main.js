@@ -44,6 +44,42 @@ class Main extends Component {
      });
   }
 
+  kickUser() {
+    var kickLink = document.getElementById("kickLink").value;
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then(function(snapshot){
+      var roomKey = snapshot.val().currentRoom;
+      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
+      adminLocation.once('value').then((snapshot) => {
+        var admin = snapshot.val();
+        console.log('admin: ' + admin);
+        if (userID == admin) {
+          var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
+          updateUsers.once('value').then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+              var selectedUser = childSnapshot.val();
+              var selectedUserKey = childSnapshot.key;
+              if ( kickLink == selectedUser ) {
+                firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
+              }
+              console.log("selectedUser: " + selectedUser);
+            });
+          });
+        }
+        else{
+          console.log("You are not admin");
+        }
+      });
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+      getRoom.push();
+      getRoom.set({
+        currentRoom: ''
+      })
+    });
+  }
+
+
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
     var link = document.getElementById("myLink").value;
@@ -129,6 +165,14 @@ class Main extends Component {
             <label style={{marginLeft: 10}} className="linkT">
               {this.state.currentRoomKey}
             </label>
+          </p>
+
+          <p>
+            <button
+              className="inputB" onClick={this.kickUser}>
+              Kick User
+            </button>
+            <input id="kickLink" className="inputL" type="text"/>
           </p>
 
         </div>

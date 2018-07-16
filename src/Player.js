@@ -54,9 +54,10 @@ class Player extends Component {
 
 
 	checkUserDownVote() {
-		var temp= false;
+		var temp = false;
+		var currUser = firebase.auth().currentUser;
 		 var userID = firebase.auth().currentUser.uid;
-		 console.log(userID);
+		 console.log("displayname: " + currUser.displayName);
 		 var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		 userRoomKey.once('value').then((snapshot) => {
 		 var roomKey = snapshot.val().currentRoom;
