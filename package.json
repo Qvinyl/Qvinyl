@@ -8,6 +8,7 @@
     "react-dom": "^16.4.1",
     "react-player": "^1.6.4",
     "react-scripts": "1.1.4",
+    "reactstrap": "^6.3.0",
     "redux": "^4.0.0",
     "video-react": "^0.11.2"
   },

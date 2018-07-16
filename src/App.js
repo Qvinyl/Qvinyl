@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import ReactPlayer from 'react-player'
+import { Container, Row, Col } from 'reactstrap';
 import './App.css';
 import Sidenav from './Sidenav'
 import Main from './Main'
@@ -32,11 +32,13 @@ class App extends Component {
             <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
           </div>
         </div>
+        <container>
         <div className="flexbox">
           <Sidenav />
           <Main />
           <Chat />
         </div>
+        </container>
       </div>
     );
   }

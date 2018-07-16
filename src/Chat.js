@@ -90,8 +90,7 @@ class Chat extends React.Component {
     }
 
     submitMessage(e) {
-        // var userID = firebase.auth().currentUser.uid;
-     	// var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+
         e.preventDefault();
         var userMessage = document.getElementById("currentMessage").value;
         var userID = firebase.auth().currentUser.uid;
