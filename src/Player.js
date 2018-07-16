@@ -106,6 +106,7 @@ class Player extends Component {
 
   // skip current video
 	skipVideo (){
+		this.setDownvotesToZ();
 		var userID = firebase.auth().currentUser.uid;
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
