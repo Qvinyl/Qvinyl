@@ -185,6 +185,8 @@ class Main extends Component {
             </label>
           </p>
 
+          <br />
+          
           <p>
             <button
               className="inputB" onClick={this.kickUser}>

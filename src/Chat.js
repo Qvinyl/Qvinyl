@@ -59,11 +59,13 @@ class Chat extends React.Component {
 					var k = keys[i];
 					var message = chats[k].message;
 					var user = chats[k].user;
+					var displayName = chats[k].name;
 					console.log(message);
 					console.log(user);
 					this.setState({
 						chats: this.state.chats.concat([{
 							username: user,
+							displayName: displayName,
 							content: message,
 						}])
 					}, () => {
@@ -124,7 +126,7 @@ class Chat extends React.Component {
                     {
                         chats.map((chat) =>
                             <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
-                            {displayName}
+                            <b>{chat.displayName}</b>
                             <br/>
 						        <p>{chat.content}</p>
 						    </li>
