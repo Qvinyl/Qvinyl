@@ -19,49 +19,61 @@ class Chat extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
+        this.checkInRoom = this.checkInRoom.bind(this);
     }
 
     componentDidMount() {
-
 		setTimeout(this.getUserID.bind(this), 1000);
-
         this.scrollToBot();
     }
 
+    checkInRoom() {
+    	var successful = false;
+    	var intervalID = setInterval(() => {
+    		try {
+    			var userID = firebase.auth().currentUser.uid;
+    			successful = true;
+    		} catch(exception) {
+    			console.log("unsuccessful");
+    		}
+		}, 500);
+		if (successful) {
+			clearInterval(intervalID);
+			return;
+		}
+    }
+
     getUserID() {
+    	while(this.checkInRoom() == true){}
    		var userID = firebase.auth().currentUser.uid;
     	this.setState({
     		userID: userID
     	})
     	var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
     	getRoom.once('value').then((snapshot) => {
-			try {
+    		var count = 0;
+    		try {
 				var roomKey = snapshot.val().currentRoom;
 			} catch (exception) {
-				return;
+				this.getUserID();
 			}
-			var testRef = firebase.database().ref('/rooms/' + roomKey + '/chats/');
-	    	console.log('Testref: '+testRef);
-			testRef.on('value', (snapshot) => {
+			var chatLocation = firebase.database().ref('/rooms/' + roomKey + '/chats/');
+			chatLocation.on('value', (snapshot) => {
 				let chats = snapshot.val();
-				console.log(chats);
 				try {
 					var keys = Object.keys(chats);
 				} catch (exception) {
 					return;
 				}
-				console.log(keys);
 				let newState = [];
 				this.setState({
 					chats: newState
 				});
-				for(var i = 0; i<keys.length; i++){
+				for(var i = 0; i < keys.length; i++){
 					var k = keys[i];
 					var message = chats[k].message;
 					var user = chats[k].user;
 					var displayName = chats[k].name;
-					console.log(message);
-					console.log(user);
 					this.setState({
 						chats: this.state.chats.concat([{
 							username: user,
