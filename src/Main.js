@@ -45,6 +45,7 @@ class Main extends Component {
   }
 
   kickUser() {
+    var isAdmin = false;
     var kickLink = document.getElementById("kickLink").value;
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -55,6 +56,8 @@ class Main extends Component {
         var admin = snapshot.val();
         console.log('admin: ' + admin);
         if (userID == admin) {
+          isAdmin = true;
+          console.log("am I admin? " + isAdmin);
           var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
           updateUsers.once('value').then((snapshot) => {
             snapshot.forEach((childSnapshot) => {
@@ -62,6 +65,10 @@ class Main extends Component {
               var selectedUserKey = childSnapshot.key;
               if ( kickLink == selectedUser ) {
                 firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
+                var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
+                getRoom.update({
+                  currentRoom: ''
+                })
               }
               console.log("selectedUser: " + selectedUser);
             });
@@ -71,14 +78,8 @@ class Main extends Component {
           console.log("You are not admin");
         }
       });
-      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-      getRoom.push();
-      getRoom.set({
-        currentRoom: ''
-      })
     });
   }
-
 
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
