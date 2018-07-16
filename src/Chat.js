@@ -49,7 +49,7 @@ class Chat extends React.Component {
 				} catch (exception) {
 					return;
 				}
-				
+
 				console.log(keys);
 				let newState = [];
 				this.setState({
@@ -72,7 +72,7 @@ class Chat extends React.Component {
 				}
 	   		});
 	    });
-    	
+
     }
 
     componentDidUpdate() {
@@ -117,7 +117,7 @@ class Chat extends React.Component {
                 <h3>Chatroom</h3>
                 <ul className="chats" ref="chats">
                     {
-                        chats.map((chat) => 
+                        chats.map((chat) =>
                             <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
 						        <p>{chat.content}</p>
 						    </li>

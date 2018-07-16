@@ -17,6 +17,9 @@ class Main extends Component {
   joinRoom() {
     var temp = false;
     var link = document.getElementById("roomLink").value;
+    if (link == "") {
+      return;
+    }
     var userID = firebase.auth().currentUser.uid;
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
     getRoom.push();
@@ -69,6 +72,10 @@ class Main extends Component {
                 getRoom.update({
                   currentRoom: ''
                 })
+                var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
+                numUsers.transaction(function(numberOfUsers) {
+                  return (numberOfUsers || 0) - 1;
+                });
               }
               console.log("selectedUser: " + selectedUser);
             });

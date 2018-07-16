@@ -193,7 +193,12 @@ class Player extends Component {
 		    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 		    getRoom.once('value').then((snapshot) => {
 				try {
-					var roomKey = snapshot.val().currentRoom;
+					if(snapshot.val().currentRoom !== "") {
+						var roomKey = snapshot.val().currentRoom;
+					}
+					else {
+						return;
+					}
 				} catch (exception) {
 					return;
 				}
@@ -210,7 +215,7 @@ class Player extends Component {
 				songProgress.update({
 			    	songProgress: this.state.played
 				});
-		    });
+		  });
 	 	}, 500);
 	}
 
