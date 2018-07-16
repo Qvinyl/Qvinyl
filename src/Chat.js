@@ -55,7 +55,7 @@ class Chat extends React.Component {
 				this.setState({
 					chats: newState
 				});
-				for(var i =0; i<keys.length; i++){
+				for(var i = 0; i<keys.length; i++){
 					var k = keys[i];
 					var message = chats[k].message;
 					var user = chats[k].user;
