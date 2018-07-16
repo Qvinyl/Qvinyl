@@ -21,6 +21,12 @@ class Main extends Component {
       return;
     }
     var userID = firebase.auth().currentUser.uid;
+    var displayName = firebase.auth().currentUser.displayName;
+    var getUser= firebase.database().ref('users/' + userID);
+    getUser.push();
+    getUser.set({
+      name: displayName
+    })
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
     getRoom.push();
     getRoom.set({
@@ -67,6 +73,7 @@ class Main extends Component {
               var selectedUser = childSnapshot.val();
               var selectedUserKey = childSnapshot.key;
               if ( kickLink == selectedUser ) {
+                window.alert(kickLink + " has been removed from the room");
                 firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
                 var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
                 getRoom.update({
@@ -94,15 +101,18 @@ class Main extends Component {
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
+      if (roomKey == "") {
+        return;
+      }
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
-      songLocation.push('https://www.youtube.com/watch?v=onbC6N-QGPc');
-      songLocation.push('https://www.youtube.com/watch?v=JZjAg6fK-BQ');
-      songLocation.push('https://www.youtube.com/watch?v=fS9m0Ac8PCU');
-      songLocation.push('https://www.youtube.com/watch?v=CJTElVG7EMY');
-      songLocation.push('https://www.youtube.com/watch?v=_t431MAUQlQ');
-      songLocation.push('https://www.youtube.com/watch?v=IZKQUOApw1g');
-      songLocation.push('https://www.youtube.com/watch?v=P2rT2vw9i_k');
-      songLocation.push('https://www.youtube.com/watch?v=zp9I56Vopfg');
+      songLocation.push('https://www.youtube.com/watch?v=cULQhvuq1Zc');
+      songLocation.push('https://www.youtube.com/watch?v=_DjE4gbIVZk');
+      songLocation.push('https://www.youtube.com/watch?v=5CMuZrTy6jw');
+      songLocation.push('https://www.youtube.com/watch?v=dLdIx0epx3U');
+      songLocation.push('https://www.youtube.com/watch?v=SA8dLEBY61o');
+      songLocation.push('https://www.youtube.com/watch?v=ZURA7fT-ozM');
+      songLocation.push('https://www.youtube.com/watch?v=NdSJ1pyaAH8');
+      songLocation.push('https://www.youtube.com/watch?v=1nfNArVi2kM');
       songLocation.push('https://www.youtube.com/watch?v=U7svgD2yPig');
       songLocation.push('https://www.youtube.com/watch?v=-hTD6uEgTVw');
       songLocation.push('https://www.youtube.com/watch?v=W9BM7Poql6c');

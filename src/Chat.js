@@ -14,7 +14,8 @@ class Chat extends React.Component {
      			username:" "
      			//nothing so far. updates each time.
             }],
-            userID: ''
+            userID: '',
+            displayName: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
@@ -49,7 +50,6 @@ class Chat extends React.Component {
 				} catch (exception) {
 					return;
 				}
-
 				console.log(keys);
 				let newState = [];
 				this.setState({
@@ -95,22 +95,27 @@ class Chat extends React.Component {
         e.preventDefault();
         var userMessage = document.getElementById("currentMessage").value;
         var userID = firebase.auth().currentUser.uid;
+        var displayName = firebase.auth().currentUser.displayName;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
         userRoomKey.once('value').then(function(snapshot) {
             console.log("userID: " + userID);
             var roomKey = snapshot.val().currentRoom;
+            if (roomKey == "") {
+              window.alert("you are not in a room");
+              return;
+            }
             console.log("RoomKey: " + roomKey)
             var chatbase = firebase.database().ref('rooms/' + roomKey + '/chats');
             chatbase.push({
                 message: userMessage,
                 user: userID,
+                name: displayName
             })
         });
     }
 
     render() {
-
-        const { chats, userID} = this.state;
+        const { chats, userID, displayName} = this.state;
         console.log("now: " + userID);
         return (
             <div id="chatroom">
@@ -119,6 +124,8 @@ class Chat extends React.Component {
                     {
                         chats.map((chat) =>
                             <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
+                            {displayName}
+                            <br/>
 						        <p>{chat.content}</p>
 						    </li>
                         )

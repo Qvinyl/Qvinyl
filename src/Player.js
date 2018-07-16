@@ -59,8 +59,12 @@ class Player extends Component {
 		 var userID = firebase.auth().currentUser.uid;
 		 console.log("displayname: " + currUser.displayName);
 		 var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+
 		 userRoomKey.once('value').then((snapshot) => {
 		 var roomKey = snapshot.val().currentRoom;
+		 if (roomKey == "") {
+       return;
+     }
 		 var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
 		 downvotersLocation.once('value').then((snapshot) => {
 			 var downvoter = snapshot.val();
