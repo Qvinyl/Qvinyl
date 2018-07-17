@@ -34,6 +34,7 @@ class Sidenav extends Component {
 
  createRoom() {
    var uid = firebase.auth().currentUser.uid;
+   var name = firebase.auth().currentUser.displayName;
     var database = firebase.database();
     var roomName = document.getElementById("roomname").value;
     var roomPW = document.getElementById("roompw").value;
@@ -54,6 +55,7 @@ class Sidenav extends Component {
     var userID = firebase.auth().currentUser.uid;
     database.ref('users/' + userID + "/roomKeys").push();
     database.ref('users/' + userID + "/roomKeys").set({
+      name: name,
       currentRoom: roomKey
     });
     console.log(userID);

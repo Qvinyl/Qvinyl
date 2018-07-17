@@ -119,10 +119,10 @@ class Player extends Component {
 			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
 				snapshot.forEach((childSnapshot) => {
-					var songLink = childSnapshot.val();
+					var songLink = childSnapshot.val().link;
 					var songKey = childSnapshot.key;
 					console.log("current song: " + this.state.song);
-					console.log("next song: " + songLink);
+					console.log("next song: " + songLink.link);
 					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
 					// handles duplicate song, song on load
 					/*
@@ -175,7 +175,7 @@ class Player extends Component {
 			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
 				snapshot.forEach((childSnapshot) => {
-					var songLink = childSnapshot.val();
+					var songLink = childSnapshot.val().link;
 					this.setState({
 						song: songLink
 					});
@@ -209,7 +209,7 @@ class Player extends Component {
 			    var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 				songLocation.limitToFirst(1).once('value').then((snapshot) => {
 					snapshot.forEach((childSnapshot) => {
-						var songLink = childSnapshot.val();
+						var songLink = childSnapshot.val().link;
 						this.setState({
 							song: songLink
 						});

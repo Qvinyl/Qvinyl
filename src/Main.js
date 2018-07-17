@@ -97,6 +97,7 @@ class Main extends Component {
 
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
+    var name = firebase.auth().currentUser.displayName;
     var link = document.getElementById("myLink").value;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
@@ -105,17 +106,39 @@ class Main extends Component {
         return;
       }
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
-      songLocation.push('https://www.youtube.com/watch?v=cULQhvuq1Zc');
-      songLocation.push('https://www.youtube.com/watch?v=_DjE4gbIVZk');
-      songLocation.push('https://www.youtube.com/watch?v=5CMuZrTy6jw');
-      songLocation.push('https://www.youtube.com/watch?v=dLdIx0epx3U');
-      songLocation.push('https://www.youtube.com/watch?v=SA8dLEBY61o');
-      songLocation.push('https://www.youtube.com/watch?v=ZURA7fT-ozM');
-      songLocation.push('https://www.youtube.com/watch?v=NdSJ1pyaAH8');
-      songLocation.push('https://www.youtube.com/watch?v=1nfNArVi2kM');
-      songLocation.push('https://www.youtube.com/watch?v=U7svgD2yPig');
-      songLocation.push('https://www.youtube.com/watch?v=-hTD6uEgTVw');
-      songLocation.push('https://www.youtube.com/watch?v=W9BM7Poql6c');
+      songLocation.push({
+        queueBy: name,
+        link: 'https://www.youtube.com/watch?v=cULQhvuq1Zc'
+      });
+      songLocation.push({
+        queueBy: name,
+        link: 'https://www.youtube.com/watch?v=_DjE4gbIVZk'
+      });
+      songLocation.push({
+        queueBy: name,
+        link: 'https://www.youtube.com/watch?v=5CMuZrTy6jw'
+      });
+      songLocation.push({
+        queueBy: name,
+        link: 'https://www.youtube.com/watch?v=SA8dLEBY61o'
+      });
+      songLocation.push({
+        queueBy: name,
+        link: 'https://www.youtube.com/watch?v=ZURA7fT-ozM'
+      });
+
+
+      // songLocation.push('https://www.youtube.com/watch?v=cULQhvuq1Zc');
+      // songLocation.push('https://www.youtube.com/watch?v=_DjE4gbIVZk');
+      // songLocation.push('https://www.youtube.com/watch?v=5CMuZrTy6jw');
+      // songLocation.push('https://www.youtube.com/watch?v=dLdIx0epx3U');
+      // songLocation.push('https://www.youtube.com/watch?v=SA8dLEBY61o');
+      // songLocation.push('https://www.youtube.com/watch?v=ZURA7fT-ozM');
+      // songLocation.push('https://www.youtube.com/watch?v=NdSJ1pyaAH8');
+      // songLocation.push('https://www.youtube.com/watch?v=1nfNArVi2kM');
+      // songLocation.push('https://www.youtube.com/watch?v=U7svgD2yPig');
+      // songLocation.push('https://www.youtube.com/watch?v=-hTD6uEgTVw');
+      // songLocation.push('https://www.youtube.com/watch?v=W9BM7Poql6c');
       /*
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
@@ -186,7 +209,7 @@ class Main extends Component {
           </p>
 
           <br />
-          
+
           <p>
             <button
               className="inputB" onClick={this.kickUser}>
@@ -204,7 +227,9 @@ class Main extends Component {
             </div>
           </div>
         </div>
-
+        <div>
+          <Queue />
+        </div>
       </div>
     );
   }
