@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 // import ReactPlayer from 'react-player'
-import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
+import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
 import './Sidenav.css';
 import firebase from 'firebase';
 
 class Sidenav extends Component {
   constructor (props) {
     super(props);
+
+
     this.state = {
-      hideAddRoom: true
+      hideAddRoom: true,
+
     };
   }
+
+
 
   addRoom() {
     this.setState({
@@ -80,27 +85,33 @@ class Sidenav extends Component {
       <Container className="sidenav">
           <Row className="searchroom">
              <InputGroup>
+
               <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
              
                <Input placeholder="Search for Room Name..." className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
               </InputGroup>
           </Row>
 
-            <div style={addButton} className="addbox" id="addbox">
-              <label className="linkT">
-                Room Name:
-              </label>
-              <input className="inlink" id="roomname"/>
-              <label className="linkT">
-                Room password:
-              </label>
-              <input className="inlink" id="roompw"/>
-              <button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</button>
+         
+                <div style={addButton} className="addbox" id="addbox">
+                  <InputGroup>
+                    <label className="linkT">
+                      Room Name:
+                    </label>
+                        <Input className="inlink" id="roomname"/>
+                  </InputGroup>
+                  <InputGroup>
+                      <label className="linkT">
+                        Room password:
+                      </label>
+                      <Input className="inlink" id="roompw"/>
+                  </InputGroup>
+                      <Button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</Button>
+                </div>
 
-            </div>
 
             <div className="sidescrollbox">
-              <table className="table1" id="roomList">
+              <Table borderless className="table1" id="roomList">
                 <tr>
                   <td className="td1"> Audio room </td>
                 </tr>
@@ -236,7 +247,7 @@ class Sidenav extends Component {
                 <tr>
                   <td className="td1"> Friends room </td>
                 </tr>
-              </table>
+              </Table>
             </div>
       </Container>
     );

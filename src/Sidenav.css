@@ -8,15 +8,18 @@
 
 .table1 {
   width: 100%;
+
 }
 
 .td1 {
   text-align: center;
 	color: white;
+  background-color: transparent;
+  font-color:;
   font-size: 20px;
   font-weight: bold;
   height: 40px;
-  margin: auto;
+
 }
 
 .td1:hover {
@@ -25,15 +28,16 @@
 }
 
 .searchroom {
-  padding: 15px;
-  background-color: green;
+  padding: 5% 5% 5% 5%;
+  background-color: #3a3a3a;
 }
 
 .plus {
   color: #0078ce;
   font-size: 24px;
   float: left;
-  margin-left: 35px;
+  padding-right: 5%;
+
 }
 
 .sidescrollbox {
@@ -60,4 +64,16 @@
 .inlink {
   height: 80%;
   font-size: 16px;
+}
+
+.linkT {
+  padding: 2%;
+}
+
+#myBtn {
+  height: 20%;
+}
+
+#roompw, #roomname{
+  margin: 3% 3% 3% 3%;
 }
