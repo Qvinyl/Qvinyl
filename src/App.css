@@ -11,7 +11,7 @@ body {
 }
 
 .banner {
-  position: absolute;
+  position: ;
   background: #191919;
   width: 100%;
   height: 100px;
@@ -42,4 +42,7 @@ body {
 
 .settings:hover {
   color: #0078ce;
+}
+.outer-container{
+  width: 100%;
 }

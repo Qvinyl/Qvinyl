@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
+import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
 import firebase from 'firebase'
 
 
@@ -42,43 +43,6 @@ class Main extends Component {
          });
        }
      });
-  }
-
-  kickUser() {
-    var isAdmin = false;
-    var kickLink = document.getElementById("kickLink").value;
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().currentRoom;
-      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
-      adminLocation.once('value').then((snapshot) => {
-        var admin = snapshot.val();
-        console.log('admin: ' + admin);
-        if (userID == admin) {
-          isAdmin = true;
-          console.log("am I admin? " + isAdmin);
-          var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
-          updateUsers.once('value').then((snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-              var selectedUser = childSnapshot.val();
-              var selectedUserKey = childSnapshot.key;
-              if ( kickLink == selectedUser ) {
-                firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
-                var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
-                getRoom.update({
-                  currentRoom: ''
-                })
-              }
-              console.log("selectedUser: " + selectedUser);
-            });
-          });
-        }
-        else{
-          console.log("You are not admin");
-        }
-      });
-    });
   }
 
   pushMusicToDB() {
@@ -127,66 +91,67 @@ class Main extends Component {
 
   render () {
     return (
-      <div className="main">
-        <div className="mainTitle">Audio Room</div>
-        <div className="inputcontainer">
 
-          <p>
-            <label className="linkT">
-              Music Link:
-            </label>
-            <input id="myLink" className="inputL" type="text"/>
+    <Container fluid>
+              <div className="main">
+                <div className="mainTitle">Audio Room</div>
 
-            <button
-              className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
-              Submit
-            </button>
-          </p>
+                <div className="inputcontainer">
+                  {/***************** User Inputs ****************/}
+                  <p>
+                    <label className="linkT">
+                      Music Link:
+                    </label>
+                    <InputGroup>
+                        <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
+                        <Input placeholder="youtube.com" /> 
+                      
+                       <Button outline color="primary"
+                        className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+                        Submit
+                       </Button>
+                    </InputGroup>
+                  </p>
 
-          <br />
+                 
 
-          <p>
-            <label className="linkT">
-              Room Link:
-            </label>
-            <input id="roomLink" className="inputL" type="text"/>
-            <button
-              className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
-              Join Room
-            </button>
-          </p>
+                  <p>
+                    <label className="linkT">
+                      Room Link:
+                    </label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
+                      <Input placeholder="https://Qvinyl/Rooms/a47BD89" /> 
+                          <Button outline color="primary"
+                            className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
+                            Join Room
+                          </Button>
+                    </InputGroup>
+                        </p>
 
-          <br />
 
-          <p>
-            <button
-              className="inputB" onClick={this.getRoomName}>
-              Room ID
-            </button>
-            <label style={{marginLeft: 10}} className="linkT">
-              {this.state.currentRoomKey}
-            </label>
-          </p>
 
-          <p>
-            <button
-              className="inputB" onClick={this.kickUser}>
-              Kick User
-            </button>
-            <input id="kickLink" className="inputL" type="text"/>
-          </p>
+                        <p>
+                          <Button outline color="primary"
+                            className="inputB" onClick={this.getRoomName}>
+                            Room ID
+                          </Button>
+              
 
-        </div>
 
-        <div style={{margin: 100}} className="trackplayinginfo">
-          <div className="flexbox2">
-            <div className="videoplayer">
-              <Player />
-            </div>
-          </div>
-        </div>
+                    <label style={{marginLeft: 10}} className="linkT">
+                      {this.state.currentRoomKey}
+                    </label>
+                  </p>
 
-      </div>
+                </div>
+
+                <div style={{margin: 100}} className="trackplayinginfo">
+                  <div className="flexbox2">
+                  </div>
+                </div>
+              </div>
+      </Container>
     );
   }
 }

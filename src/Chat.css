@@ -17,7 +17,7 @@ body{
 .App{
   background-color:#1ee494;
   height:100vh;
-  width:100vw;
+   width:100vw;
   display:-ms-flexbox;
   display:flex;
   -ms-flex-align:center;
@@ -50,7 +50,7 @@ body{
   background-color: #0078ce;
   color:#fff;
   margin:0;
-  height:40px;
+/*  height:40px;*/
   font-size:20px;
   display:-ms-flexbox;
   display:flex;
@@ -125,7 +125,7 @@ body{
 }
 
 #chatroom .input input[type=submit],.chatroom .input input[type=text]{
-  height:30px;
+/*  height:30px;*/
   -webkit-box-sizing:border-box;
   box-sizing:border-box;
   font-size:14px
@@ -145,4 +145,10 @@ body{
 #chatroom .input input[type=submit]:hover{
   background:#51aff7;
   color:#fff;
+}
+.container{
+  width: 75%;
+}
+.c:{
+  overflow: hidden;
 }

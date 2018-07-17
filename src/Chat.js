@@ -1,5 +1,5 @@
-//import React from 'react';
 import React, { Component } from 'react'
+import { Container, Row, Col } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
@@ -112,8 +112,12 @@ class Chat extends React.Component {
         const { chats, userID} = this.state;
         console.log("now: " + userID);
         return (
+            <div class="container">
             <div id="chatroom">
-                <h3>Chatroom</h3>
+                <Row>
+                    <h3>Chatroom</h3>
+                </Row>
+                <Row>
                 <ul className="chats" ref="chats">
                     {
                         chats.map((chat) => 
@@ -123,13 +127,17 @@ class Chat extends React.Component {
                         )
                     }
                 </ul>
+                </Row>
+                <Row>
 		        <div className="messagebox">
-		        </div>
 
 		        <form className="input" onSubmit={(e) => this.submitMessage(e)}>
 	                    <input id="currentMessage" type="text" ref="msg" />
 	                    <input type="submit" value="Submit" />
 		        </form>
+                </div>
+                </Row>
+            </div>
             </div>
         );
     }

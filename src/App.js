@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'reactstrap';
+// import ReactPlayer from 'react-player'
 import './App.css';
 import Sidenav from './Sidenav'
 import Main from './Main'
 import Chat from './Chat'
+import Player from './Player'
+import Queue from './Queue'
+import {Container, Row, Col, Button} from 'reactstrap'
 import * as firebase from 'firebase';
 
 var config = {
@@ -23,23 +26,40 @@ function logoutButton(){
 class App extends Component {
   render () {
     return (
-      <div className="app">
-        <div className="banner">
-          <div className="flexbox">
+     <Container fluid>
+        <div className="app">
+          <Row>
+            <div className = "banner">   
+              <div className="flexbox">
+              <div className="title">Qvinyl</div>
+              <pre id="object"></pre>
+              <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+          </div>  
+            </div>
+          </Row>
+         <Row>
+            <Player/>
+          </Row>
+          <Row>
+            <Main/>
+          </Row>
+          <Row>
+            <Col md={3}>
+              <Sidenav/>
+            </Col>
+            <Col md={6}>
+              <Queue/>
+            </Col>
+            <Col md={3}>
+              <Chat/>
+            </Col>
+          </Row>
+          
+          
+        </div>
 
-            <div className="title">Qvinyl</div>
-            <pre id="object"></pre>
-            <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
-          </div>
-        </div>
-        <container>
-        <div className="flexbox">
-          <Sidenav />
-          <Main />
-          <Chat />
-        </div>
-        </container>
-      </div>
+
+      </Container> 
     );
   }
 }
