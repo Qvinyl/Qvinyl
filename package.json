@@ -1,7 +1,7 @@
 {
   "name": "Qvinyl",
   "version": "0.1.0",
-  "homepage": "https://qvinyl.github.io/Qvinyl",
+  "homepage": "https://qvinyl.github.io/Qvinyl/public/login.html",
   "private": true,
   "dependencies": {
     "firebase": "^5.2.0",
