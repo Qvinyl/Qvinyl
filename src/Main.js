@@ -152,10 +152,14 @@ class Main extends Component {
     var link = document.getElementById("myLink").value;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then((snapshot) => {
-      var roomKey = snapshot.val().currentRoom;
-      this.setState({
-        currentRoomKey: roomKey
-      })
+      try {
+        var roomKey = snapshot.val().currentRoom;
+        this.setState({
+          currentRoomKey: roomKey
+        })
+      } catch (exception) {
+        this.getRoomName.bind(this);
+      }
       console.log("this is roomKey: " + roomKey);
       console.log("this is state roomKey: " + this.state.currentRoomKey);
     });
