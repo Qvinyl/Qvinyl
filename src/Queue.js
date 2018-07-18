@@ -26,7 +26,11 @@ class Queue extends Component {
         this.setState({
           musicQ: clear
         })
-        var keys = Object.keys(song.val());
+        try {
+          var keys = Object.keys(song.val());
+        } catch(exception) {
+          this.musicQueued();
+        }
         song.forEach((childSnapshot) => {
           var songLink = childSnapshot.val().link;
           var queueBy = childSnapshot.val().queueBy;
