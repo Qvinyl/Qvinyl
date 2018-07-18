@@ -327,17 +327,12 @@ class Main extends Component {
             className="inputB" onClick={this.getUserList}>
             get user
           </button>
-
         </div>
 
-        <div style={{marginTop: 100}} className="trackplayinginfo">
-          <div className="flexbox2">
-            <div className="videoplayer">
-              <Player />
-            </div>
-          </div>
+        <div className="video">
+          <Player />
         </div>
-        <div style={{marginTop: 500}}>
+        <div className="queue">
           <Queue />
         </div>
         <table className="scrollbox">

@@ -276,7 +276,7 @@ class Player extends Component {
 				<br />
 
 				<div>
-					<progress
+					<progress className="progressBar"
 						max='1'
 						value={this.state.played}
 					/>
