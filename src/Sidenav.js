@@ -53,9 +53,12 @@ class Sidenav extends Component {
     });
     database.ref('rooms/' + roomKey +'/users').push(uid);
     var userID = firebase.auth().currentUser.uid;
+    database.ref('users/' + userID ).push();
+    database.ref('users/' + userID ).set({
+      name: name
+    });
     database.ref('users/' + userID + "/roomKeys").push();
     database.ref('users/' + userID + "/roomKeys").set({
-      name: name,
       currentRoom: roomKey
     });
     console.log(userID);
