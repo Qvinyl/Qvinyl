@@ -29,15 +29,18 @@ class Main extends Component {
         console.log('Link: ' + link);
         console.log('room: ' + room.key);
         if (link === room.key) {
-          console.log("The Key is valid");
           isValid = true;
-          return true;
+          console.log("The Key is valid");
           this.joinRoom();
+          return true;
         }
       });
     });
-    if (isValid == false) {
-      console.log("Not a Valid Key");
+    if (isValid == true) {
+      console.log('is valid key');
+    }
+    else{
+      console.log("Key is not valid");
     }
   }
 
