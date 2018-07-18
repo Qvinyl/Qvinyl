@@ -6,7 +6,7 @@ class Queue extends Component {
   constructor(props, context) {
       super(props);
       this.state = {
-          musicQ: [{
+          songQueue: [{
             link: '',
             queueBy: ''
           }],
@@ -16,9 +16,9 @@ class Queue extends Component {
 
   musicQueued() {
     try {
-     var userID = firebase.auth().currentUser.uid;
+      var userID = firebase.auth().currentUser.uid;
     } catch(exception) {
-        this.musicQueued.bind(this);
+      this.musicQueued.bind(this);
     }
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
     getRoom.once('value').then((snapshot) => {
@@ -32,7 +32,7 @@ class Queue extends Component {
       songLocation.on('value', (song) => {
         let clear = [];
         this.setState({
-          musicQ: clear
+          songQueue: clear
         })
         try {
           var keys = Object.keys(song.val());
@@ -42,12 +42,14 @@ class Queue extends Component {
         song.forEach((childSnapshot) => {
           var songLink = childSnapshot.val().link;
           var queueBy = childSnapshot.val().queueBy;
-          console.log('Queued By:' + queueBy )
-          console.log("songLink: " + childSnapshot.val().link);
+          var thumbnail = childSnapshot.val().thumbnail;
+          var title = childSnapshot.val().title;
           this.setState({
-						musicQ: this.state.musicQ.concat([{
+						songQueue: this.state.songQueue.concat([{
 			        link: songLink,
-              queueBy: queueBy
+              queueBy: queueBy,
+              thumbnail: thumbnail,
+              title: title
 						}])
 					});
         });
@@ -61,24 +63,31 @@ class Queue extends Component {
   }
 
   render () {
-    const {musicQ} = this.state;
+    const {songQueue} = this.state;
     return (
 
       <div className="scrollbox">
       <table className="table">
         <tr>
+          <th></th>
           <th>Track Name</th>
           <th>Duration</th>
           <th>Queued by</th>
         </tr>
         {
-            musicQ.map((song) =>
+            songQueue.map((song) =>
               <tr>
-                <td className="tr2">
-                  {song.link}
+                <td> 
+                  <img 
+                    src={song.thumbnail} 
+                    height="100" width="150"
+                  />
+                </td>
+                <td>
+                  {song.title}
                 </td>
                 <td></td>
-                <td className="tr2">
+                <td>
                   {song.queueBy}
                 </td>
               </tr>
