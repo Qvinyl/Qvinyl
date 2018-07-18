@@ -63,9 +63,9 @@ class Chat extends React.Component {
 				} catch (exception) {
 					return;
 				}
-				let newState = [];
+				let clear = [];
 				this.setState({
-					chats: newState
+					chats: clear
 				});
 				for(var i = 0; i < keys.length; i++){
 					var k = keys[i];
@@ -96,8 +96,6 @@ class Chat extends React.Component {
     }
 
     submitMessage(e) {
-        // var userID = firebase.auth().currentUser.uid;
-     	// var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
         e.preventDefault();
         var userMessage = document.getElementById("currentMessage").value;
         var userID = firebase.auth().currentUser.uid;

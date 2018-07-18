@@ -22,6 +22,10 @@ class Queue extends Component {
       console.log("roomKey: " + roomKey);
       var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
       songLocation.on('value', (song) => {
+        let clear = [];
+        this.setState({
+          musicQ: clear
+        })
         var keys = Object.keys(song.val());
         song.forEach((childSnapshot) => {
           var songLink = childSnapshot.val().link;
@@ -30,8 +34,8 @@ class Queue extends Component {
           console.log("songLink: " + childSnapshot.val().link);
           this.setState({
 						musicQ: this.state.musicQ.concat([{
-						        link: songLink,
-                    queueBy: queueBy
+			        link: songLink,
+              queueBy: queueBy
 						}])
 					});
         });
@@ -53,7 +57,6 @@ class Queue extends Component {
         <tr>
           <th>Track Name</th>
           <th>Duration</th>
-          <th>Artist</th>
           <th>Queued by</th>
         </tr>
         {
@@ -62,7 +65,6 @@ class Queue extends Component {
                 <td className="tr2">
                   {song.link}
                 </td>
-                <td></td>
                 <td></td>
                 <td className="tr2">
                   {song.queueBy}
