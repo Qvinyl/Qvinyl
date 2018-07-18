@@ -17,7 +17,6 @@ class Chat extends React.Component {
             userID: '',
             displayName: ''
         };
-        this.handleChange = this.handleChange.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.checkInRoom = this.checkInRoom.bind(this);
     }
@@ -39,12 +38,11 @@ class Chat extends React.Component {
 		}, 500);
 		if (successful) {
 			clearInterval(intervalID);
-			return;
+			return true;
 		}
     }
 
     getUserID() {
-    	while(this.checkInRoom() == true){}
    		var userID = firebase.auth().currentUser.uid;
     	this.setState({
     		userID: userID
@@ -95,12 +93,6 @@ class Chat extends React.Component {
 
     scrollToBot() {
         ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(this.refs.chats).scrollHeight;
-    }
-
-    handleChange(e){
-    	this.setState = {
-    		[e.target.name]: e.target.value
-    	}
     }
 
     submitMessage(e) {

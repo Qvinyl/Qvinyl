@@ -21,7 +21,7 @@ class Queue extends Component {
       var roomKey = snapshot.val().currentRoom;
       console.log("roomKey: " + roomKey);
       var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
-      songLocation.once('value').then((song) => {
+      songLocation.on('value', (song) => {
         var keys = Object.keys(song.val());
         song.forEach((childSnapshot) => {
           var songLink = childSnapshot.val().link;
@@ -40,15 +40,15 @@ class Queue extends Component {
 
   }
 
+  componentDidMount() {
+    setTimeout(this.musicQueued.bind(this), 1000);
+  }
+
   render () {
     const {musicQ} = this.state;
     return (
 
       <div className="scrollbox">
-      <button
-        className="inputB" onClick={this.musicQueued}>
-        Music Q
-      </button>
       <table className="table">
         <tr>
           <th>Track Name</th>
@@ -59,10 +59,14 @@ class Queue extends Component {
         {
             musicQ.map((song) =>
               <tr>
-                <td className="tr2">{song.link}</td>
+                <td className="tr2">
+                  {song.link}
+                </td>
                 <td></td>
                 <td></td>
-                <td className="tr2">{song.queueBy}</td>
+                <td className="tr2">
+                  {song.queueBy}
+                </td>
               </tr>
             )
         }

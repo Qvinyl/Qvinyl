@@ -51,42 +51,37 @@ class Player extends Component {
 	  });
  	}
 
-
-
 	checkUserDownVote() {
 		var temp = false;
 		var currUser = firebase.auth().currentUser;
-		 var userID = firebase.auth().currentUser.uid;
-		 console.log("displayname: " + currUser.displayName);
-		 var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-
-		 userRoomKey.once('value').then((snapshot) => {
-		 var roomKey = snapshot.val().currentRoom;
-		 if (roomKey == "") {
-       return;
-     }
-		 var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
-		 downvotersLocation.once('value').then((snapshot) => {
-			 var downvoter = snapshot.val();
-			 var count = 0;
-			 snapshot.forEach((childSnapshot) => {
-				 var downvoter = childSnapshot.val();
-				 count += 1;
-				 console.log("child: " + childSnapshot.val())
-					if (childSnapshot.val() === userID) {
-							console.log("count: " + count);
-							console.log(childSnapshot.val() === userID);
-							temp = true;
-							return true;
-					}
-				});
-			 if(temp == false || downvoter === '') {
-				 var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
-				 downvotersLoc.push(userID);
-				 this.incrementDownvotes();
-				 temp = true;
-			 }
-		 });
+		var userID = firebase.auth().currentUser.uid;
+		console.log("displayname: " + currUser.displayName);
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then((snapshot) => {
+		var roomKey = snapshot.val().currentRoom;
+		if (roomKey == "") return;
+		var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
+		downvotersLocation.once('value').then((snapshot) => {
+			var downvoter = snapshot.val();
+			var count = 0;
+			snapshot.forEach((childSnapshot) => {
+				var downvoter = childSnapshot.val();
+				count += 1;
+				console.log("child: " + childSnapshot.val())
+				if (childSnapshot.val() === userID) {
+					console.log("count: " + count);
+					console.log(childSnapshot.val() === userID);
+					temp = true;
+					return true;
+				}
+			});
+			if(temp == false || downvoter === '') {
+				var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
+				downvotersLoc.push(userID);
+				this.incrementDownvotes();
+				temp = true;
+			}
+		});
 	 });
 	}
 
