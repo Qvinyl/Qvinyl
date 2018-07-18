@@ -3,15 +3,21 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import firebase from 'firebase'
+import './Queue.css';
 
 
 class Main extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      userList: [{
+        name: '',
+        id: ''
+      }],
       currentRoomKey: ''
     };
     this.getRoomName = this.getRoomName.bind(this);
+    this.getUserList = this.getUserList.bind(this);
   }
 
   joinRoom() {
@@ -53,9 +59,9 @@ class Main extends Component {
      });
   }
 
-  kickUser() {
+  kickUser(uid) {
     var isAdmin = false;
-    var kickLink = document.getElementById("kickLink").value;
+    var kickLink = uid;
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
@@ -95,7 +101,77 @@ class Main extends Component {
     });
   }
 
+  makeAdmin(uid) {
+    var isAdmin = false;
+    var makeAdmin = uid;
+    console.log("make Admin: " + makeAdmin);
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then(function(snapshot){
+      var roomKey = snapshot.val().currentRoom;
+      var updateAdmin = firebase.database().ref('rooms/' + roomKey);
+      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
+      adminLocation.once('value').then((snapshot) => {
+        var admin = snapshot.val();
+        console.log('admin: ' + admin);
+        if (userID == admin) {
+          isAdmin = true;
+          console.log("am I admin? " + isAdmin);
+          updateAdmin.push();
+          updateAdmin.update({
+            admin: makeAdmin
+          });
+          console.log("admin is now ": admin);
+        }
+        else{
+          console.log("You are not admin");
+        }
+      });
+    });
+  }
 
+  getUserList() {
+    try {
+      var userID = firebase.auth().currentUser.uid;
+    } catch(exception) {
+      this.getUserList.bind(this);
+    }
+    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+    getRoom.once('value').then((snapshot) => {
+      try {
+        var roomKey = snapshot.val().currentRoom;
+      } catch (exception) {
+        this.getUserList.bind(this);
+      }
+      //console.log("roomKey: " + roomKey);
+      var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
+      userList.on('value', (user) => {
+        user.forEach((childSnapshot) => {
+          var id = childSnapshot.val();
+          console.log(id);
+          let clear = [];
+          this.setState({
+            userList: clear
+          })
+          try {
+            var keys = Object.keys(childSnapshot.val());
+          } catch(exception) {
+            this.getUserList();
+          }
+          var getName = firebase.database().ref('users/' + id + '/name');
+          getName.once('value').then((name) => {
+              var gotName = name.val();
+              this.setState({
+    					    userList: this.state.userList.concat([{
+    			        name: gotName,
+                  id: id
+    					}])
+            });
+					});
+        });
+      });
+    });
+  }
 
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
@@ -116,9 +192,9 @@ class Main extends Component {
       var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
 
       var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
-      var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key=' 
+      var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
                       + APIkey + '&part=snippet&id=' + youtubeID;
-      var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key=' 
+      var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key='
       + APIkey + '&part=contentDetails&id=' + youtubeID;
 
       /*
@@ -144,7 +220,7 @@ class Main extends Component {
       });
       */
 
-      
+
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
         || link.includes("https://vimeo.com/")) {
@@ -167,7 +243,7 @@ class Main extends Component {
 
 
       }
-      
+
       console.log("this is roomKey: " + roomKey);
     });
   }
@@ -192,6 +268,7 @@ class Main extends Component {
   }
 
   render () {
+    const {userList} = this.state;
     return (
       <div className="main">
         <div className="mainTitle">Audio Room</div>
@@ -244,6 +321,12 @@ class Main extends Component {
             <input id="kickLink" className="inputL" type="text"/>
           </p>
 
+          <br />
+          <button
+            className="inputB" onClick={this.getUserList}>
+            get user
+          </button>
+
         </div>
 
         <div style={{margin: 100}} className="trackplayinginfo">
@@ -256,6 +339,24 @@ class Main extends Component {
         <div>
           <Queue />
         </div>
+        <table className="table">
+          <tr>
+            <th></th>
+            <th>Names</th>
+          </tr>
+          {
+              userList.map((name) =>
+                <tr>
+                  <td>
+                    <p>{name.name} </p>
+                    <br/>
+                    <button onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </button>
+                    <button onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </button>
+                  </td>
+                </tr>
+              )
+          }
+        </table>
       </div>
     );
   }
