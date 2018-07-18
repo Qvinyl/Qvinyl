@@ -159,7 +159,11 @@ class Player extends Component {
 	}
 
 	onPageLoad () {
-		var userID = firebase.auth().currentUser.uid;
+	    try {
+	     	var userID = firebase.auth().currentUser.uid;
+	    } catch(exception) {
+	        this.onPageLoad.bind(this);
+	    }
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
 			try {

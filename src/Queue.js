@@ -15,7 +15,11 @@ class Queue extends Component {
   }
 
   musicQueued() {
-    var userID = firebase.auth().currentUser.uid;
+    try {
+     var userID = firebase.auth().currentUser.uid;
+    } catch(exception) {
+        this.musicQueued.bind(this);
+    }
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
     getRoom.once('value').then((snapshot) => {
       var roomKey = snapshot.val().currentRoom;
