@@ -230,7 +230,8 @@ class Main extends Component {
             var duration = json.items[0].contentDetails.duration;
             var minutes = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("M"));
             var seconds = duration.slice(duration.lastIndexOf("M") + 1, duration.lastIndexOf("S"));
-            duration = minutes + ":" + seconds;
+            duration = (minutes.length == 1 ? "0" + minutes : minutes) 
+                      + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
             songLocation.push({
               queueBy: name,
               link: link,
@@ -329,14 +330,14 @@ class Main extends Component {
 
         </div>
 
-        <div style={{margin: 100}} className="trackplayinginfo">
+        <div style={{marginTop: 100}} className="trackplayinginfo">
           <div className="flexbox2">
             <div className="videoplayer">
               <Player />
             </div>
           </div>
         </div>
-        <div>
+        <div style={{marginTop: 500}}>
           <Queue />
         </div>
         <table className="table">
