@@ -43,7 +43,11 @@ class Chat extends React.Component {
     }
 
     getUserID() {
-   		var userID = firebase.auth().currentUser.uid;
+        try {
+   		   var userID = firebase.auth().currentUser.uid;
+        } catch(exception) {
+            this.getUserID.bind(this);
+        }
     	this.setState({
     		userID: userID
     	})
