@@ -230,7 +230,7 @@ class Main extends Component {
             var duration = json.items[0].contentDetails.duration;
             var minutes = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("M"));
             var seconds = duration.slice(duration.lastIndexOf("M") + 1, duration.lastIndexOf("S"));
-            duration = (minutes.length == 1 ? "0" + minutes : minutes) 
+            duration = (minutes.length == 1 ? "0" + minutes : minutes)
                       + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
             songLocation.push({
               queueBy: name,
@@ -340,18 +340,17 @@ class Main extends Component {
         <div style={{marginTop: 500}}>
           <Queue />
         </div>
-        <table className="table">
-          <tr>
-            <th></th>
-            <th>Names</th>
-          </tr>
+        <table className="scrollbox">
           {
               userList.map((name) =>
                 <tr>
                   <td>
                     <p>{name.name} </p>
-                    <br/>
+                  </td>
+                  <td>
                     <button onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </button>
+                  </td>
+                  <td>
                     <button onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </button>
                   </td>
                 </tr>
