@@ -27,7 +27,7 @@ class Queue extends Component {
       } catch (exception) {
         this.musicQueued.bind(this);
       }
-      console.log("roomKey: " + roomKey);
+      //console.log("roomKey: " + roomKey);
       var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
       songLocation.on('value', (song) => {
         let clear = [];
@@ -82,8 +82,8 @@ class Queue extends Component {
             songQueue.map((song) =>
               <tr>
                 <td> 
-                  <img 
-                    src={song.thumbnail} 
+                  <img
+                    src={song.thumbnail}
                     height="100" width="150"
                   />
                 </td>

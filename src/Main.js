@@ -20,6 +20,27 @@ class Main extends Component {
     this.getUserList = this.getUserList.bind(this);
   }
 
+  checkValidKey() {
+    var isValid = false;
+    var link = document.getElementById("roomLink").value;
+    var rooms = firebase.database().ref('rooms/');
+    rooms.once('value').then((snapshot) => {
+      snapshot.forEach((room) => {
+        console.log('Link: ' + link);
+        console.log('room: ' + room.key);
+        if (link === room.key) {
+          console.log("The Key is valid");
+          isValid = true;
+          return true;
+          this.joinRoom();
+        }
+      });
+    });
+    if (isValid == false) {
+      console.log("Not a Valid Key");
+    }
+  }
+
   joinRoom() {
     var temp = false;
     var link = document.getElementById("roomLink").value;
@@ -295,7 +316,7 @@ class Main extends Component {
             </label>
             <input id="roomLink" className="inputL" type="text"/>
             <button
-              className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
+              className="inputB" id="joinRoom" onClick={()=> this.checkValidKey()}>
               Join Room
             </button>
           </p>
