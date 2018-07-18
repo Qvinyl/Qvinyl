@@ -70,13 +70,15 @@ class Queue extends Component {
 
       <div className="scrollbox">
       <table className="table">
-        <tr>
-          <th></th>
-          <th>Track Name</th>
-          <th>Duration</th>
-          <th>Queued by</th>
-        </tr>
         {
+          /*
+          <tr>
+            <th></th>
+            <th>Track Name</th>
+            <th>Duration</th>
+            <th>Queued by</th>
+          </tr>
+          */
             songQueue.map((song) =>
               <tr>
                 <td> 
@@ -87,12 +89,11 @@ class Queue extends Component {
                 </td>
                 <td>
                   {song.title}
+                  <br />
+                  ({song.queueBy})
                 </td>
                 <td>
                   {song.duration}
-                </td>
-                <td>
-                  {song.queueBy}
                 </td>
               </tr>
             )

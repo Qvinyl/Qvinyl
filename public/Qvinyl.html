@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:3000/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="http://localhost:3000/manifest.json">
+    <link rel="shortcut icon" href="http://localhost:3000/favicon.ico">
+    <link rel="stylesheet" href="./Qvinyl_files/all.css">
+
+    <!--
+      Notice the use of  in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Qvinyl</title>
+  <style type="text/css">body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+</style><style type="text/css">body {
+  background: #232323;
+}
+
+.app {
+  text-align: center;
+}
+
+.flexbox {
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.banner {
+  position: absolute;
+  background: #191919;
+  width: 100%;
+  height: 100px;
+}
+
+.logo5 {
+  height: 10%;
+  margin-left: -10%;
+  margin-top: -3.5%;
+}
+
+.title {
+  color: white;
+  text-align: left;
+  font-weight: bold;
+  font-size: 72px;
+  padding: 10px;
+  margin-left: 40px;
+  height:1%;
+}
+
+.settings {
+  color: white;
+  font-size: 16px;
+  margin-left: 73%;
+  margin-top: 40px;
+}
+
+.settings:hover {
+  color: #0078ce;
+}
+</style><style type="text/css">.sidenav{
+  width:20%;
+  height: 100vh;
+  position: static;
+  background: #3a3a3a;
+  display: block;
+}
+
+.table1 {
+  width: 100%;
+}
+
+.td1 {
+  text-align: center;
+	color: white;
+  font-size: 20px;
+  font-weight: bold;
+  height: 40px;
+  margin: auto;
+}
+
+.td1:hover {
+	color: #0078ce;
+  background-color: #262626;
+}
+
+.searchroom {
+  margin-top: 120px;
+}
+
+.plus {
+  color: #0078ce;
+  font-size: 24px;
+  float: left;
+  margin-left: 35px;
+}
+
+.sidescrollbox {
+  width: 100%;
+  scrollbar-base-color: gold;
+  font-family:sans-serif;
+  overflow: auto;
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-top: 10px;
+  height: 82%;
+  width: 85%;
+}
+
+.addbox {
+  height: 200px;
+  width: 400px;
+  position: absolute;
+  background: blue;
+  margin-left: 35px;
+  display: none;
+}
+
+.inlink {
+  width: 160px;
+  height: 20px;
+  font-size: 16px;
+}
+</style><style type="text/css">.scrollbox {
+  margin: 15px 15px 15px 15px;
+  height: 32%;
+  /* background-color: #1c1f23; */
+  background-color: white;
+
+  overflow: auto;
+  color: black;
+  scrollbar-base-color: gold;
+  font-family:sans-serif;
+  padding:10px;
+  width: 70%;
+}
+
+.table {
+  width: 100%;
+}
+
+.tr2 {
+  border: 1px solid black;
+  height: 30px;
+  width: 100px;
+}
+</style><style type="text/css">.main{
+  width:80%;
+  height: 100vh;
+  /* background: white; */
+  position: static;
+  background: #232323;
+  display: block;
+}
+
+.mainTitle {
+  margin-top: 120px;
+  font-size: 36px;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.white {
+  color: white;
+}
+
+.inputcontainer{
+  width: 600px;
+  height: 50px;
+  margin: 0 auto;
+  display: block;
+}
+
+.linkT {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  float: left;
+}
+
+.inputL {
+  width: 25%;
+  float: left;
+  margin-left: 10px;
+  height: 20px;
+  font-size: 16px;
+}
+
+.inputB {
+  float: left;
+  height: 27px;
+  font-size: 22px;
+  margin-left: 10px;
+  background-color: #0078ce;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.queue {
+  margin-left: 50px;
+  margin-top: 50px;
+}
+</style><style type="text/css">.player {
+	background: white;
+ 	display: block;
+	width: 60%;
+	height: 100%;
+	margin-left: 50px;
+	margin-top: 150px;
+}
+
+.controls {
+	color: black;
+	text-decoration: none;
+	height: 20px;
+	width: 300px;
+	padding: 10px;
+	display: inline-block;
+	text-align: center;
+}
+
+.buttons {
+	font-size: 25px;
+	width: 50px;
+}
+
+.controls> a:hover {
+	background-color: gray;
+	color: lightgray;
+}
+
+.progressBar {
+	float: right;
+	width: 100%;
+}</style><style type="text/css">@import url(https://fonts.googleapis.com/css?family=Open+Sans|Pacifico);</style><style type="text/css">body{
+  margin:0;
+  padding:0;
+  font-family:sans-serif;
+  }
+
+  body,p{
+    margin:0;
+  }
+
+  p{
+    display:inline-block;
+    }
+
+.App{
+  background-color:#1ee494;
+  height:100vh;
+  width:100vw;
+  display:-ms-flexbox;
+  display:flex;
+  -ms-flex-align:center;
+  align-items:center;
+  -ms-flex-pack:center;
+  justify-content:center
+}
+
+#chatroom{
+  width:360px;
+  height:100vh;
+  
+  position: fixed; 
+  display: block;
+  right:0;
+  top:0;
+  -webkit-transition: -webkit-transform .3s cubic-bezier(0, .52, 0, 1);
+  transition: -webkit-transform .3s cubic-bezier(0, .52, 0, 1);
+  -o-transition: transform .3s cubic-bezier(0, .52, 0, 1);
+  transition: transform .3s cubic-bezier(0, .52, 0, 1);
+  transition: transform .3s cubic-bezier(0, .52, 0, 1), -webkit-transform .3s cubic-bezier(0, .52, 0, 1);
+  z-index: 0; 
+
+  margin-top:100px; 
+  background-color:rgba(255,255,255,1); /*main color of chat*/
+  border-radius:5px;
+  overflow:hidden;
+  -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,.3);
+  box-shadow:0 0 8px 0 rgba(0,0,0,.3);
+}
+
+#chatroom h3{
+  font-family:Pacifico,cursive;
+  background-color: #0078ce;
+  color:#fff;
+  margin:0;
+  height:40px;
+  font-size:20px;
+  display:-ms-flexbox;
+  display:flex;
+  -ms-flex-align:center;
+  align-items:center;
+  -ms-flex-pack:center;
+  justify-content:center
+}
+#chatroom .chats{
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
+  padding:0 20px;
+  margin:10px 0 0;
+  height:865px;
+  overflow-y:scroll;
+} 
+
+#chatroom .chats .chat{
+  background:hsla(0,0%,85%,.8);
+  position:relative;
+  padding:5px 13px;
+  font-size:14px;
+  border-radius:10px;
+  list-style:none;
+  float:left;clear:both;
+  margin:10px 0;
+  max-width:200px
+}
+
+#chatroom .chats .chat img{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  position:absolute;
+  top:-10px;
+  left:0
+}
+
+#chatroom .chats .chat.right{
+  float:right;
+  clear:both
+}
+
+
+#chatroom .chats .chat a{
+  text-decoration:none;
+  color:
+}
+
+#chatroom .input{
+  height:40px; 
+  margin-top:10px; /*Submit tab bar */
+   width:100%;
+   background:#0078ce; /*Color of Submit tab*/
+   display:-ms-flexbox;display:flex;
+   -ms-flex-direction:row;
+   flex-direction:row;
+   -ms-flex-align:center;
+   align-items:center
+ }
+
+#chatroom .input input[type=text]{
+  background:hsla(0,0%,100%,.5); /*color of chat input box*/
+  outline:0; 
+  border:2px solid #51aff7; /*border color of input box*/
+  padding:0 5px;
+  border-top-left-radius:5px;
+  border-bottom-left-radius:5px;
+  margin-left:10px;
+  width:270px;
+  height:25px;
+}
+
+#chatroom .input input[type=submit],.chatroom .input input[type=text]{
+  height:30px;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
+  font-size:14px
+  }
+
+#chatroom .input input[type=submit]{
+  background:transparent;
+  border:1px solid #51aff7; /*border color of submit*/
+  width:70px;border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  cursor:pointer;
+  -webkit-transition:all .3s ease;
+  -o-transition:all .3s ease;
+  transition:all .3s ease
+}
+
+#chatroom .input input[type=submit]:hover{
+  background:#51aff7;
+  color:#fff;
+}
+</style><script type="text/javascript" id="www-widgetapi-script" src="./Qvinyl_files/www-widgetapi.js" async=""></script><script type="text/javascript" charset="utf8" async="" src="./Qvinyl_files/iframe_api"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.75ee9b9d9c9155334949.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.d078f9abafc089240ce3.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.e5706fd32d5679194f1e.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.7e46684b1a9c094732a6.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.12ece28dc0d5fba196d6.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.068a43527790c3985a95.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.56af42e594855656db51.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.28463d491dc51b612a34.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.84ca03b7d554569fcd58.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.0e050efa46cdf9ab53e0.hot-update.js"></script><script type="text/javascript" charset="utf-8" src="./Qvinyl_files/0.e273c5d2848bffa46a17.hot-update.js"></script></head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"><div class="app"><div class="banner"><div class="flexbox"><div class="title">Qvinyl</div><pre id="object"></pre><a href="http://localhost:3000/login.html" class="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a></div></div><div class="flexbox"><div class="sidenav"><div class="searchroom"><i class="fas fa-plus-circle plus" id="plus"></i><input class="inlink" type="text" name="name" id="room"></div><div class="addbox" id="addbox" style="display: none;"><label class="linkT">Room Name:</label><input class="inlink" id="roomname"><label class="linkT">Room password:</label><input class="inlink" id="roompw"><button class="inputB" id="myBtn">Submit</button></div><div class="sidescrollbox"><table class="table1" id="roomList"><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Audio room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr><tr><td class="td1"> Study Music room </td></tr><tr><td class="td1"> Alternative room </td></tr><tr><td class="td1"> Friends room </td></tr></table></div></div><div class="main"><div class="mainTitle">Audio Room</div><div class="inputcontainer"><p><label class="linkT">Music Link:</label><input id="myLink" class="inputL" type="text"><button class="inputB" id="myBtn">Submit</button></p><br><p><label class="linkT">Room Link:</label><input id="roomLink" class="inputL" type="text"><button class="inputB" id="joinRoom">Join Room</button></p><br><p><button class="inputB">Room ID</button><label class="linkT" style="margin-left: 10px;"></label></p><br><p><button class="inputB">Kick User</button><input id="kickLink" class="inputL" type="text"></p><br><button class="inputB">get user</button></div><div class="video"><div class="player"><div class="controls"><a><i id="downvote" class="fas fa-thumbs-down buttons"></i></a><a><i class="fa fa-fast-forward buttons"></i></a><a><i class="fa fa-volume-down buttons"></i></a><a><i class="fa fa-video buttons"></i></a></div><div style="display: none;"><input type="range" min="0" max="1" step="0.05" value="0.5"></div><br><div><progress class="progressBar" max="1" value="0.23759953703184858"></progress></div><div style="display: block;"><div style="width: 100%; height: 360px;"><div style="width: 100%; height: 100%;"><iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="YouTube video player" width="100%" height="100%" src="./Qvinyl_files/jrTMMG0zJyI.html" id="widget2"></iframe></div></div></div></div></div><div class="queue"><div class="scrollbox"><table class="table"><tr><td>&nbsp;<img src="./Qvinyl_files/0.jpg" height="100" width="150"></td><td>Samurai ☯ Japanese Lofi HipHop Mix<br>(Kai Huang)</td><td>40:02</td></tr><tr><td>&nbsp;<img src="./Qvinyl_files/0(1).jpg" height="100" width="150"></td><td>lonely day - lofi hiphop mix<br>(Kai Huang)</td><td>43:18</td></tr><tr><td>&nbsp;<img src="./Qvinyl_files/0(2).jpg" height="100" width="150"></td><td>Saturday chillin'<br>(Kai Huang)</td><td>28:31</td></tr></table></div></div><table class="table"><tr><th></th><th>Names</th></tr><tr><td><p> </p><br><button value=""> Kick User </button><button value=""> Make Admin </button></td></tr></table></div><div id="chatroom"><h3>Chatroom</h3><ul class="chats"><li class="chat right"><b>Kai Huang</b><br><p>hello</p></li><li class="chat right"><b>Kai Huang</b><br><p></p></li><li class="chat right"><b>Kai Huang</b><br><p>what's up</p></li></ul><div class="messagebox"></div><form class="input"><input id="currentMessage" type="text"><input type="submit" value="Submit"></form></div></div></div></div>
+
+
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  <script type="text/javascript" src="./Qvinyl_files/bundle.js"></script>
+
+</body></html>
