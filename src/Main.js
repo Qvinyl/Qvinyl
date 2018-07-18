@@ -246,17 +246,12 @@ class Main extends Component {
           </p>
 
         </div>
-
-        <div style={{marginTop: 100}} className="trackplayinginfo">
-          <div className="flexbox2">
-            <div className="videoplayer">
-              <Player />
-            </div>
+          <div className="video">
+            <Player />
           </div>
-        </div>
-        <div style={{marginTop: 500}}>
-          <Queue />
-        </div>
+          <div className="queue">
+            <Queue />
+          </div>
       </div>
     );
   }
