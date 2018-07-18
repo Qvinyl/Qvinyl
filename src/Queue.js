@@ -22,7 +22,11 @@ class Queue extends Component {
     }
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
     getRoom.once('value').then((snapshot) => {
-      var roomKey = snapshot.val().currentRoom;
+      try {
+        var roomKey = snapshot.val().currentRoom;
+      } catch (exception) {
+        this.musicQueued.bind(this);
+      }
       console.log("roomKey: " + roomKey);
       var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
       songLocation.on('value', (song) => {
