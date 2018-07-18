@@ -116,8 +116,10 @@ class Main extends Component {
       var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
 
       var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
-      var youtubeAPI = 'https://www.googleapis.com/youtube/v3/videos?key=' 
+      var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key=' 
                       + APIkey + '&part=snippet&id=' + youtubeID;
+      var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key=' 
+      + APIkey + '&part=contentDetails&id=' + youtubeID;
 
       /*
       songLocation.push({
@@ -146,13 +148,20 @@ class Main extends Component {
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
         || link.includes("https://vimeo.com/")) {
-        fetch(youtubeAPI).then((response) => response.json()).then((json) => {
+        fetch(youtubeAPItitle).then((response) => response.json()).then((json) => {
           var title = json.items[0].snippet.title;
-          songLocation.push({
-            queueBy: name,
-            link: link,
-            thumbnail: youtubeImgURL,
-            title: title
+          fetch(youtubeAPIduration).then((response) => response.json()).then((json) => {
+            var duration = json.items[0].contentDetails.duration;
+            var minutes = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("M"));
+            var seconds = duration.slice(duration.lastIndexOf("M") + 1, duration.lastIndexOf("S"));
+            duration = minutes + ":" + seconds;
+            songLocation.push({
+              queueBy: name,
+              link: link,
+              thumbnail: youtubeImgURL,
+              title: title,
+              duration: duration
+            });
           });
         })
 

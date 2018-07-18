@@ -44,12 +44,14 @@ class Queue extends Component {
           var queueBy = childSnapshot.val().queueBy;
           var thumbnail = childSnapshot.val().thumbnail;
           var title = childSnapshot.val().title;
+          var duration = childSnapshot.val().duration;
           this.setState({
 						songQueue: this.state.songQueue.concat([{
 			        link: songLink,
               queueBy: queueBy,
               thumbnail: thumbnail,
-              title: title
+              title: title,
+              duration: duration
 						}])
 					});
         });
@@ -86,7 +88,9 @@ class Queue extends Component {
                 <td>
                   {song.title}
                 </td>
-                <td></td>
+                <td>
+                  {song.duration}
+                </td>
                 <td>
                   {song.queueBy}
                 </td>
