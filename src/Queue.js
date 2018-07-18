@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import "./Queue.css"
+import {Container, Row, Col, Button, Table} from 'reactstrap'
 class Queue extends Component {
   render () {
     return (
-      <div className="scrollbox">
-      <table className="table">
+      <Container className="scrollbox">
+      <Table className="table">
         <tr>
           <th>Track Name</th>
           <th>Duration</th>
@@ -12,8 +13,8 @@ class Queue extends Component {
           <th>Queued by</th>
         </tr>
 
-      </table>
-      </div>
+      </Table>
+      </Container>
     );
   }
 }

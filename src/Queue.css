@@ -1,6 +1,7 @@
 .scrollbox {
   /*margin: 15px 15px 15px 15px;*/
-  height: 32%;
+  height: 100%;
+  width: 100%;
   background-color: #1c1f23;
   overflow: auto;
   color: white;
@@ -14,5 +15,5 @@
 }
 
 .tr2 {
-  height: 30px;
+  height: 100%;
 }

@@ -1,8 +1,9 @@
 .main{
   width:100%;
-  height: 100%;
-  /* background: white; */
+  height: 70%;
+  
 
+  /* background: white; */
   background: #232323;
   display: block;
 }
@@ -20,21 +21,27 @@
 }
 
 .inputcontainer{
-  width: 20%;
-  height: 50px;
-  margin: 0 auto;
+  width: 90%;
+  height: 10%;
+
   display: block;
+  background-color: yellow;
+
 }
+
+
 
 .linkT {
   font-size: 20px;
   color: white;
   font-weight: bold;
   float: left;
+  width: 20%;
 }
 
 .inputL {
   width: 100%;
+
   float: left;
   margin-left: 10px;
   height: 100%;
@@ -43,7 +50,7 @@
 
 .inputB {
   float: left;
-  height: 100%;
+  height: 80%;
   font-size: 22px;
   margin-left: 20px;
   background-color: #0078ce;
@@ -65,4 +72,9 @@
   padding-top: 20px;
   margin-left: 60px;
   margin-right: 60px;
+}
+
+.linkRequest {
+  padding: 2% 2% 2% 2%;
+  height: 25%;
 }

@@ -82,7 +82,7 @@ class Sidenav extends Component {
       display: this.state.hideAddRoom ? "none" : "block"
     }
     return (
-      <Container className="sidenav">
+      <div className="sidenav">
           <Row className="searchroom">
              <InputGroup>
 
@@ -249,7 +249,7 @@ class Sidenav extends Component {
                 </tr>
               </Table>
             </div>
-      </Container>
+      </div>
     );
   }
 }

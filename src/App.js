@@ -55,19 +55,22 @@ class App extends Component {
          <Row>
             <Player/>
           </Row>
-          <Row>
-            <Main/>
-          </Row>
-          <Row>
-            <Col md={3}>
-              <Sidenav/>
-            </Col>
-            <Col md={6}>
-              <Queue/>
-            </Col>
-            <Col md={3}>
-              <Chat/>
-            </Col>
+          
+          <Row noGutters>
+                <Col md={3} >
+                  <Sidenav/>
+                </Col>
+                <Col md={6}>
+                  <Row>
+                    <Main/>
+                  </Row>
+                  <Row>
+                    <Queue/>
+                  </Row>
+                </Col>
+                <Col md={3}>
+                  <Chat/>
+                </Col>
           </Row>
           
           

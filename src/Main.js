@@ -91,67 +91,9 @@ class Main extends Component {
 
   render () {
     return (
+     <div className="main">
 
-    <Container fluid>
-              <div className="main">
-                <div className="mainTitle">Audio Room</div>
-
-                <div className="inputcontainer">
-                  {/***************** User Inputs ****************/}
-                  <p>
-                    <label className="linkT">
-                      Music Link:
-                    </label>
-                    <InputGroup>
-                        <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
-                        <Input placeholder="youtube.com" /> 
-                      
-                       <Button outline color="primary"
-                        className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
-                        Submit
-                       </Button>
-                    </InputGroup>
-                  </p>
-
-                 
-
-                  <p>
-                    <label className="linkT">
-                      Room Link:
-                    </label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
-                      <Input placeholder="https://Qvinyl/Rooms/a47BD89" /> 
-                          <Button outline color="primary"
-                            className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
-                            Join Room
-                          </Button>
-                    </InputGroup>
-                        </p>
-
-
-
-                        <p>
-                          <Button outline color="primary"
-                            className="inputB" onClick={this.getRoomName}>
-                            Room ID
-                          </Button>
-              
-
-
-                    <label style={{marginLeft: 10}} className="linkT">
-                      {this.state.currentRoomKey}
-                    </label>
-                  </p>
-
-                </div>
-
-                <div style={{margin: 100}} className="trackplayinginfo">
-                  <div className="flexbox2">
-                  </div>
-                </div>
-              </div>
-      </Container>
+     </div>        
     );
   }
 }
