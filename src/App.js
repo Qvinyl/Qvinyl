@@ -57,10 +57,10 @@ class App extends Component {
           </Row>
           
           <Row noGutters>
-                <Col md={3} >
+                <Col md={2} >
                   <Sidenav/>
                 </Col>
-                <Col md={6}>
+                <Col md={8}>
                   <Row>
                     <Main/>
                   </Row>
@@ -68,7 +68,7 @@ class App extends Component {
                     <Queue/>
                   </Row>
                 </Col>
-                <Col md={3}>
+                <Col md={2}>
                   <Chat/>
                 </Col>
           </Row>

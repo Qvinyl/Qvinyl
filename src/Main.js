@@ -10,7 +10,8 @@ class Main extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      currentRoomKey: ''
+      currentRoomKey: '',
+      collapse:false
     };
     this.getRoomName = this.getRoomName.bind(this);
   }
@@ -92,6 +93,49 @@ class Main extends Component {
   render () {
     return (
      <div className="main">
+      <div className="mainTitle"> Audio Room 
+        <i className="fa fa-id-card idcard" onClick={this.getRoomName}></i>
+      </div>
+   
+        <div className="mainInputContainer">
+       
+        <div className="inputContainer1">    
+          <label className="linkT">Music Link:</label>
+          <InputGroup className="musicLink">
+            <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
+            <Input placeholder="youtube.com"/>
+            <Button outline color="primary" className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+              Submit </Button>
+          </InputGroup>
+        </div> 
+
+       
+        <div className = "inputContainer1">
+         <label className="linkT">Room Link:</label>
+          <InputGroup className="musicLink">
+            <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
+            <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
+            <Button outline color="primary"
+                 className="inputB" id="joinRoom" onClick={()=> this.joinRoom()}>
+                   Join Room </Button>
+          </InputGroup>
+        </div>
+
+      </div>
+
+        
+
+       <p>
+
+                <Button outline color="primary">
+                   Room Selection </Button>
+      
+                
+                <label style={{marginLeft: 10}} className="linkT">
+                  {this.state.currentRoomKey}
+                </label>
+              </p>
+
 
      </div>        
     );

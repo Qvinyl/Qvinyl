@@ -1,6 +1,7 @@
 .main{
   width:100%;
   height: 70%;
+  position: relative;
   
 
   /* background: white; */
@@ -14,20 +15,24 @@
   color: white;
   font-weight: bold;
   padding: 10px;
+  position: relative;
 }
 
 .white {
   color: white;
 }
 
-.inputcontainer{
-  width: 90%;
-  height: 10%;
+.inputContainer1{
 
-  display: block;
-  background-color: yellow;
+  padding: 2% 2% 2% 2%;
+  float: left;
+  margin: 0 auto;
+  width: 50%;
+  height:10%;
+  vertical-align: middle;
 
 }
+
 
 
 
@@ -36,7 +41,7 @@
   color: white;
   font-weight: bold;
   float: left;
-  width: 20%;
+  width: 50%;
 }
 
 .inputL {
@@ -76,5 +81,18 @@
 
 .linkRequest {
   padding: 2% 2% 2% 2%;
-  height: 25%;
+  
+}
+
+.musicLink {
+  width:50px;
+}
+
+.idcard {
+ color: #0078ce;
+  font-size: 24px;
+  cursor: pointer;
+  float: right;
+  padding-right: 5%;
+
 }
