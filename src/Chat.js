@@ -88,7 +88,6 @@ class Chat extends React.Component {
 				}
 	   		});
 	    });
-
     }
 
     componentDidUpdate() {

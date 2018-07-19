@@ -15,49 +15,51 @@ class Queue extends Component {
   }
 
   musicQueued() {
-    try {
-      var userID = firebase.auth().currentUser.uid;
-    } catch(exception) {
-      this.musicQueued.bind(this);
-    }
-    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-    getRoom.once('value').then((snapshot) => {
+    setInterval(() => {
       try {
-        var roomKey = snapshot.val().currentRoom;
-      } catch (exception) {
+        var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
         this.musicQueued.bind(this);
       }
-      //console.log("roomKey: " + roomKey);
-      var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
-      songLocation.on('value', (song) => {
-        let clear = [];
-        this.setState({
-          songQueue: clear
-        })
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+      getRoom.once('value').then((snapshot) => {
         try {
-          var keys = Object.keys(song.val());
-        } catch(exception) {
-          this.musicQueued();
+          var roomKey = snapshot.val().currentRoom;
+          console.log("child room: " + roomKey);
+        } catch (exception) {
+          this.musicQueued.bind(this);
         }
-        song.forEach((childSnapshot) => {
-          var songLink = childSnapshot.val().link;
-          var queueBy = childSnapshot.val().queueBy;
-          var thumbnail = childSnapshot.val().thumbnail;
-          var title = childSnapshot.val().title;
-          var duration = childSnapshot.val().duration;
+        //console.log("roomKey: " + roomKey);
+        var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
+        songLocation.on('value', (song) => {
+          let clear = [];
           this.setState({
-						songQueue: this.state.songQueue.concat([{
-			        link: songLink,
-              queueBy: queueBy,
-              thumbnail: thumbnail,
-              title: title,
-              duration: duration
-						}])
-					});
+            songQueue: clear
+          })
+          try {
+            var keys = Object.keys(song.val());
+          } catch(exception) {
+            this.musicQueued();
+          }
+          song.forEach((childSnapshot) => {
+            var songLink = childSnapshot.val().link;
+            var queueBy = childSnapshot.val().queueBy;
+            var thumbnail = childSnapshot.val().thumbnail;
+            var title = childSnapshot.val().title;
+            var duration = childSnapshot.val().duration;
+            this.setState({
+  						songQueue: this.state.songQueue.concat([{
+  			        link: songLink,
+                queueBy: queueBy,
+                thumbnail: thumbnail,
+                title: title,
+                duration: duration
+  						}])
+  					});
+          });
         });
       });
-    });
-
+    }, 500);
   }
 
   componentDidMount() {
