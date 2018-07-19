@@ -3,6 +3,7 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
 import firebase from 'firebase'
 import './Queue.css';
 
@@ -302,74 +303,71 @@ class Main extends Component {
     const {userList} = this.state;
     return (
       <div className="main">
-        <div className="mainTitle">Audio Room</div>
-        <div className="inputcontainer">
-
-          <p>
-            <label className="linkT">
-              Music Link:
-            </label>
-            <input id="myLink" className="inputL" type="text"/>
-
-            <button
-              className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
-              Submit
-            </button>
-          </p>
-
-          <br />
-
-          <p>
-            <label className="linkT">
-              Room Link:
-            </label>
-            <input id="roomLink" className="inputL" type="text"/>
-            <button
-              className="inputB" id="joinRoom" onClick={()=> this.checkValidKey()}>
-              Join Room
-            </button>
-          </p>
-
-          <br />
-
-          <p>
-            <button
-              className="inputB" onClick={this.getRoomName}>
-              Room ID
-            </button>
-            <label style={{marginLeft: 10}} className="linkT">
+        <div className="mainTitle">Audio Room
+          <i className="fa fa-id-card idcard" onClick={this.getRoomName}></i>
+          <label style={{marginLeft: 10}} className="linkT">
               {this.state.currentRoomKey}
-            </label>
-          </p>
-
-          <br />
-
-          <p>
-            <button
-              className="inputB" onClick={this.kickUser}>
-              Kick User
-            </button>
-            <input id="kickLink" className="inputL" type="text"/>
-          </p>
+          </label>
         </div>
 
-        <table className="scrollbox">
+        <div className="mainInputContainer">
+
+          <div className="inputContainer">
+            <label className="linkT">Music Link:</label>
+            <InputGroup className="musicLink">
+              <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
+              <Input placeholder="youtube.com"/>
+              <Button  color="primary" className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+                Submit  
+              </Button>
+            </InputGroup>
+          </div>
+
+  
+
+          <div className="inputContainer">
+            <label className="linkT"> Room Link: </label>
+            <InputGroup className="roomLink">
+              <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
+              <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
+              <Button color="primary" className="inputB" id="myBtn" onClick={()=> this.checkValidKey()}>
+                Join Room
+              </Button>
+            </InputGroup> 
+          </div>
+
+         
+          <div className="kickUserContainer">
+            <InputGroup>
+            <InputGroupAddon addonType="prepend">@</InputGroupAddon>
+            <Input placeholder="Your music sucks"/>
+              <Button color="primary"
+                className="inputB" id="myBtn" onClick={this.kickUser}>
+                Kick User
+              </Button>
+            </InputGroup>
+          </div>
+
+
+        </div>
+
+        <Table className="scrollbox">
           {
               userList.map((name) =>
                 <tr>
-                  <td>
-                    <p>{name.name} </p>
+                  <td className="userNames">
+                    {name.name} 
                   </td>
                   <td>
-                    <button onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </button>
+                    <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
                   </td>
                   <td>
-                    <button onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </button>
+                    <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
                   </td>
                 </tr>
               )
           }
-        </table>
+        </Table>
       </div>
     );
   }
