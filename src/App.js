@@ -6,6 +6,8 @@ import Main from './Main'
 import Chat from './Chat'
 import * as firebase from 'firebase';
 
+{/*Jac is testing pushing on master lol*/}
+
 var config = {
     apiKey: "AIzaSyDG-IPOENqC8cDOdsm683gz-MGQUYroero",
     authDomain: "qvinyl-d222d.firebaseapp.com",
