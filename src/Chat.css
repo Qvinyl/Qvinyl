@@ -27,7 +27,7 @@ body{
 }
 
 #chatroom{
-  width:400px;
+  width:320px;
   height:100%;
   
   position: fixed; 
@@ -102,7 +102,7 @@ body{
 
 #chatroom .input{
   height:40px; 
-  margin-top:170px; /*Submit tab bar */
+  margin-top:0px; /*Submit tab bar */
    width:100%;
    background: #808080; /*Color of Submit tab*/
    display:-ms-flexbox;display:flex;
