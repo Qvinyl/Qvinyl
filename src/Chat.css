@@ -27,7 +27,7 @@ body{
 }
 
 #chatroom{
-  width:360px;
+  width:400px;
   height:100%;
   
   position: fixed; 
@@ -38,7 +38,7 @@ body{
   z-index: 0; 
 
   margin-top:100px; 
-  background-color:rgba(255,255,255,1); /*main color of chat*/
+  background-color:rgba(255,255,255,0); /*main color of chat*/
   border-radius:5px;
   overflow:hidden;
   -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,.3);
@@ -47,7 +47,7 @@ body{
 
 #chatroom h3{
   font-family:Pacifico,cursive;
-  background-color: #0078ce;
+  background-color: #232323;
   color:#fff;
   margin:0;
   height:40px;
@@ -102,9 +102,9 @@ body{
 
 #chatroom .input{
   height:40px; 
-  margin-top:10px; /*Submit tab bar */
+  margin-top:170px; /*Submit tab bar */
    width:100%;
-   background:#0078ce; /*Color of Submit tab*/
+   background: #808080; /*Color of Submit tab*/
    display:-ms-flexbox;display:flex;
    -ms-flex-direction:row;
    flex-direction:row;
@@ -115,7 +115,7 @@ body{
 #chatroom .input input[type=text]{
   background:hsla(0,0%,100%,.5); /*color of chat input box*/
   outline:0; 
-  border:2px solid #51aff7; /*border color of input box*/
+  border:2px solid white; /*border color of input box*/
   padding:0 5px;
   border-top-left-radius:5px;
   border-bottom-left-radius:5px;
@@ -133,7 +133,7 @@ body{
 
 #chatroom .input input[type=submit]{
   background:transparent;
-  border:1px solid #51aff7; /*border color of submit*/
+  border:1px solid black; /*border color of submit*/
   width:70px;border-top-right-radius:5px;
   border-bottom-right-radius:5px;
   cursor:pointer;

@@ -279,7 +279,6 @@ class Main extends Component {
 
   getRoomName() {
     var userID = firebase.auth().currentUser.uid;
-    var link = document.getElementById("myLink").value;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then((snapshot) => {
       try {
@@ -316,8 +315,8 @@ class Main extends Component {
             <label className="linkT">Music Link:</label>
             <InputGroup >
               <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
-              <Input placeholder="youtube.com"/>
-              <Button  color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
+              <Input id="myLink" placeholder="youtube.com"/>
+              <Button color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
                 Submit  
               </Button>
             </InputGroup>
@@ -349,6 +348,10 @@ class Main extends Component {
           </div>
 
 
+        </div>
+
+        <div>
+          <Queue />
         </div>
 
         <Table className="scrollbox">

@@ -56,12 +56,9 @@ class App extends Component {
             <Row>
               <Main/>
             </Row>
-            <Row>
-              <Queue/>
-            </Row>
           </Col>
           <Col md="2">
-            {/*<Chat/>*/}
+            <Chat/>
           </Col>
         </Row>
 
