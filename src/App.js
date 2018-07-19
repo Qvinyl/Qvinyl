@@ -34,7 +34,9 @@ class App extends Component {
         <Row>
           <div className="banner">
             <div className="flexbox">
-              <div className="title">Qvinyl</div>
+              <div className="title">
+                <img className="logo" src="Qvinyl.png"/>
+              </div>
               <pre id="object"></pre>
               <Button outline color="primary" href="login.html" onClick={logoutButton} className="button"> Logout</Button>
             </div>

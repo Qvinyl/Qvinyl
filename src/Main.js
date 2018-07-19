@@ -17,6 +17,7 @@ class Main extends Component {
         name: '',
         id: ''
       }],
+      roomTitle: '',
       currentRoomKey: ''
     };
     this.getRoomName = this.getRoomName.bind(this);
@@ -198,6 +199,36 @@ class Main extends Component {
           });
         });
       });
+
+      try {
+        var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
+        this.getUserList.bind(this);
+      }
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+      getRoom.on('value', (snapshot) => {
+        try {
+          var roomKey = snapshot.val().currentRoom;
+          console.log("currentRoom: " + roomKey);
+        } catch (exception) {
+          this.getUserList.bind(this);
+        }
+        let clear = [];
+        this.setState({
+          userList: clear
+        })
+        var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+        roomLocation.once('value').then((snapshot) => {
+          try {
+            var roomTitle = snapshot.val().roomname;
+          } catch(exception) {
+            this.getUserList();
+          }  
+          this.setState({
+            roomTitle: roomTitle
+          })
+        });
+      });
   }
 
   pushMusicToDB() {
@@ -302,7 +333,7 @@ class Main extends Component {
     const {userList} = this.state;
     return (
       <div className="main">
-        <div className="mainTitle">Audio Room
+        <div className="mainTitle">{this.state.roomTitle}
           <i className="fa fa-id-card idcard" onClick={this.getRoomName}></i>
           <label style={{marginLeft: 10}} className="linkT">
               {this.state.currentRoomKey}

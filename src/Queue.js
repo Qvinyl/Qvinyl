@@ -26,7 +26,7 @@ class Queue extends Component {
       getRoom.once('value').then((snapshot) => {
         try {
           var roomKey = snapshot.val().currentRoom;
-          console.log("child room: " + roomKey);
+          //console.log("child room: " + roomKey);
         } catch (exception) {
           this.musicQueued.bind(this);
         }

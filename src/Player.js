@@ -214,7 +214,7 @@ class Player extends Component {
 				songLocation.limitToFirst(1).once('value').then((snapshot) => {
 					snapshot.forEach((childSnapshot) => {
 						var songLink = childSnapshot.val().link;
-						console.log("loaded song interval: " + songLink);
+						//console.log("loaded song interval: " + songLink);
 						this.setState({
 							song: songLink
 						});
@@ -273,6 +273,7 @@ class Player extends Component {
 						onInput={this.changeVolume}
 						step="0.05" />
 				</div>
+
 				<div>
 					<progress className="progressBar"
 						max='1'
@@ -281,18 +282,34 @@ class Player extends Component {
 				</div>
 
 				<div className="controls">
-					<a onClick={this.checkUserDownVote}>
-						<i id = "downvote" className="fas fa-thumbs-down buttons" ></i>
-					</a>
-					<a onClick={this.middleOfSong}>
-						<i className="fa fa-fast-forward buttons"></i>
-					</a>
-					<a onClick={this.hideVolume}>
-						<i className="fa fa-volume-down buttons"></i>
-					</a>
-					<a onClick={this.hideVideo}>
-						<i className="fa fa-video buttons"></i>
-					</a>
+					<div className="thumbsdown">
+						<a style={{marginRight:20}} onClick={this.checkUserDownVote}>
+							<i id = "downvote" className="fas fa-thumbs-down" ></i>
+						</a>
+						<a onClick={this.hideVideo}>
+							<i className="fa fa-video buttons"></i>
+						</a>
+					</div>
+					<div className="volumeDiv">
+						<input className="volumeSet"
+							type="range"
+							min="0" max="1"
+							value={this.state.volume}
+							onInput={this.changeVolume}
+							step="0.05" />
+					</div>
+
+					{/*
+										<a onClick={this.middleOfSong}>
+											<i className="fa fa-fast-forward buttons"></i>
+										</a>
+										<a onClick={this.hideVolume}>
+											<i className="fa fa-volume-down buttons"></i>
+										</a>
+										<a onClick={this.hideVideo}>
+											<i className="fa fa-video buttons"></i>
+										</a>
+										*/}
 				</div>
 			</div>
 		);

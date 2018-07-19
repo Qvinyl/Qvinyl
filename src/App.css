@@ -53,3 +53,10 @@ body {
   margin-left: 80%;
   /*float: right; does not work hmm*/
 }
+
+.logo {
+  width: 40%;
+  height: 40%;
+  margin-top: -60px;
+  margin-left: -30px;
+}
