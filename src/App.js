@@ -5,6 +5,7 @@ import Sidenav from './Sidenav'
 import Main from './Main'
 import Chat from './Chat'
 import Player from './Player'
+import Queue from './Queue'
 import * as firebase from 'firebase';
 import {Container, Row, Col, Button} from 'reactstrap'
 
@@ -52,7 +53,12 @@ class App extends Component {
             <Sidenav/>
           </Col>
           <Col md="8">
-            <Main/>
+            <Row>
+              <Main/>
+            </Row>
+            <Row>
+              <Queue/>
+            </Row>
           </Col>
           <Col md="2">
             {/*<Chat/>*/}

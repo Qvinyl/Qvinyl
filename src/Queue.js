@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "./Queue.css"
+import {Container, Row, Col, Button, Table} from 'reactstrap'
 import firebase from 'firebase';
 
 class Queue extends Component {
@@ -71,7 +72,7 @@ class Queue extends Component {
     return (
 
       <div className="scrollbox">
-      <table className="table">
+      <Table className="table">
         {
           /*
           <tr>
@@ -100,7 +101,7 @@ class Queue extends Component {
               </tr>
             )
         }
-      </table>
+      </Table>
       </div>
     );
   }
