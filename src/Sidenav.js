@@ -71,14 +71,14 @@ class Sidenav extends Component {
     });
  }
 
- getRoomNames() {
+ getRoomList() {
    try {
      var userID = firebase.auth().currentUser.uid;
    } catch(exception) {
-     this.getRoomNames.bind(this);
+     this.getRoomList.bind(this);
    }
    var roomList = firebase.database().ref('rooms/');
-   roomList.once('value').then((snapshot) => {
+   roomList.on('value', (snapshot) => {
      let clear = [];
      this.setState({
        roomList: clear
@@ -88,11 +88,11 @@ class Sidenav extends Component {
       var roomKey = childSnapshot.key;
       var privacy = childSnapshot.val().privacy;
       if (privacy == false) {
-        console.log(childSnapshot.val().roomname);
+        //console.log(childSnapshot.val().roomname);
         try {
           var keys = Object.keys(childSnapshot.val());
         } catch(exception) {
-          this.getRoomNames();
+          this.getRoomList();
         }
         this.setState({
             roomList: this.state.roomList.concat([{
@@ -106,8 +106,8 @@ class Sidenav extends Component {
  }
 
  createRoom() {
-   var uid = firebase.auth().currentUser.uid;
-   var name = firebase.auth().currentUser.displayName;
+    var uid = firebase.auth().currentUser.uid;
+    var name = firebase.auth().currentUser.displayName;
     var database = firebase.database();
     var roomName = document.getElementById("roomname").value;
     var roomPW = document.getElementById("roompw").value;
@@ -139,6 +139,11 @@ class Sidenav extends Component {
     console.log(userID);
  }
 
+
+  componentDidMount() {
+    setTimeout(this.getRoomList.bind(this), 1000);
+  }
+
   render () {
     const {roomList} = this.state;
     var addButton = {
@@ -149,7 +154,6 @@ class Sidenav extends Component {
         <div className="searchroom">
           <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
           <input className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
-          <button onClick={()=> this.getRoomNames()}>Submit</button>
         </div>
         <div style={addButton} className="addbox" id="addbox">
           <label className="linkT">

@@ -292,6 +292,10 @@ class Main extends Component {
     });
   }
 
+  componentDidMount() {
+    setTimeout(this.getUserList.bind(this), 1000);
+  }
+
   render () {
     const {userList} = this.state;
     return (
@@ -345,12 +349,6 @@ class Main extends Component {
             </button>
             <input id="kickLink" className="inputL" type="text"/>
           </p>
-
-          <br />
-          <button
-            className="inputB" onClick={this.getUserList}>
-            get user
-          </button>
         </div>
 
         <div className="video">

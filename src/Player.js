@@ -175,6 +175,7 @@ class Player extends Component {
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
 				snapshot.forEach((childSnapshot) => {
 					var songLink = childSnapshot.val().link;
+					console.log("loaded song: " + songLink);
 					this.setState({
 						song: songLink
 					});
@@ -213,6 +214,7 @@ class Player extends Component {
 				songLocation.limitToFirst(1).once('value').then((snapshot) => {
 					snapshot.forEach((childSnapshot) => {
 						var songLink = childSnapshot.val().link;
+						console.log("loaded song interval: " + songLink);
 						this.setState({
 							song: songLink
 						});
@@ -228,7 +230,6 @@ class Player extends Component {
 
   	componentDidMount() {
 	 	setTimeout(this.onPageLoad.bind(this), 2000);
-
  	}
 
 	ref = player => {
