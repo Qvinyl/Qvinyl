@@ -1,9 +1,12 @@
 body {
-  background: #232323;
+  background: black;
 }
 
 .app {
   text-align: center;
+  margin-left: -15px;
+  margin-right: -15px;
+  background: black;
 }
 
 .flexbox {

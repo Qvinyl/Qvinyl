@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
 // import ReactPlayer from 'react-player'
 import './Sidenav.css';
+import {
+  Table, 
+  Modal, 
+  ModalHeader, 
+  ModalBody, 
+  ModalFooter, 
+  Button, 
+  Input, 
+  InputGroup, 
+  InputGroupAddon
+} from 'reactstrap'
 import firebase from 'firebase';
 
 class Sidenav extends Component {
@@ -11,13 +22,15 @@ class Sidenav extends Component {
           roomName: '',
           roomKey: '',
         }],
-      hideAddRoom: true
+      addingRoom: false
     };
+
+    this.addRoom = this.addRoom.bind(this);
   }
 
   addRoom() {
     this.setState({
-      hideAddRoom: !this.state.hideAddRoom
+      addingRoom: !this.state.addingRoom
     })
   }
 
@@ -106,6 +119,7 @@ class Sidenav extends Component {
  }
 
  createRoom() {
+    this.addRoom();
     var uid = firebase.auth().currentUser.uid;
     var name = firebase.auth().currentUser.displayName;
     var database = firebase.database();
@@ -146,41 +160,54 @@ class Sidenav extends Component {
 
   render () {
     const {roomList} = this.state;
-    var addButton = {
-      display: this.state.hideAddRoom ? "none" : "block"
-    }
+
     return (
       <div className="sidenav">
-        <div className="searchroom">
-          <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
-          <input className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
-        </div>
-        <div style={addButton} className="addbox" id="addbox">
-          <label className="linkT">
-            Room Name:
-          </label>
-          <input className="inlink" id="roomname"/>
-          <label className="linkT">
-            Room password:
-          </label>
-          <input className="inlink" id="roompw"/>
-          <button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</button>
-          <br/>
-          <input id="privacy" name="private" type="checkbox"  /> Make Private
-        </div>
-        <div className="sidescrollbox">
-          <table className="table1" id="roomList">
-            {
-                roomList.map((room) =>
-                  <tr>
-                    <td>
-                      <button className="td1" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </button>
+          <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <Button>
+                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+              </Button>
+            </InputGroupAddon>
+            <Input placeholder="Search Room Name" className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
+          </InputGroup>
+        <Modal isOpen={this.state.addingRoom} toggle={this.addRoom}>
+          <ModalHeader toggle={this.addRoom}>Add New Room</ModalHeader>
+          <ModalBody>
+            <div className="addbox" id="addbox">
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">Room Name</InputGroupAddon>
+                <Input placeholder="" id="roomname"/>
+              </InputGroup>
+              <br />
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">Room Password</InputGroupAddon>
+                <Input placeholder="" id="roompw"/>
+              </InputGroup>
+              
+              <br/>
+              <input id="privacy" name="private" type="checkbox"  /> Make Private
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" id="myBtn" onClick={()=> this.createRoom()}>Submit</Button>
+            <Button color="secondary" onClick={this.addRoom}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
 
-                    </td>
-                  </tr>
-                )
+        <div className="sidescrollbox">
+          <Table borderless id="roomList">
+            {
+              roomList.map((room) =>
+                <tr>
+                  <td>
+                    <Button onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </Button>
+
+                  </td>
+                </tr>
+              )
             }
-          </table>
+          </Table>
         </div>
       </div>
     );

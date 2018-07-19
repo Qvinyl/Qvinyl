@@ -41,24 +41,23 @@ class App extends Component {
         </Row>
 
         <Row>
-          <Player/>
+          <Col md="12">
+            <Player/>
+          </Col>
         </Row>
 
 
         <Row>
-          <Col>
+          <Col md="2">
             <Sidenav/>
           </Col>
-          <Col>
+          <Col md="8">
             <Main/>
           </Col>
-          <Col>
-            <Chat/>
+          <Col md="2">
+            {/*<Chat/>*/}
           </Col>
         </Row>
-
-
-        
 
       </div>
     </Container>

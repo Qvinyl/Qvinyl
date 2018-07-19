@@ -1,14 +1,11 @@
 .player {
-	background: white;
+	background: black;
  	display: block;
-	width: 60%;
-	height: 100%;
-	margin-left: 50px;
-	margin-top: 150px;
+	width: 100%;
+	margin-top: 120px;
 }
 
 .controls {
-	color: black;
 	text-decoration: none;
 	height: 20px;
 	width: 300px;
@@ -20,11 +17,6 @@
 .buttons {
 	font-size: 25px;
 	width: 50px;
-}
-
-.controls> a:hover {
-	background-color: gray;
-	color: lightgray;
 }
 
 .progressBar {

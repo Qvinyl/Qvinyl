@@ -250,6 +250,36 @@ class Player extends Component {
 
 		return (
 			<div className="player">
+
+
+				<div style={video}>
+					<ReactPlayer
+						ref={this.ref}
+						playing={true}
+						volume={this.state.volume}
+						url={this.state.song}
+						width="100%"
+						height="900px"
+						onProgress={this.onProgress}
+						onEnded={this.skipVideo}
+					/>
+				</div>
+
+				<div style={volumeSettings}>
+					<input
+						type="range"
+						min="0" max="1"
+						value={this.state.volume}
+						onInput={this.changeVolume}
+						step="0.05" />
+				</div>
+				<div>
+					<progress className="progressBar"
+						max='1'
+						value={this.state.played}
+					/>
+				</div>
+
 				<div className="controls">
 					<a onClick={this.checkUserDownVote}>
 						<i id = "downvote" className="fas fa-thumbs-down buttons" ></i>
@@ -263,36 +293,6 @@ class Player extends Component {
 					<a onClick={this.hideVideo}>
 						<i className="fa fa-video buttons"></i>
 					</a>
-				</div>
-
-				<div style={volumeSettings}>
-					<input
-						type="range"
-						min="0" max="1"
-						value={this.state.volume}
-						onInput={this.changeVolume}
-						step="0.05" />
-				</div>
-
-				<br />
-
-				<div>
-					<progress className="progressBar"
-						max='1'
-						value={this.state.played}
-					/>
-				</div>
-
-				<div style={video}>
-					<ReactPlayer
-						ref={this.ref}
-						playing={true}
-						volume={this.state.volume}
-						url={this.state.song}
-						width="100%"
-						onProgress={this.onProgress}
-						onEnded={this.skipVideo}
-					/>
 				</div>
 			</div>
 		);
