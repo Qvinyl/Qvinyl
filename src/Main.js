@@ -155,46 +155,46 @@ class Main extends Component {
   }
 
   getUserList() {
-    try {
-      var userID = firebase.auth().currentUser.uid;
-    } catch(exception) {
-      this.getUserList.bind(this);
-    }
-    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-    getRoom.once('value').then((snapshot) => {
       try {
-        var roomKey = snapshot.val().currentRoom;
-      } catch (exception) {
+        var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
         this.getUserList.bind(this);
       }
-      //console.log("roomKey: " + roomKey);
-      var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
-      userList.on('value', (user) => {
-        user.forEach((childSnapshot) => {
-          var id = childSnapshot.val();
-          console.log(id);
-          let clear = [];
-          this.setState({
-            userList: clear
-          })
-          try {
-            var keys = Object.keys(childSnapshot.val());
-          } catch(exception) {
-            this.getUserList();
-          }
-          var getName = firebase.database().ref('users/' + id + '/name');
-          getName.once('value').then((name) => {
-              var gotName = name.val();
-              this.setState({
-    					    userList: this.state.userList.concat([{
-    			        name: gotName,
-                  id: id
-    					}])
-            });
-					});
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+      getRoom.once('value').then((snapshot) => {
+        try {
+          var roomKey = snapshot.val().currentRoom;
+        } catch (exception) {
+          this.getUserList.bind(this);
+        }
+        //console.log("roomKey: " + roomKey);
+        var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
+        userList.on('value', (user) => {
+          user.forEach((childSnapshot) => {
+            var id = childSnapshot.val();
+            console.log(id);
+            let clear = [];
+            this.setState({
+              userList: clear
+            })
+            try {
+              var keys = Object.keys(childSnapshot.val());
+            } catch(exception) {
+              this.getUserList();
+            }
+            var getName = firebase.database().ref('users/' + id + '/name');
+            getName.once('value').then((name) => {
+                var gotName = name.val();
+                this.setState({
+      					    userList: this.state.userList.concat([{
+      			        name: gotName,
+                    id: id
+      					}])
+              });
+  					});
+          });
         });
       });
-    });
   }
 
   pushMusicToDB() {
