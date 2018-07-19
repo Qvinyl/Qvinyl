@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 // import ReactPlayer from 'react-player'
 import './Sidenav.css';
 import {
-  Table, 
-  Modal, 
-  ModalHeader, 
-  ModalBody, 
-  ModalFooter, 
-  Button, 
-  Input, 
-  InputGroup, 
+  Table,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Input,
+  InputGroup,
   InputGroupAddon
 } from 'reactstrap'
 import firebase from 'firebase';
@@ -184,7 +184,7 @@ class Sidenav extends Component {
                 <InputGroupAddon addonType="prepend">Room Password</InputGroupAddon>
                 <Input placeholder="" id="roompw"/>
               </InputGroup>
-              
+
               <br/>
               <input id="privacy" name="private" type="checkbox"  /> Make Private
             </div>
@@ -201,7 +201,7 @@ class Sidenav extends Component {
               roomList.map((room) =>
                 <tr>
                   <td>
-                    <Button onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </Button>
+                    <Button className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </Button>
 
                   </td>
                 </tr>

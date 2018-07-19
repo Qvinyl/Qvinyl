@@ -223,7 +223,7 @@ class Main extends Component {
             var roomTitle = snapshot.val().roomname;
           } catch(exception) {
             this.getUserList();
-          }  
+          }
           this.setState({
             roomTitle: roomTitle
           })
@@ -334,7 +334,7 @@ class Main extends Component {
     return (
       <div className="main">
         <div className="mainTitle">{this.state.roomTitle}
-          <i className="fa fa-id-card idcard" onClick={this.getRoomName}></i>
+          <i className="fas fa-key idcard" onClick={this.getRoomName}></i>
           <label style={{marginLeft: 10}} className="linkT">
               {this.state.currentRoomKey}
           </label>
@@ -348,12 +348,12 @@ class Main extends Component {
               <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
               <Input id="myLink" placeholder="youtube.com"/>
               <Button color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
-                Submit  
+                Submit
               </Button>
             </InputGroup>
           </div>
 
-  
+
 
           <div className="inputContainer">
             <label className="linkT"> Room Link: </label>
@@ -363,21 +363,8 @@ class Main extends Component {
               <Button color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
                 Join Room
               </Button>
-            </InputGroup> 
-          </div>
-
-         
-          <div className="kickUserContainer">
-            <InputGroup>
-            <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-            <Input placeholder="Your music sucks"/>
-              <Button color="primary"
-                className="inputB" id="myBtn" onClick={this.kickUser}>
-                Kick User
-              </Button>
             </InputGroup>
           </div>
-
 
         </div>
 
@@ -390,7 +377,7 @@ class Main extends Component {
               userList.map((name) =>
                 <tr>
                   <td className="userNames">
-                    {name.name} 
+                    {name.name}
                   </td>
                   <td>
                     <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>

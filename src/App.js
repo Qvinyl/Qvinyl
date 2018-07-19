@@ -29,13 +29,13 @@ class App extends Component {
   render () {
     return (
 
-    <Container fluid>  
+    <Container fluid>
       <div className="app">
         <Row>
           <div className="banner">
             <div className="flexbox">
               <div className="title">
-                <img className="logo" src="Qvinyl.png"/>
+                <img className="logo" src="logo6.png"/>
               </div>
               <pre id="object"></pre>
               <Button outline color="primary" href="login.html" onClick={logoutButton} className="button"> Logout</Button>
