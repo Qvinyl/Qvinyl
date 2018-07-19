@@ -259,7 +259,7 @@ class Player extends Component {
 						volume={this.state.volume}
 						url={this.state.song}
 						width="100%"
-						height="900px"
+						height="500px"
 						onProgress={this.onProgress}
 						onEnded={this.skipVideo}
 					/>
