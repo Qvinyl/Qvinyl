@@ -7,6 +7,10 @@ class Sidenav extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      roomList: [{
+          roomName: '',
+          roomKey: '',
+        }],
       hideAddRoom: true
     };
   }
@@ -32,12 +36,82 @@ class Sidenav extends Component {
    }
  }
 
+ joinPublicRoom(roomKey) {
+   var temp = false;
+   var userID = firebase.auth().currentUser.uid;
+   var displayName = firebase.auth().currentUser.displayName;
+   var getUser= firebase.database().ref('users/' + userID);
+   getUser.push();
+   getUser.set({
+     name: displayName
+   })
+   var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+   getRoom.push();
+   getRoom.set({
+     currentRoom: roomKey
+   })
+   var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
+   updateUsers.once('value').then((snapshot) => {
+     snapshot.forEach((childSnapshot) => {
+       var user = childSnapshot.val();
+        if (childSnapshot.val() === userID) {
+            console.log(childSnapshot.val() === userID);
+            temp = true;
+            return true;
+        }
+      });
+      if (temp == false) {
+        console.log(userID);
+        updateUsers.push(userID);
+        var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
+        numUsers.transaction(function(numberOfUsers) {
+          return (numberOfUsers || 0) + 1;
+        });
+      }
+    });
+ }
+
+ getRoomNames() {
+   try {
+     var userID = firebase.auth().currentUser.uid;
+   } catch(exception) {
+     this.getRoomNames.bind(this);
+   }
+   var roomList = firebase.database().ref('rooms/');
+   roomList.once('value').then((snapshot) => {
+     let clear = [];
+     this.setState({
+       roomList: clear
+     })
+    snapshot.forEach((childSnapshot) => {
+      var roomName = childSnapshot.val().roomname;
+      var roomKey = childSnapshot.key;
+      var privacy = childSnapshot.val().privacy;
+      if (privacy == false) {
+        console.log(childSnapshot.val().roomname);
+        try {
+          var keys = Object.keys(childSnapshot.val());
+        } catch(exception) {
+          this.getRoomNames();
+        }
+        this.setState({
+            roomList: this.state.roomList.concat([{
+            roomName: roomName,
+            roomKey: roomKey
+        }])
+      });
+    }
+   });
+  });
+ }
+
  createRoom() {
    var uid = firebase.auth().currentUser.uid;
    var name = firebase.auth().currentUser.displayName;
     var database = firebase.database();
     var roomName = document.getElementById("roomname").value;
     var roomPW = document.getElementById("roompw").value;
+    var privacy = document.getElementById("privacy").checked;
     var roomPush = database.ref().push();
     var roomKey = roomPush.key;
     var songs = database.ref('rooms/' + roomKey).set({
@@ -46,6 +120,7 @@ class Sidenav extends Component {
       downvoters: '',
       songs: '',
       chats: '',
+      privacy: privacy,
       admin: uid,
       users: '',
       downvotes: 0,
@@ -65,6 +140,7 @@ class Sidenav extends Component {
  }
 
   render () {
+    const {roomList} = this.state;
     var addButton = {
       display: this.state.hideAddRoom ? "none" : "block"
     }
@@ -73,6 +149,7 @@ class Sidenav extends Component {
         <div className="searchroom">
           <i className="fas fa-plus-circle plus" id="plus" onClick={()=> this.addRoom()}></i>
           <input className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
+          <button onClick={()=> this.getRoomNames()}>Submit</button>
         </div>
         <div style={addButton} className="addbox" id="addbox">
           <label className="linkT">
@@ -84,145 +161,21 @@ class Sidenav extends Component {
           </label>
           <input className="inlink" id="roompw"/>
           <button className="inputB" id="myBtn" onClick={()=> this.createRoom()}>Submit</button>
-
+          <br/>
+          <input id="privacy" name="private" type="checkbox"  /> Make Private
         </div>
         <div className="sidescrollbox">
           <table className="table1" id="roomList">
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Audio room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Study Music room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Alternative room </td>
-            </tr>
-            <tr>
-              <td className="td1"> Friends room </td>
-            </tr>
+            {
+                roomList.map((room) =>
+                  <tr>
+                    <td>
+                      <button className="td1" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </button>
+
+                    </td>
+                  </tr>
+                )
+            }
           </table>
         </div>
       </div>

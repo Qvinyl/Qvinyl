@@ -16,7 +16,9 @@
   font-size: 20px;
   font-weight: bold;
   height: 40px;
+  width: 200px;
   margin: auto;
+  background-color: #262626;
 }
 
 .td1:hover {
