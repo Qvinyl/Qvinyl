@@ -314,10 +314,10 @@ class Main extends Component {
 
           <div className="inputContainer">
             <label className="linkT">Music Link:</label>
-            <InputGroup className="musicLink">
+            <InputGroup >
               <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
               <Input placeholder="youtube.com"/>
-              <Button  color="primary" className="inputB" id="myBtn" onClick={()=> this.pushMusicToDB()}>
+              <Button  color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
                 Submit  
               </Button>
             </InputGroup>
@@ -327,10 +327,10 @@ class Main extends Component {
 
           <div className="inputContainer">
             <label className="linkT"> Room Link: </label>
-            <InputGroup className="roomLink">
+            <InputGroup >
               <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
               <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
-              <Button color="primary" className="inputB" id="myBtn" onClick={()=> this.checkValidKey()}>
+              <Button color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
                 Join Room
               </Button>
             </InputGroup> 

@@ -43,3 +43,9 @@ body {
 .settings:hover {
   color: #0078ce;
 }
+
+.button {
+  height: 30%;
+  margin-left: 80%;
+  /*float: right; does not work hmm*/
+}

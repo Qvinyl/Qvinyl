@@ -35,7 +35,7 @@ class App extends Component {
             <div className="flexbox">
               <div className="title">Qvinyl</div>
               <pre id="object"></pre>
-              <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+              <Button outline color="primary" href="login.html" onClick={logoutButton} className="button"> Logout</Button>
             </div>
           </div>
         </Row>

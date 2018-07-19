@@ -21,9 +21,7 @@
 
 
 /************ INPUT CONTAINER CSS ************/
-.mainInputContainer {
 
-}
 
 .inputContainer {
   padding: 2% 2% 2% 2%;
@@ -39,7 +37,6 @@
   margin-left: 2%;
 }
 
-/*Music Link*/
 .linkT {
   font-size: 20px;
   color: white;
@@ -59,70 +56,5 @@
    letter-spacing: 1.5px;
 }
 
-.userListButton {
-
-}
 
 
-
-/*.main{
-  width:80%;
-  height: 100vh;
-  /* background: white; */
-/*  position: static;
-  background: #232323;
-  display: block;
-}*/
-
-/*.mainTitle {
-  margin-top: 120px;
-  font-size: 36px;
-  color: white;
-  font-weight: bold;
-  padding: 10px;
-}
-
-.white {
-  color: white;
-}
-
-.inputcontainer{
-  width: 600px;
-  height: 50px;
-  margin: 0 auto;
-  display: block;
-}
-
-.linkT {
-  font-size: 20px;
-  color: white;
-  font-weight: bold;
-  float: left;
-}
-
-.inputL {
-  width: 25%;
-  float: left;
-  margin-left: 10px;
-  height: 20px;
-  font-size: 16px;
-}
-
-.inputB {
-  float: left;
-  height: 27px;
-  font-size: 22px;
-  margin-left: 10px;
-  background-color: #0078ce;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.queue {
-  margin-left: 50px;
-  margin-top: 50px;
-}
-*/
