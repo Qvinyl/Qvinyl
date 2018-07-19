@@ -4,7 +4,9 @@ import './App.css';
 import Sidenav from './Sidenav'
 import Main from './Main'
 import Chat from './Chat'
+import Player from './Player'
 import * as firebase from 'firebase';
+import {Container, Row, Col, Button} from 'reactstrap'
 
 {/*Jac is testing pushing on master lol*/}
 
@@ -25,21 +27,41 @@ function logoutButton(){
 class App extends Component {
   render () {
     return (
-      <div className="app">
-        <div className="banner">
-          <div className="flexbox">
 
-            <div className="title">Qvinyl</div>
-            <pre id="object"></pre>
-            <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+    <Container fluid>  
+      <div className="app">
+        <Row>
+          <div className="banner">
+            <div className="flexbox">
+              <div className="title">Qvinyl</div>
+              <pre id="object"></pre>
+              <a href="login.html" onClick={logoutButton} className="button"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+            </div>
           </div>
-        </div>
-        <div className="flexbox">
-          <Sidenav />
-          <Main />
-          <Chat />
-        </div>
+        </Row>
+
+        <Row>
+          <Player/>
+        </Row>
+
+
+        <Row>
+          <Col>
+            <Sidenav/>
+          </Col>
+          <Col>
+            <Main/>
+          </Col>
+          <Col>
+            <Chat/>
+          </Col>
+        </Row>
+
+
+        
+
       </div>
+    </Container>
     );
   }
 }

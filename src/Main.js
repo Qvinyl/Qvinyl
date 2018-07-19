@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import firebase from 'firebase'
 import './Queue.css';
+
 
 
 class Main extends Component {
@@ -351,12 +353,6 @@ class Main extends Component {
           </p>
         </div>
 
-        <div className="video">
-          <Player />
-        </div>
-        <div className="queue">
-          <Queue />
-        </div>
         <table className="scrollbox">
           {
               userList.map((name) =>
