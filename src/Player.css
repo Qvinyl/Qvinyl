@@ -45,3 +45,35 @@
 .minimizedPlayer {
 	height: 15vh;
 }
+
+
+.banner {
+	background: #212529;
+	height: 7vh;
+	width: 100%;
+}
+
+.left {
+	float: left;
+	width: 500px;
+}
+
+.right {
+	float: right;
+	width: 100px;
+}
+
+.center {
+	margin: 0 auto;
+	width: 100px;
+}
+
+.albumart {
+	height: 5vh;
+	float: left;
+}
+
+.songTitle {
+	margin-left: 10px;
+	color: white;
+}

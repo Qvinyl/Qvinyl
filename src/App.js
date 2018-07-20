@@ -30,12 +30,14 @@ class App extends Component {
   render () {
     return (
     <div className="app">
+    {/*}
       <Row noGutters>
         <div className="banner">
             <img className="logo" src="logo6.png"/>
             <Button outline color="primary" href="login.html" onClick={logoutButton} className="button"> Logout</Button>
         </div>
       </Row>
+    */}
       <Container fluid>
         <div className="appDiv">
           <Row noGutters>
