@@ -27,27 +27,23 @@ body{
 }
 
 #chatroom{
-  width:320px;
-  height:100%;
-  
-  position: fixed; 
+  width: auto;
   display: block;
   right:0;
   top:0;
   transition: transform .3s cubic-bezier(0, .52, 0, 1);
-  z-index: 0; 
-
-  margin-top:100px; 
-  background-color:rgba(255,255,255,0); /*main color of chat*/
+  z-index: 0;
+  background-color:rgba(255,255,255,1); /*main color of chat*/
   border-radius:5px;
-  overflow:hidden;
+  overflow: auto;
+  padding: 0;
   -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,.3);
   box-shadow:0 0 8px 0 rgba(0,0,0,.3);
 }
 
 #chatroom h3{
   font-family:Pacifico,cursive;
-  background-color: #232323;
+  background-color: #0078ce;
   color:#fff;
   margin:0;
   height:40px;
@@ -64,9 +60,9 @@ body{
   box-sizing:border-box;
   padding:0 20px;
   margin:10px 0 0;
-  height:865px;
+  height: 70vh;
   overflow-y:scroll;
-} 
+}
 
 #chatroom .chats .chat{
   background:hsla(0,0%,85%,.8);
@@ -98,51 +94,4 @@ body{
 #chatroom .chats .chat a{
   text-decoration:none;
   color:
-}
-
-#chatroom .input{
-  height:40px; 
-  margin-top:0px; /*Submit tab bar */
-   width:100%;
-   background: #808080; /*Color of Submit tab*/
-   display:-ms-flexbox;display:flex;
-   -ms-flex-direction:row;
-   flex-direction:row;
-   -ms-flex-align:center;
-   align-items:center
- }
-
-#chatroom .input input[type=text]{
-  background:hsla(0,0%,100%,.5); /*color of chat input box*/
-  outline:0; 
-  border:2px solid white; /*border color of input box*/
-  padding:0 5px;
-  border-top-left-radius:5px;
-  border-bottom-left-radius:5px;
-  margin-left:10px;
-  width:270px;
-  height:25px;
-}
-
-#chatroom .input input[type=submit],.chatroom .input input[type=text]{
-  height:30px;
-  -webkit-box-sizing:border-box;
-  box-sizing:border-box;
-  font-size:14px
-  }
-
-#chatroom .input input[type=submit]{
-  background:transparent;
-  border:1px solid black; /*border color of submit*/
-  width:70px;border-top-right-radius:5px;
-  border-bottom-right-radius:5px;
-  cursor:pointer;
-  -webkit-transition:all .3s ease;
-  -o-transition:all .3s ease;
-  transition:all .3s ease
-}
-
-#chatroom .input input[type=submit]:hover{
-  background:#51aff7;
-  color:#fff;
 }

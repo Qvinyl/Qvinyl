@@ -252,7 +252,7 @@ class Player extends Component {
 			<div className="player">
 
 
-				<div style={video}>
+				<div className="blur" style={video}>
 					<ReactPlayer
 						ref={this.ref}
 						playing={true}

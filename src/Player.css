@@ -2,7 +2,6 @@
 	background: black;
  	display: block;
 	width: 100%;
-	margin-top: 120px;
 }
 
 .progress {
@@ -34,4 +33,10 @@
 	display: block;
 	float: right;
 	padding-top: 15px;
+}
+
+
+.blur{
+	filter:blur(6px);
+	pointer-events:none;
 }

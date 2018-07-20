@@ -3,39 +3,29 @@ body {
 }
 
 .app {
-  text-align: center;
-  margin-left: -15px;
-  margin-right: -15px;
   background: black;
 }
 
-.flexbox {
-  display: flex;
-}
+
 
 .banner {
-  position: absolute;
-  background: #191919;
+  background: #212529;
+  height: 5vh;
   width: 100%;
-  height: 100px;
-  margin-left: 10px;
 }
 
-.logo5 {
-  height: 10%;
-  margin-left: -10%;
-  margin-top: -3.5%;
+.logo {
+  float:left;
+  height: 50px;
 }
 
-.title {
-  color: white;
-  text-align: left;
-  font-weight: bold;
-  font-size: 72px;
-  padding: 10px;
-  margin-left: 40px;
-  height:1%;
+.appDiv {
+  margin-left: -15px;
+  margin-right: -15px;
 }
+
+
+
 
 .settings {
   color: white;
@@ -50,13 +40,7 @@ body {
 
 .button {
   height: 30%;
-  margin-left: 80%;
-  /*float: right; does not work hmm*/
-}
+  float: right;
 
-.logo {
-  width: 40%;
-  height: 40%;
-  margin-top: -60px;
-  margin-left: -30px;
+  /*float: right; does not work hmm*/
 }
