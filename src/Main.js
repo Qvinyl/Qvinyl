@@ -251,7 +251,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    setTimeout(this.getUserList.bind(this), 1000);
+    //setTimeout(this.getUserList.bind(this), 1000);
   }
 
   render () {

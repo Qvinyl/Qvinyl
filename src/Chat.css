@@ -23,7 +23,7 @@ body{
   -ms-flex-align:center;
   align-items:center;
   -ms-flex-pack:center;
-  justify-content:center
+  justify-content:center;
 }
 
 .cardscrollbox {
@@ -45,6 +45,7 @@ body{
   border-radius:5px;
   overflow: auto;
   padding: 0;
+  opacity: 0.8;
 }
 
 #chatroom h3{

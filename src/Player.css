@@ -13,6 +13,7 @@
 }
 
 .controls {
+	position: absolute;
 	width: 450px;
 	margin: auto;
 }
@@ -37,6 +38,10 @@
 
 
 .blur{
-	filter:blur(6px);
+	/*filter:blur(6px);*/
 	pointer-events:none;
+}
+
+.minimizedPlayer {
+	height: 15vh;
 }
