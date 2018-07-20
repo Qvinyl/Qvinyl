@@ -3,7 +3,7 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
+import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table,Collapse,CardBody, Card, InputGroupButtonDropdown } from 'reactstrap'
 import firebase from 'firebase'
 import './Queue.css';
 
@@ -15,14 +15,18 @@ class Main extends Component {
     this.state = {
       userList: [{
         name: '',
-        id: ''
+        id: '',
+        collapse: false
       }],
       currentRoomKey: ''
     };
+    this.toggle = this.toggle.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
     this.getUserList = this.getUserList.bind(this);
   }
-
+toggle(){
+  this.setState({collapse: !this.state.collapse});
+}
   checkValidKey() {
     var isValid = false;
     var link = document.getElementById("roomLink").value;
@@ -313,22 +317,23 @@ class Main extends Component {
         <div className="mainInputContainer">
 
           <div className="inputContainer">
-            <label className="linkT">Music Link:</label>
             <InputGroup >
-              <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
+              <InputGroupAddon addonType="prepend"><Button onClick={this.toggle}>♫♪</Button></InputGroupAddon>
+              <Collapse isOpen={this.state.collapse}>
               <Input placeholder="youtube.com"/>
-              <Button  color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
+               <Button  color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
                 Submit  
               </Button>
+              </Collapse>
+             
             </InputGroup>
           </div>
 
   
 
           <div className="inputContainer">
-            <label className="linkT"> Room Link: </label>
             <InputGroup >
-              <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
+              <InputGroupAddon addonType="prepend"><Button>https://</Button></InputGroupAddon>
               <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
               <Button color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
                 Join Room
