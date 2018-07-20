@@ -1,11 +1,8 @@
 .player {
+	margin-top: -2px;
 	background: black;
  	display: block;
 	width: 100%;
-}
-
-.progress {
-	float: left;
 }
 
 .progressBar {
@@ -14,6 +11,19 @@
 	position: absolute;
 	top: 5.5vh;
 	background-color: white;
+}
+
+.progressBar::-moz-progress-bar
+{
+    background: lightgrey;
+}
+.progressBar::-webkit-progress-bar
+{
+    background: grey;
+}
+.progressBar::-webkit-progress-value
+{
+    background: lightgrey;
 }
 
 .controls {
