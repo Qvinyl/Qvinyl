@@ -70,7 +70,7 @@ class Queue extends React.Component {
     const {songQueue} = this.state;
     return (
 
-      <Scrollbars className="scrollbox" style={{height:"70vh"}}>
+      <Scrollbars className="scrollbox" style={{height:"50vh"}}>
         <Table className="table">
           {
             /*

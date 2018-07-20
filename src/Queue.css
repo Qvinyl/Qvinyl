@@ -2,7 +2,6 @@
   margin-top: 20px;
   /* background-color: #1c1f23; */
   background-color: #232323;
-  height: 70vh;
   overflow: scroll;
   color: white;
   font-family:sans-serif;
@@ -21,9 +20,6 @@
     -webkit-overflow-scrolling: touch;
 }
 
-Scrollbars {
-  height: 70vh;
-}
 
 /*
 .tr2 {

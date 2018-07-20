@@ -333,15 +333,15 @@ class Main extends Component {
     const {userList} = this.state;
     return (
       <div className="main">
-        <div className="mainTitle">{this.state.roomTitle}
-          <i className="fas fa-key idcard" onClick={this.getRoomName}></i>
-          <label style={{marginLeft: 10}} className="linkT">
-              {this.state.currentRoomKey}
-          </label>
-        </div>
 
-        <div className="mainInputContainer">
+          <div className="mainTitle">{this.state.roomTitle}
+            <i className="fas fa-key key" onClick={this.getRoomName}></i>
+              <label style={{marginLeft: 10}} className="linkT">
+                {this.state.currentRoomKey}
+              </label>
+          </div>
 
+        <div className="mainInputContainer flexbox">
           <div className="inputContainer">
             <label className="linkT">Music Link:</label>
             <InputGroup >
@@ -353,8 +353,6 @@ class Main extends Component {
             </InputGroup>
           </div>
 
-
-
           <div className="inputContainer">
             <label className="linkT"> Room Link: </label>
             <InputGroup >
@@ -365,7 +363,6 @@ class Main extends Component {
               </Button>
             </InputGroup>
           </div>
-
         </div>
 
         <div>
