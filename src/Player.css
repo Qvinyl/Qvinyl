@@ -14,7 +14,8 @@
 
 .controls {
 	position: absolute;
-	width: 450px;
+	/*width: 450px;*/
+	width:1025px;
 	margin: auto;
 }
 
@@ -32,7 +33,8 @@
 
 .volumeDiv {
 	display: block;
-	float: right;
+	/*float: right;*/
+	margin:auto;
 	padding-top: 15px;
 }
 
@@ -76,4 +78,32 @@
 .songTitle {
 	margin-left: 10px;
 	color: white;
+}
+
+.playerOver{
+	/*background:black;*/
+	background:transparent;
+	display:block;
+	width:10%;
+	/*margin:auto;*/
+	float:right
+	/*float:right;*/
+}
+
+
+
+
+.fadeOut{
+     opacity:0;
+     width:0;
+     height:0;
+     transition: width 0.5s 0.5s, height 0.5s 0.5s, opacity 0.5s;
+
+}
+.fadeIn{
+     opacity:1;
+     width:100px;
+     height:100px;
+     transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
+
 }

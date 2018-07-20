@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import './Player.css';
+import {Circle, Line} from 'rc-progress';
 import firebase from 'firebase'
 import {
 	Button,
@@ -9,7 +10,15 @@ import {
 	NavbarBrand,
 	Nav,
 	NavItem,
-	NavLink
+	NavLink,
+	Progress,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	InputGroup,
+	InputGroupAddon,
+	Input,
+	ModalFooter
 } from 'reactstrap';
 
 function logoutButton(){
@@ -27,7 +36,9 @@ class Player extends Component {
 			played: 0,
 			song: '',
 			currentSongTitle: '',
-			currentSongImage: ''
+			currentSongImage: '',
+			pressDownButton: false //this is an addon
+
 		};
 
 		// initialize helper functions
@@ -43,6 +54,23 @@ class Player extends Component {
 	onProgress (state) {
 		this.setState(state)
 	}
+
+
+
+
+
+
+
+	// downButton(){
+	// 	this.setState({
+	// 		pressDownButton:!this.state.pressDownButton
+	// 	})
+	// }
+
+
+
+
+
 
 	incrementDownvotes() {
 	    var userID = firebase.auth().currentUser.uid;
@@ -67,6 +95,21 @@ class Player extends Component {
  	}
 
 	checkUserDownVote() {
+		this.setState({
+			pressDownButton: !this.state.pressDownButton
+		})
+		setTimeout(() => {
+      this.setState({
+        pressDownButton: false
+      });
+    }, 5000);
+  
+
+		// this.state={
+		// 	pressDownButton:false
+		// }
+
+
 		var temp = false;
 		var currUser = firebase.auth().currentUser;
 		var userID = firebase.auth().currentUser.uid;
@@ -277,6 +320,8 @@ class Player extends Component {
 		};
 
 		return (
+
+
 			<div>
 				<div className="banner">
 					<div className="left">
@@ -307,13 +352,24 @@ class Player extends Component {
 
 					<div className="controls">
 						<div className="thumbsdown">
+
+
+						
 							<a style={{marginRight:20}} onClick={this.checkUserDownVote}>
+								
 								<i id = "downvote" className="fas fa-thumbs-down" ></i>
 							</a>
+
+
+
+
 							<a onClick={this.hideVideo}>
 								<i className="fa fa-video buttons"></i>
 							</a>
 						</div>
+
+						
+
 						<div className="volumeDiv">
 							<input className="volumeSet"
 								type="range"
@@ -323,6 +379,13 @@ class Player extends Component {
 								step="0.05" />
 						</div>
 
+
+
+
+						<div  className="playerOver">
+						  <Circle  className={this.state.pressDownButton ? "fadeIn" : "fadeOut"} percent="10" strokeWidth="6" strokeColor="#D3D3D3"/>
+						</div>
+						
 						{/*
 						<a onClick={this.middleOfSong}>
 							<i className="fa fa-fast-forward buttons"></i>
@@ -336,6 +399,9 @@ class Player extends Component {
 						*/}
 						
 					</div>
+
+					
+
 
 					<div className="minimizedPlayer" style={video}>
 						<div className="blur">
@@ -351,6 +417,10 @@ class Player extends Component {
 							/>
 						</div>
 					</div>
+
+
+					
+					
 
 					<div style={volumeSettings}>
 						<input
