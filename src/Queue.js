@@ -90,9 +90,9 @@ class Queue extends React.Component {
                     />
                   </td>
                   <td>
-                    {song.title}
+                    <b>{song.title}</b>
                     <br />
-                    ({song.queueBy})
+                    Queued by {song.queueBy}
                   </td>
                   <td>
                     {song.duration}

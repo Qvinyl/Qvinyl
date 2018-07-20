@@ -249,6 +249,7 @@ class Chat extends React.Component {
         return (
 
             <div id="chatroom">
+
             <div>
               <Button color="primary" onClick={this.toggle} style={{ marginBottom: '0,5rem'}}>Users</Button>
               <Collapse isOpen={this.state.collapse}>
@@ -273,25 +274,25 @@ class Chat extends React.Component {
                 </Card>
               </Collapse>
             </div>
-              <h3>Chatroom</h3>
-                <ul className="chats" ref="chats">
-                    {
-                        chats.map((chat) =>
-                            <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
-                            <b>{chat.displayName}</b>
-                            <br/>
-						        <p>{chat.content}</p>
-						    </li>
-                        )
-                    }
-                </ul>
-		        <div className="messagebox">
-		        </div>
 
-		        <form className="input" onSubmit={(e) => this.submitMessage(e)}>
-	                    <input id="currentMessage" type="text" ref="msg" />
-	                    <input type="submit" value="Submit" />
-		        </form>
+            <div>
+              <h3>Chatroom</h3>
+              <ul className="chats" ref="chats">
+                  {
+                    chats.map((chat) =>
+                        <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
+                          <b>{chat.displayName}</b>
+                          <br/>
+            			        <p>{chat.content}</p>
+            			    </li>
+                    )
+                  }
+              </ul>
+  		        <form className="input" onSubmit={(e) => this.submitMessage(e)}>
+  	                    <input id="currentMessage" type="text" ref="msg" />
+  	                    <input type="submit" value="Submit" />
+  		        </form>
+            </div>
           </div>
         );
     }
