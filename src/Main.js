@@ -17,7 +17,6 @@ class Main extends Component {
       currentRoomKey: ''
     };
     this.getRoomName = this.getRoomName.bind(this);
-    this.getUserList = this.getUserList.bind(this);
   }
 
   checkValidKey() {
@@ -83,78 +82,6 @@ class Main extends Component {
      });
   }
 
-  getUserList() {
-      try {
-        var userID = firebase.auth().currentUser.uid;
-      } catch(exception) {
-        this.getUserList.bind(this);
-      }
-      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-      getRoom.on('value', (snapshot) => {
-        try {
-          var roomKey = snapshot.val().currentRoom;
-        } catch (exception) {
-          this.getUserList.bind(this);
-        }
-        var roomLocation = firebase.database().ref('/rooms/' + roomKey);
-        /*
-        roomLocation.once('value').then((snapshot) => {
-          var roomTitle = snapshot.val().roomname;
-          this.setState({
-            roomTitle: roomTitle
-          })
-        });
-        */
-        var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
-        userList.on('value', (user) => {
-          console.log("in userList");
-          this.setState({
-            userList: []
-          })
-          user.forEach((childSnapshot) => {
-            var id = childSnapshot.val();
-            var keys = Object.keys(childSnapshot.val());
-            var getName = firebase.database().ref('users/' + id + '/name');
-            getName.once('value').then((name) => {
-                var gotName = name.val();
-                this.setState({
-      					    userList: this.state.userList.concat([{
-      			        name: gotName,
-                    id: id
-      					}])
-              });
-  					});
-          });
-        });
-      });
-      /*
-      try {
-        var userID = firebase.auth().currentUser.uid;
-      } catch(exception) {
-        this.getUserList.bind(this);
-      }
-      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-      getRoom.on('value', (snapshot) => {
-        try {
-          var roomKey = snapshot.val().currentRoom;
-          console.log("currentRoom: " + roomKey);
-        } catch (exception) {
-          this.getUserList.bind(this);
-        }
-        var roomLocation = firebase.database().ref('/rooms/' + roomKey);
-        roomLocation.once('value').then((snapshot) => {
-          try {
-            var roomTitle = snapshot.val().roomname;
-          } catch(exception) {
-            this.getUserList();
-          }
-          this.setState({
-            roomTitle: roomTitle
-          })
-        });
-      });
-      */
-  }
 
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
@@ -233,6 +160,7 @@ class Main extends Component {
   }
 
 
+
   getRoomName() {
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -248,10 +176,6 @@ class Main extends Component {
       console.log("this is roomKey: " + roomKey);
       console.log("this is state roomKey: " + this.state.currentRoomKey);
     });
-  }
-
-  componentDidMount() {
-    //setTimeout(this.getUserList.bind(this), 1000);
   }
 
   render () {
