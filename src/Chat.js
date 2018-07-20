@@ -259,20 +259,20 @@ class Chat extends React.Component {
         const { chats, userID, displayName, userList} = this.state;
         return (
 
-          <div>
-      <Nav tabs style={{background:'lightgrey'}}>
-        <NavItem style={{background:"lightgrey", width:'50%'}}>
+          <div className="opacity">
+      <Nav tabs style={{background:'' }}>
+        <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
           <NavLink
             className={classnames({ active: this.state.activeTab === '1' })}
-            onClick={() => { this.toggle('1'); }}
+            onClick={() => { this.toggle('1'); }} style={{color: 'white', background: '#212529', border: '0px', borderRadius: '0px'}}
           >
             Chatroom
           </NavLink>
         </NavItem>
-        <NavItem style={{background:"lightgrey", width:'50%'}}>
+        <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
           <NavLink
             className={classnames({ active: this.state.activeTab === '2' })}
-            onClick={() => { this.toggle('2'); }}
+            onClick={() => { this.toggle('2'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
           >
             Users
           </NavLink>
@@ -282,7 +282,7 @@ class Chat extends React.Component {
         <TabPane tabId="1">
           <Row noGutters>
             <Col sm="12">
-            <Card>
+            <Card style={{border: '0px'}}>
             <div id="chatroom">
             <div>
               <ul className="chats" ref="chats">
@@ -309,7 +309,7 @@ class Chat extends React.Component {
         <TabPane tabId="2">
           <Row noGutters>
             <Col sm="12">
-              <Card Body>
+              <Card Body style={{border: '0px'}}>
               <Table className="cardscrollbox">
                   {
                       userList.map((name) =>
