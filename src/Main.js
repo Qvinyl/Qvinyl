@@ -165,27 +165,30 @@ class Main extends Component {
         this.getUserList.bind(this);
       }
       var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-      getRoom.once('value').then((snapshot) => {
+      getRoom.on('value', (snapshot) => {
         try {
           var roomKey = snapshot.val().currentRoom;
         } catch (exception) {
           this.getUserList.bind(this);
         }
-        //console.log("roomKey: " + roomKey);
+        var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+        /*
+        roomLocation.once('value').then((snapshot) => {
+          var roomTitle = snapshot.val().roomname;
+          this.setState({
+            roomTitle: roomTitle
+          })
+        });
+        */
         var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
         userList.on('value', (user) => {
+          console.log("in userList");
+          this.setState({
+            userList: []
+          })
           user.forEach((childSnapshot) => {
             var id = childSnapshot.val();
-            console.log(id);
-            let clear = [];
-            this.setState({
-              userList: clear
-            })
-            try {
-              var keys = Object.keys(childSnapshot.val());
-            } catch(exception) {
-              this.getUserList();
-            }
+            var keys = Object.keys(childSnapshot.val());
             var getName = firebase.database().ref('users/' + id + '/name');
             getName.once('value').then((name) => {
                 var gotName = name.val();
@@ -199,7 +202,7 @@ class Main extends Component {
           });
         });
       });
-
+      /*
       try {
         var userID = firebase.auth().currentUser.uid;
       } catch(exception) {
@@ -213,10 +216,6 @@ class Main extends Component {
         } catch (exception) {
           this.getUserList.bind(this);
         }
-        let clear = [];
-        this.setState({
-          userList: clear
-        })
         var roomLocation = firebase.database().ref('/rooms/' + roomKey);
         roomLocation.once('value').then((snapshot) => {
           try {
@@ -229,6 +228,7 @@ class Main extends Component {
           })
         });
       });
+      */
   }
 
   pushMusicToDB() {
