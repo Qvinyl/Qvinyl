@@ -4,6 +4,7 @@
   background: #343a40;
   display: block;
   opacity: 0.8;
+  padding: 20px;
 }
 
 .b_width {
@@ -11,6 +12,22 @@
 }
 
 #roomList td {
+	/*
   padding: 0;
    border: 1px solid black;
+   */
+   color: white;
+}
+
+.title {
+	color: white;
+	float: left;
+}
+
+.buttons {
+	float: right;
+}
+
+.addRoomBox {
+	opacity: 0.8;
 }

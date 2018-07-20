@@ -165,15 +165,32 @@ class Sidenav extends Component {
 
     return (
       <div className="sidenav">
+        {/*
           <InputGroup>
             <InputGroupAddon addonType="prepend">
-              <Button>
-                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
-              </Button>
             </InputGroupAddon>
             <Input placeholder="Search Room Name" className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
           </InputGroup>
-        <Modal isOpen={this.state.addingRoom} toggle={this.addRoom}>
+        */}
+          <div>
+            <h3 className="title"> ROOMS </h3>
+            <div className="buttons">
+              <Button style={{borderRadius:100}}>
+                <i className="fas fa-search"></i>
+              </Button>
+              <Button style={{borderRadius:100}}>
+                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+              </Button>
+            </div>
+          </div>
+
+          
+
+          <br />
+          <br />
+          <hr color="white" />
+
+        <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
           <ModalHeader toggle={this.addRoom}>Add New Room</ModalHeader>
           <ModalBody>
             <div className="addbox" id="addbox">
@@ -203,7 +220,7 @@ class Sidenav extends Component {
               roomList.map((room) =>
                 <tr>
                   <td>
-                    <Button className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </Button>
+                    <a className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </a>
 
                   </td>
                 </tr>
