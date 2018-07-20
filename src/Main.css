@@ -36,7 +36,20 @@
 
 #myBtn {
   margin-left: 2%;
+  border-radius: 12px;
 }
+
+#myLink, #roomLink {
+  border-top-right-radius: 11px;
+  border-bottom-right-radius: 11px;
+  background-color:#606466;
+}
+
+input::-webkit-input-placeholder {
+color: white !important;
+}
+
+
 
 .linkT {
   font-size: 16px;

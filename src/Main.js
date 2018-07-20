@@ -268,22 +268,21 @@ class Main extends Component {
 
         <div className="mainInputContainer flexbox">
           <div className="inputContainer">
-            <label className="linkT">Music Link:</label>
+           {/*} <label className="linkT">Music Link:</label> */}
             <InputGroup >
               <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
-              <Input id="myLink" placeholder="youtube.com"/>
-              <Button color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
+              <Input id="myLink" placeholder="Paste Music Link Here" />
+              <Button size="sm" color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
                 Submit
               </Button>
             </InputGroup>
           </div>
 
           <div className="inputContainer">
-            <label className="linkT"> Room Link: </label>
             <InputGroup >
-              <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
-              <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
-              <Button color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
+              <InputGroupAddon addonType="prepend">☻</InputGroupAddon>
+              <Input id="roomLink" placeholder="Past Room Link Here"/>
+              <Button size="sm" color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
                 Join Room
               </Button>
             </InputGroup>
