@@ -119,7 +119,7 @@
 }
 
 .center {
-	width: 10%;
+	width: 8%;
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
@@ -133,7 +133,7 @@
 }
 
 .songTitle {
-	margin-top: 2px;
+	margin-top: 5px;
 	margin-left: 15px;
 	color: white;
 }
@@ -141,4 +141,8 @@
 .userName {
 	color: white;
 	margin-right: 15px;
+}
+
+.logo {
+	width: 130px;
 }

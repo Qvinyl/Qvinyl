@@ -1,6 +1,6 @@
 .main {
   width:100%;
-  height: 85vh;
+  height: 80vh;
   background: #232323;
   opacity: 0.8;
 }
@@ -23,6 +23,11 @@
   float: left;
 }
 
+.key:hover {
+  color:#006dbc;
+}
+
+
 
 /************ INPUT CONTAINER CSS ************/
 
@@ -36,7 +41,20 @@
 
 #myBtn {
   margin-left: 2%;
+  border-radius: 12px;
 }
+
+#myLink, #roomLink {
+  border-top-right-radius: 11px;
+  border-bottom-right-radius: 11px;
+  background-color:#606466;
+}
+
+input::-webkit-input-placeholder {
+color: white !important;
+}
+
+
 
 .linkT {
   font-size: 16px;

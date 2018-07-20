@@ -1,6 +1,6 @@
 .sidenav{
   width: 100%;
-  height: 85vh;
+  height: 80vh;
   background: #343a40;
   display: block;
   opacity: 0.8;
@@ -21,13 +21,141 @@
 
 .title {
 	color: white;
-	float: left;
+
+  text-align: center;
 }
 
 .buttons {
 	float: right;
+  position: relative;
+  right:15%;
 }
 
 .addRoomBox {
 	opacity: 0.8;
 }
+
+.roomText {
+  font-size: 12px;
+}
+
+/*************** BUTTON HOVER OVER TEXTS***************/
+
+/******** Search Room ********/
+.searchButton .searchText {
+  /*ToolTip text*/
+    visibility: hidden;
+    width: 90px;
+    background-color: #606466;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -92px;
+    opacity: 0%;
+    transition: opacity 0.3s;
+}
+
+.searchButton .searchText::after {
+  /*ToolTip arrow*/
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #606466 transparent transparent transparent;
+}
+
+.searchButton:hover .searchText {
+    visibility: visible;
+    opacity: 1;
+}
+
+/******** Add Room ********/
+.addButton .addText {
+  /*ToolTip text*/
+    visibility: hidden;
+    width: 90px;
+    background-color: #606466;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 60%;
+    margin-left: -60px;
+    opacity: 0%;
+    transition: opacity 0.3s;
+}
+
+.addButton .addText::after {
+  /*ToolTip arrow*/
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #606466 transparent transparent transparent;
+}
+
+.addButton:hover .addText {
+    visibility: visible;
+    opacity: 1;
+}
+
+/******** Add Room ********/
+.joinButton .joinText {
+  /*ToolTip text*/
+    visibility: hidden;
+    width: 90px;
+    background-color: #606466;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 90%;
+    margin-left: -55px;
+    opacity: 0%;
+    transition: opacity 0.3s;
+}
+
+.joinButton .joinText::after {
+  /*ToolTip arrow*/
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #606466 transparent transparent transparent;
+}
+
+.joinButton:hover .joinText {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+
+
+
+/*.iconButton {
+  margin: 1px 1px 1px 1px;
+}*/

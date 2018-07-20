@@ -52,6 +52,7 @@ class Sidenav extends Component {
  }
 
  joinPublicRoom(roomKey) {
+   this.leaveRoom();
    var temp = false;
    var userID = firebase.auth().currentUser.uid;
    var displayName = firebase.auth().currentUser.displayName;
@@ -85,6 +86,34 @@ class Sidenav extends Component {
       }
     });
  }
+
+ leaveRoom() {
+     try {
+       var userID = firebase.auth().currentUser.uid;
+     } catch(exception) {
+       this.getUserList.bind(this);
+     }
+     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+     getRoom.on('value', (snapshot) => {
+       try {
+         var roomKey = snapshot.val().currentRoom;
+       } catch (exception) {
+         this.leaveRoom.bind(this);
+       }
+       var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+       var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
+       userList.once('value').then((user) => {
+         user.forEach((childSnapshot) => {
+           var userKey = childSnapshot.key;
+           var id = childSnapshot.val();
+           if(id === userID) {
+             firebase.database().ref('/rooms/' + roomKey + '/users/' + userKey).remove();
+             return true;
+           }
+         });
+       });
+     });
+  }
 
  getRoomList() {
    try {
@@ -174,20 +203,33 @@ class Sidenav extends Component {
         */}
           <div>
             <h3 className="title"> ROOMS </h3>
+
             <div className="buttons">
-              <Button style={{borderRadius:100}}>
+              <Button className="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-search"></i>
+                <span className="searchText">Search Room</span>
               </Button>
-              <Button style={{borderRadius:100}}>
+              <Button className="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+                <span className="addText">Add Room</span>
               </Button>
+              <Button className="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i class="fas fa-door-open"></i>
+                <span className="joinText">Join Room</span>
+              </Button>
+              
+
             </div>
           </div>
+          <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+            <i className="fas fa-plus" onClick={()=> this.leaveRoom()}></i>
+          </Button>
 
+
+          <br />
+          <br />
           
 
-          <br />
-          <br />
           <hr color="white" />
 
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
