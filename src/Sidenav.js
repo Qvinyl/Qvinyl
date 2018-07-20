@@ -174,20 +174,27 @@ class Sidenav extends Component {
         */}
           <div>
             <h3 className="title"> ROOMS </h3>
+
             <div className="buttons">
-              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <Button className="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-search"></i>
               </Button>
               <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
               </Button>
+              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i class="fas fa-door-open"></i>
+              </Button>
+              
+
             </div>
           </div>
 
-          
 
           <br />
           <br />
+          
+
           <hr color="white" />
 
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>

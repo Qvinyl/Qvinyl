@@ -21,16 +21,26 @@
 
 .title {
 	color: white;
-	float: left;
+
+  text-align: center;
 }
 
 .buttons {
 	float: right;
+  position: relative;
+  right:15%;
 }
 
 .addRoomBox {
 	opacity: 0.8;
 }
+
+.roomText {
+  font-size: 12px;
+}
+
+
+
 
 /*.iconButton {
   margin: 1px 1px 1px 1px;
