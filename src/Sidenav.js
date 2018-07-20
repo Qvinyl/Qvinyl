@@ -178,12 +178,15 @@ class Sidenav extends Component {
             <div className="buttons">
               <Button className="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-search"></i>
+                <span className="searchText">Search Room</span>
               </Button>
-              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <Button className="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+                <span className="addText">Add Room</span>
               </Button>
-              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <Button className="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i class="fas fa-door-open"></i>
+                <span className="joinText">Join Room</span>
               </Button>
               
 
