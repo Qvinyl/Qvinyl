@@ -26,6 +26,14 @@ body{
   justify-content:center
 }
 
+.cardscrollbox {
+  /* background-color: #1c1f23; */
+  background-color: #232323;
+  font-family:sans-serif;
+  width: 100%;
+  font-size: 12px;
+}
+
 #chatroom{
   width: auto;
   display: block;

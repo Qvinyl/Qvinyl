@@ -13,10 +13,6 @@ class Main extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      userList: [{
-        name: '',
-        id: ''
-      }],
       roomTitle: '',
       currentRoomKey: ''
     };
@@ -85,77 +81,6 @@ class Main extends Component {
          });
        }
      });
-  }
-
-  kickUser(uid) {
-    var isAdmin = false;
-    var kickLink = uid;
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().currentRoom;
-      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
-      adminLocation.once('value').then((snapshot) => {
-        var admin = snapshot.val();
-        console.log('admin: ' + admin);
-        if (userID == admin) {
-          isAdmin = true;
-          console.log("am I admin? " + isAdmin);
-          var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
-          updateUsers.once('value').then((snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-              var selectedUser = childSnapshot.val();
-              var selectedUserKey = childSnapshot.key;
-              if ( kickLink == selectedUser ) {
-                window.alert(kickLink + " has been removed from the room");
-                firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
-                var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
-                getRoom.update({
-                  currentRoom: ''
-                })
-                var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
-                numUsers.transaction(function(numberOfUsers) {
-                  return (numberOfUsers || 0) - 1;
-                });
-              }
-              console.log("selectedUser: " + selectedUser);
-            });
-          });
-        }
-        else{
-          console.log("You are not admin");
-        }
-      });
-    });
-  }
-
-  makeAdmin(uid) {
-    var isAdmin = false;
-    var makeAdmin = uid;
-    console.log("make Admin: " + makeAdmin);
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().currentRoom;
-      var updateAdmin = firebase.database().ref('rooms/' + roomKey);
-      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
-      adminLocation.once('value').then((snapshot) => {
-        var admin = snapshot.val();
-        console.log('admin: ' + admin);
-        if (userID == admin) {
-          isAdmin = true;
-          console.log("am I admin? " + isAdmin);
-          updateAdmin.push();
-          updateAdmin.update({
-            admin: makeAdmin
-          });
-          console.log("admin is now ": admin);
-        }
-        else{
-          console.log("You are not admin");
-        }
-      });
-    });
   }
 
   getUserList() {
@@ -364,28 +289,9 @@ class Main extends Component {
             </InputGroup>
           </div>
         </div>
-
         <div>
           <Queue />
         </div>
-
-        <Table className="scrollbox">
-          {
-              userList.map((name) =>
-                <tr>
-                  <td className="userNames">
-                    {name.name}
-                  </td>
-                  <td>
-                    <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
-                  </td>
-                  <td>
-                    <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
-                  </td>
-                </tr>
-              )
-          }
-        </Table>
       </div>
     );
   }
