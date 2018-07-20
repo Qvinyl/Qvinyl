@@ -381,11 +381,12 @@ class Player extends Component {
 
 
 
-
+/*added in the fadein*/
 						<div  className="playerOver">
-						  <Circle  className={this.state.pressDownButton ? "fadeIn" : "fadeOut"} percent="10" strokeWidth="6" strokeColor="#D3D3D3"/>
+						  <Circle  className={this.state.pressDownButton ? "fadeIn" : "fadeOut"} percent="(downvotes/numUsers)*100" strokeWidth="6" strokeColor="#D3D3D3"/>
 						</div>
-						
+					
+
 						{/*
 						<a onClick={this.middleOfSong}>
 							<i className="fa fa-fast-forward buttons"></i>
