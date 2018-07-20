@@ -281,7 +281,7 @@ class Player extends Component {
 	render () {
 		// initializing css style inject
 		var video = {
-			height: this.state.hiddenVideo ? "15vh" : "100vh"
+			height: this.state.hiddenVideo ? "20vh" : "100vh"
 		};
 		var showAddSong = {
 			display: this.state.hiddenAddSong ? "none" : "block"
@@ -305,7 +305,7 @@ class Player extends Component {
 					<div className="center">
 						<img className="logo" src="logo6.png"/>
 					</div>
-						
+
 					<div className="right">
 						<p className="userName">
 							Welcome, <b>{this.state.currentUser}</b>
@@ -317,7 +317,7 @@ class Player extends Component {
 							max='1'
 							value={this.state.played}
 						/>
-					</div>            
+					</div>
 		        </div>
 
 				<div className="player">

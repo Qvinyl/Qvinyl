@@ -31,7 +31,7 @@ body{
 }
 
 .cardscrollbox {
-  background-color: #1c1f23; 
+  background-color: #1c1f23;
   opacity: 0.8;
   font-family:sans-serif;
   font-size: 12px;
@@ -68,7 +68,7 @@ body{
 #chatroom .chats{
   padding:0 20px;
   margin:10px 0 0;
-  height: 72vh;
+  height: 65vh;
   overflow-y:scroll;
 }
 
@@ -113,7 +113,7 @@ body{
 
 
 #chatroom .input{
-  height:40px;
+  height:38px;
   margin-top:0px; /*Submit tab bar */
   width:100%;
   background: #808080; /*Color of Submit tab*/
