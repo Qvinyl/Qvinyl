@@ -211,22 +211,27 @@ class Sidenav extends Component {
         */}
           <div>
             <h3 className="title"> ROOMS </h3>
-            <div className="buttons">
-              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i className="fas fa-search"></i>
-              </Button>
-              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
-              </Button>
 
-              <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i className="fas fa-plus" onClick={()=> this.leaveRoom()}></i>
+            <div className="buttons">
+              <Button className="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i className="fas fa-search"></i>
+                <span className="searchText">Search Room</span>
+              </Button>
+              <Button className="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+                <span className="addText">Add Room</span>
+              </Button>
+              <Button className="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i class="fas fa-door-open"></i>
+                <span className="joinText">Join Room</span>
               </Button>
             </div>
           </div>
 
           <br />
           <br />
+
+
           <hr color="white" />
 
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
