@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 // import ReactPlayer from 'react-player'
 import './Sidenav.css';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import {
   Table,
   Modal,
@@ -195,7 +197,7 @@ class Sidenav extends Component {
           </ModalFooter>
         </Modal>
 
-        <div className="sidescrollbox">
+        <Scrollbars className="sidescrollbox" style={{height:"70vh"}}>
           <Table borderless id="roomList">
             {
               roomList.map((room) =>
@@ -208,7 +210,7 @@ class Sidenav extends Component {
               )
             }
           </Table>
-        </div>
+        </Scrollbars>
       </div>
     );
   }

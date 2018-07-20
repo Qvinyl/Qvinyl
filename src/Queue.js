@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import "./Queue.css"
 import {Container, Row, Col, Button, Table} from 'reactstrap'
 import firebase from 'firebase';
+import { Scrollbars } from 'react-custom-scrollbars';
 
-class Queue extends Component {
+class Queue extends React.Component {
   constructor(props, context) {
       super(props);
       this.state = {
@@ -69,38 +70,38 @@ class Queue extends Component {
     const {songQueue} = this.state;
     return (
 
-      <div className="scrollbox">
-      <Table className="table">
-        {
-          /*
-          <tr>
-            <th></th>
-            <th>Track Name</th>
-            <th>Duration</th>
-            <th>Queued by</th>
-          </tr>
-          */
-            songQueue.map((song) =>
-              <tr>
-                <td> 
-                  <img
-                    src={song.thumbnail}
-                    height="100" width="150"
-                  />
-                </td>
-                <td>
-                  {song.title}
-                  <br />
-                  ({song.queueBy})
-                </td>
-                <td>
-                  {song.duration}
-                </td>
-              </tr>
-            )
-        }
-      </Table>
-      </div>
+      <Scrollbars className="scrollbox" style={{height:"70vh"}}>
+        <Table className="table">
+          {
+            /*
+            <tr>
+              <th></th>
+              <th>Track Name</th>
+              <th>Duration</th>
+              <th>Queued by</th>
+            </tr>
+            */
+              songQueue.map((song) =>
+                <tr>
+                  <td> 
+                    <img
+                      src={song.thumbnail}
+                      height="100" width="150"
+                    />
+                  </td>
+                  <td>
+                    {song.title}
+                    <br />
+                    ({song.queueBy})
+                  </td>
+                  <td>
+                    {song.duration}
+                  </td>
+                </tr>
+              )
+          }
+        </Table>
+      </Scrollbars>
     );
   }
 }

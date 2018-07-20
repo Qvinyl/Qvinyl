@@ -1,10 +1,9 @@
 .scrollbox {
-  height: 30%;
   margin-top: 20px;
   /* background-color: #1c1f23; */
   background-color: #232323;
-
-  overflow: auto;
+  height: 70vh;
+  overflow: scroll;
   color: white;
   font-family:sans-serif;
   padding: 10px;
@@ -14,6 +13,16 @@
 
 .table {
   width: 100%;
+  overflow: scroll;
+}
+
+.overflow-scrolling {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+Scrollbars {
+  height: 70vh;
 }
 
 /*
