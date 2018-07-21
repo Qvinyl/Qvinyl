@@ -1,6 +1,40 @@
 .sidenav{
   width: 100%;
-  height: 100%;
-  background: #3a3a3a;
+  height: 85vh;
+  background: #343a40;
   display: block;
+  opacity: 0.8;
+  padding: 10px;
+}
+
+.b_width {
+  width: 100%;
+}
+
+#roomList td {
+  /*
+  padding: 0;
+   border: 1px solid black;
+   */
+   color: white;
+   cursor: pointer;
+}
+#roomList tr:hover {
+  background-color: #011222;
+}
+.selected {
+  background-color: #011222;
+  color: #011222;
+}
+.title {
+  color: white;
+  float: left;
+}
+
+.buttons {
+  float: right;
+}
+
+.addRoomBox {
+  opacity: 0.8;
 }

@@ -7,7 +7,7 @@ class Player extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			hiddenVideo: false,
+			hiddenVideo: true,
 			hiddenAddSong: true,
 			hiddenVolume: true,
 			volume: 0.5,
@@ -214,7 +214,7 @@ class Player extends Component {
 				songLocation.limitToFirst(1).once('value').then((snapshot) => {
 					snapshot.forEach((childSnapshot) => {
 						var songLink = childSnapshot.val().link;
-						console.log("loaded song interval: " + songLink);
+						//console.log("loaded song interval: " + songLink);
 						this.setState({
 							song: songLink
 						});
@@ -239,7 +239,7 @@ class Player extends Component {
 	render () {
 		// initializing css style inject
 		var video = {
-			display: this.state.hiddenVideo ? "none" : "block"
+			height: this.state.hiddenVideo ? "15vh" : "100vh"
 		};
 		var showAddSong = {
 			display: this.state.hiddenAddSong ? "none" : "block"
@@ -251,18 +251,51 @@ class Player extends Component {
 		return (
 			<div className="player">
 
+				<div className="controls">
+					<div className="thumbsdown">
+						<a style={{marginRight:20}} onClick={this.checkUserDownVote}>
+							<i id = "downvote" className="fas fa-thumbs-down" ></i>
+						</a>
+						<a onClick={this.hideVideo}>
+							<i className="fa fa-video buttons"></i>
+						</a>
+					</div>
+					<div className="volumeDiv">
+						<input className="volumeSet"
+							type="range"
+							min="0" max="1"
+							value={this.state.volume}
+							onInput={this.changeVolume}
+							step="0.05" />
+					</div>
 
-				<div style={video}>
-					<ReactPlayer
-						ref={this.ref}
-						playing={true}
-						volume={this.state.volume}
-						url={this.state.song}
-						width="100%"
-						height="500px"
-						onProgress={this.onProgress}
-						onEnded={this.skipVideo}
-					/>
+					{/*
+					<a onClick={this.middleOfSong}>
+						<i className="fa fa-fast-forward buttons"></i>
+					</a>
+					<a onClick={this.hideVolume}>
+						<i className="fa fa-volume-down buttons"></i>
+					</a>
+					<a onClick={this.hideVideo}>
+						<i className="fa fa-video buttons"></i>
+					</a>
+					*/}
+					
+				</div>
+
+				<div className="minimizedPlayer" style={video}>
+					<div className="blur">
+						<ReactPlayer
+							ref={this.ref}
+							playing={true}
+							volume={this.state.volume}
+							url={this.state.song}
+							width="100%"
+							height="100vh"
+							onProgress={this.onProgress}
+							onEnded={this.skipVideo}
+						/>
+					</div>
 				</div>
 
 				<div style={volumeSettings}>
@@ -273,26 +306,12 @@ class Player extends Component {
 						onInput={this.changeVolume}
 						step="0.05" />
 				</div>
+
 				<div>
 					<progress className="progressBar"
 						max='1'
 						value={this.state.played}
 					/>
-				</div>
-
-				<div className="controls">
-					<a onClick={this.checkUserDownVote}>
-						<i id = "downvote" className="fas fa-thumbs-down buttons" ></i>
-					</a>
-					<a onClick={this.middleOfSong}>
-						<i className="fa fa-fast-forward buttons"></i>
-					</a>
-					<a onClick={this.hideVolume}>
-						<i className="fa fa-volume-down buttons"></i>
-					</a>
-					<a onClick={this.hideVideo}>
-						<i className="fa fa-video buttons"></i>
-					</a>
 				</div>
 			</div>
 		);

@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
+// import {Table} from 'reactstrap'
 // import ReactPlayer from 'react-player'
 import './Sidenav.css';
+import { Scrollbars } from 'react-custom-scrollbars';
+
+
 import {
-  Table, 
-  Modal, 
-  ModalHeader, 
-  ModalBody, 
-  ModalFooter, 
-  Button, 
-  Input, 
-  InputGroup, 
+  Table,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Input,
+  InputGroup,
   InputGroupAddon
 } from 'reactstrap'
 import firebase from 'firebase';
-
 class Sidenav extends Component {
   constructor (props) {
     super(props);
@@ -21,13 +24,13 @@ class Sidenav extends Component {
       roomList: [{
           roomName: '',
           roomKey: '',
+          highlighted: '',
         }],
       addingRoom: false
     };
 
     this.addRoom = this.addRoom.bind(this);
   }
-
   addRoom() {
     this.setState({
       addingRoom: !this.state.addingRoom
@@ -83,6 +86,14 @@ class Sidenav extends Component {
       }
     });
  }
+ highlight(x){
+  // alert("Row index is: "+x.rowIndex);
+  var numRows = document.getElementById('roomList').rows.length;
+  var rowNum = document.getElementById('roomList');
+  // alert("Number of rows: "+numRows);
+  for(var i = 0 ; i<numRows; i++)
+      rowNum.rows[i].style.backgroundColor = "black";
+  }
 
  getRoomList() {
    try {
@@ -110,12 +121,14 @@ class Sidenav extends Component {
         this.setState({
             roomList: this.state.roomList.concat([{
             roomName: roomName,
-            roomKey: roomKey
+            roomKey: roomKey,
+            highlighted: 'false'
         }])
       });
     }
    });
   });
+
  }
 
  createRoom() {
@@ -163,15 +176,32 @@ class Sidenav extends Component {
 
     return (
       <div className="sidenav">
+        {/*
           <InputGroup>
             <InputGroupAddon addonType="prepend">
-              <Button>
-                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
-              </Button>
             </InputGroupAddon>
             <Input placeholder="Search Room Name" className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
           </InputGroup>
-        <Modal isOpen={this.state.addingRoom} toggle={this.addRoom}>
+        */}
+          <div>
+            <h3 className="title"> ROOMS </h3>
+            <div className="buttons">
+              <Button style={{borderRadius:100}}>
+                <i className="fas fa-search"></i>
+              </Button>
+              <Button style={{borderRadius:100}}>
+                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+              </Button>
+            </div>
+          </div>
+
+          
+
+          <br />
+          <br />
+          <hr color="white" />
+
+        <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
           <ModalHeader toggle={this.addRoom}>Add New Room</ModalHeader>
           <ModalBody>
             <div className="addbox" id="addbox">
@@ -184,7 +214,7 @@ class Sidenav extends Component {
                 <InputGroupAddon addonType="prepend">Room Password</InputGroupAddon>
                 <Input placeholder="" id="roompw"/>
               </InputGroup>
-              
+
               <br/>
               <input id="privacy" name="private" type="checkbox"  /> Make Private
             </div>
@@ -195,20 +225,20 @@ class Sidenav extends Component {
           </ModalFooter>
         </Modal>
 
-        <div className="sidescrollbox">
-          <Table borderless id="roomList">
+        <Scrollbars className="sidescrollbox" style={{height:"70vh"}}>
+          <Table hover borderless id="roomList">
             {
               roomList.map((room) =>
-                <tr>
+                <tr onClick={()=>this.highlight(this)}>
                   <td>
-                    <Button onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </Button>
+                    <a className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </a>
 
                   </td>
                 </tr>
               )
             }
           </Table>
-        </div>
+        </Scrollbars>
       </div>
     );
   }

@@ -23,30 +23,32 @@ body{
   -ms-flex-align:center;
   align-items:center;
   -ms-flex-pack:center;
-  justify-content:center
+  justify-content:center;
+}
+
+.cardscrollbox {
+  /* background-color: #1c1f23; */
+  background-color: #232323;
+  font-family:sans-serif;
+  width: 100%;
+  font-size: 12px;
 }
 
 #chatroom{
-  width:360px;
-  height:100%;
-  
-  position: fixed; 
+  width: auto;
   display: block;
   right:0;
   top:0;
   transition: transform .3s cubic-bezier(0, .52, 0, 1);
-  z-index: 0; 
-
-  margin-top:100px; 
-  background-color:rgba(255,255,255,1); /*main color of chat*/
+  z-index: 0;
+  background-color: #343a40; /*main color of chat*/
   border-radius:5px;
-  overflow:hidden;
-  -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,.3);
-  box-shadow:0 0 8px 0 rgba(0,0,0,.3);
+  overflow: auto;
+  padding: 0;
+  opacity: 0.8;
 }
 
 #chatroom h3{
-  font-family:Pacifico,cursive;
   background-color: #0078ce;
   color:#fff;
   margin:0;
@@ -64,15 +66,15 @@ body{
   box-sizing:border-box;
   padding:0 20px;
   margin:10px 0 0;
-  height:865px;
+  height: 72vh;
   overflow-y:scroll;
-} 
+}
 
 #chatroom .chats .chat{
   background:hsla(0,0%,85%,.8);
   position:relative;
   padding:5px 13px;
-  font-size:14px;
+  font-size:12px;
   border-radius:10px;
   list-style:none;
   float:left;clear:both;
@@ -91,31 +93,41 @@ body{
 
 #chatroom .chats .chat.right{
   float:right;
-  clear:both
+  clear:both;
 }
 
+#chatroom .chats .chat.left{
+  float:left;
+  clear:both;
+  background-color: #606466;
+  color: white;
+}
 
 #chatroom .chats .chat a{
   text-decoration:none;
   color:
 }
 
+#chatRoom input {
+
+}
+
 #chatroom .input{
-  height:40px; 
-  margin-top:10px; /*Submit tab bar */
-   width:100%;
-   background:#0078ce; /*Color of Submit tab*/
-   display:-ms-flexbox;display:flex;
-   -ms-flex-direction:row;
-   flex-direction:row;
-   -ms-flex-align:center;
-   align-items:center
- }
+  height:40px;
+  margin-top:0px; /*Submit tab bar */
+  width:100%;
+  background: #808080; /*Color of Submit tab*/
+  display:-ms-flexbox;display:flex;
+  -ms-flex-direction:row;
+  flex-direction:row;
+  -ms-flex-align:center;
+  align-items:center
+}
 
 #chatroom .input input[type=text]{
   background:hsla(0,0%,100%,.5); /*color of chat input box*/
-  outline:0; 
-  border:2px solid #51aff7; /*border color of input box*/
+  outline:0;
+  border:2px solid white; /*border color of input box*/
   padding:0 5px;
   border-top-left-radius:5px;
   border-bottom-left-radius:5px;
@@ -123,17 +135,16 @@ body{
   width:270px;
   height:25px;
 }
-
 #chatroom .input input[type=submit],.chatroom .input input[type=text]{
   height:30px;
   -webkit-box-sizing:border-box;
   box-sizing:border-box;
-  font-size:14px
-  }
+  font-size:12px
+}
 
 #chatroom .input input[type=submit]{
   background:transparent;
-  border:1px solid #51aff7; /*border color of submit*/
+  border:1px solid black; /*border color of submit*/
   width:70px;border-top-right-radius:5px;
   border-bottom-right-radius:5px;
   cursor:pointer;

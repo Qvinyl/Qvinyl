@@ -1,8 +1,12 @@
 .main {
   width:100%;
-  height: 100%;
+  height: 85vh;
   background: #232323;
-  margin-left: -15px;
+  opacity: 0.8;
+}
+
+.flexbox{
+  display: flex;
 }
 
 .mainTitle {
@@ -12,12 +16,11 @@
   padding: 10px;
 }
 
-.idcard {
+.key {
   color: #0078ce;
   font-size: 24px;
   cursor: pointer;
-  float: right;
-  padding-right: 5%;
+  float: left;
 }
 
 
@@ -25,13 +28,10 @@
 
 
 .inputContainer {
-  padding: 2% 2% 2% 2%;
+  padding: 10px;
   float: left;
   width: 50%;
   height:10%;
-
-
-
 }
 
 #myBtn {
@@ -39,11 +39,11 @@
 }
 
 .linkT {
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   font-weight: bold;
   float: left;
-  
+
 }
 
 .kickUserContainer {
@@ -56,6 +56,3 @@
   color:white;
    letter-spacing: 1.5px;
 }
-
-
-

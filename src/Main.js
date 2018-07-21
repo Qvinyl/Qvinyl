@@ -3,7 +3,7 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table,Collapse,CardBody, Card, InputGroupButtonDropdown } from 'reactstrap'
+import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
 import firebase from 'firebase'
 import './Queue.css';
 
@@ -13,20 +13,13 @@ class Main extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      userList: [{
-        name: '',
-        id: '',
-        collapse: false
-      }],
+      roomTitle: '',
       currentRoomKey: ''
     };
-    this.toggle = this.toggle.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
     this.getUserList = this.getUserList.bind(this);
   }
-toggle(){
-  this.setState({collapse: !this.state.collapse});
-}
+
   checkValidKey() {
     var isValid = false;
     var link = document.getElementById("roomLink").value;
@@ -90,77 +83,6 @@ toggle(){
      });
   }
 
-  kickUser(uid) {
-    var isAdmin = false;
-    var kickLink = uid;
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().currentRoom;
-      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
-      adminLocation.once('value').then((snapshot) => {
-        var admin = snapshot.val();
-        console.log('admin: ' + admin);
-        if (userID == admin) {
-          isAdmin = true;
-          console.log("am I admin? " + isAdmin);
-          var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
-          updateUsers.once('value').then((snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-              var selectedUser = childSnapshot.val();
-              var selectedUserKey = childSnapshot.key;
-              if ( kickLink == selectedUser ) {
-                window.alert(kickLink + " has been removed from the room");
-                firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
-                var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
-                getRoom.update({
-                  currentRoom: ''
-                })
-                var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
-                numUsers.transaction(function(numberOfUsers) {
-                  return (numberOfUsers || 0) - 1;
-                });
-              }
-              console.log("selectedUser: " + selectedUser);
-            });
-          });
-        }
-        else{
-          console.log("You are not admin");
-        }
-      });
-    });
-  }
-
-  makeAdmin(uid) {
-    var isAdmin = false;
-    var makeAdmin = uid;
-    console.log("make Admin: " + makeAdmin);
-    var userID = firebase.auth().currentUser.uid;
-    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-    userRoomKey.once('value').then(function(snapshot){
-      var roomKey = snapshot.val().currentRoom;
-      var updateAdmin = firebase.database().ref('rooms/' + roomKey);
-      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
-      adminLocation.once('value').then((snapshot) => {
-        var admin = snapshot.val();
-        console.log('admin: ' + admin);
-        if (userID == admin) {
-          isAdmin = true;
-          console.log("am I admin? " + isAdmin);
-          updateAdmin.push();
-          updateAdmin.update({
-            admin: makeAdmin
-          });
-          console.log("admin is now ": admin);
-        }
-        else{
-          console.log("You are not admin");
-        }
-      });
-    });
-  }
-
   getUserList() {
       try {
         var userID = firebase.auth().currentUser.uid;
@@ -168,40 +90,70 @@ toggle(){
         this.getUserList.bind(this);
       }
       var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-      getRoom.once('value').then((snapshot) => {
+      getRoom.on('value', (snapshot) => {
         try {
           var roomKey = snapshot.val().currentRoom;
         } catch (exception) {
           this.getUserList.bind(this);
         }
-        //console.log("roomKey: " + roomKey);
+        var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+        /*
+        roomLocation.once('value').then((snapshot) => {
+          var roomTitle = snapshot.val().roomname;
+          this.setState({
+            roomTitle: roomTitle
+          })
+        });
+        */
         var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
         userList.on('value', (user) => {
+          console.log("in userList");
+          this.setState({
+            userList: []
+          })
           user.forEach((childSnapshot) => {
             var id = childSnapshot.val();
-            console.log(id);
-            let clear = [];
-            this.setState({
-              userList: clear
-            })
-            try {
-              var keys = Object.keys(childSnapshot.val());
-            } catch(exception) {
-              this.getUserList();
-            }
+            var keys = Object.keys(childSnapshot.val());
             var getName = firebase.database().ref('users/' + id + '/name');
             getName.once('value').then((name) => {
                 var gotName = name.val();
                 this.setState({
-      					    userList: this.state.userList.concat([{
-      			        name: gotName,
+                    userList: this.state.userList.concat([{
+                    name: gotName,
                     id: id
-      					}])
+                }])
               });
-  					});
+            });
           });
         });
       });
+      /*
+      try {
+        var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
+        this.getUserList.bind(this);
+      }
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+      getRoom.on('value', (snapshot) => {
+        try {
+          var roomKey = snapshot.val().currentRoom;
+          console.log("currentRoom: " + roomKey);
+        } catch (exception) {
+          this.getUserList.bind(this);
+        }
+        var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+        roomLocation.once('value').then((snapshot) => {
+          try {
+            var roomTitle = snapshot.val().roomname;
+          } catch(exception) {
+            this.getUserList();
+          }
+          this.setState({
+            roomTitle: roomTitle
+          })
+        });
+      });
+      */
   }
 
   pushMusicToDB() {
@@ -283,7 +235,6 @@ toggle(){
 
   getRoomName() {
     var userID = firebase.auth().currentUser.uid;
-    var link = document.getElementById("myLink").value;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then((snapshot) => {
       try {
@@ -300,79 +251,47 @@ toggle(){
   }
 
   componentDidMount() {
-    setTimeout(this.getUserList.bind(this), 1000);
+    //setTimeout(this.getUserList.bind(this), 1000);
   }
 
   render () {
     const {userList} = this.state;
     return (
       <div className="main">
-        <div className="mainTitle">Audio Room
-          <i className="fa fa-id-card idcard" onClick={this.getRoomName}></i>
-          <label style={{marginLeft: 10}} className="linkT">
-              {this.state.currentRoomKey}
-          </label>
-        </div>
 
-        <div className="mainInputContainer">
+          <div className="mainTitle">{this.state.roomTitle}
+            <i className="fas fa-key key" onClick={this.getRoomName}></i>
+              <label style={{marginLeft: 10}} className="linkT">
+                {this.state.currentRoomKey}
+              </label>
+          </div>
 
+        <div className="mainInputContainer flexbox">
           <div className="inputContainer">
+            <label className="linkT">Music Link:</label>
             <InputGroup >
-              <InputGroupAddon addonType="prepend"><Button onClick={this.toggle}>♫♪</Button></InputGroupAddon>
-              <Collapse isOpen={this.state.collapse}>
-              <Input placeholder="youtube.com"/>
-               <Button  color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
-                Submit  
+              <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
+              <Input id="myLink" placeholder="youtube.com"/>
+              <Button color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
+                Submit
               </Button>
-              </Collapse>
-             
             </InputGroup>
           </div>
 
-  
-
           <div className="inputContainer">
+            <label className="linkT"> Room Link: </label>
             <InputGroup >
-              <InputGroupAddon addonType="prepend"><Button>https://</Button></InputGroupAddon>
+              <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
               <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
               <Button color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
                 Join Room
               </Button>
-            </InputGroup> 
-          </div>
-
-         
-          <div className="kickUserContainer">
-            <InputGroup>
-            <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-            <Input placeholder="Your music sucks"/>
-              <Button color="primary"
-                className="inputB" id="myBtn" onClick={this.kickUser}>
-                Kick User
-              </Button>
             </InputGroup>
           </div>
-
-
         </div>
-
-        <Table className="scrollbox">
-          {
-              userList.map((name) =>
-                <tr>
-                  <td className="userNames">
-                    {name.name} 
-                  </td>
-                  <td>
-                    <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
-                  </td>
-                  <td>
-                    <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
-                  </td>
-                </tr>
-              )
-          }
-        </Table>
+        <div>
+          <Queue />
+        </div>
       </div>
     );
   }

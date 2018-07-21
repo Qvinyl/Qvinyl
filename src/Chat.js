@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import {Container, Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
 
 import Message from './Message.js';
 
@@ -11,14 +13,27 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             chats: [{
-     			username:" "
+     			      username:" "
      			//nothing so far. updates each time.
             }],
             userID: '',
-            displayName: ''
+            userList: [{
+              name: '',
+              id: '',
+            }],
+            displayName: '',
+            collapse: false,
         };
+
+        this.toggle = this.toggle.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.checkInRoom = this.checkInRoom.bind(this);
+        this.getUserList = this.getUserList.bind(this);
+    }
+
+    toggle() {
+      this.setState({ collapse: !this.state.collapse });
+      this.getUserList();
     }
 
     componentDidMount() {
@@ -36,10 +51,10 @@ class Chat extends React.Component {
     			console.log("unsuccessful");
     		}
 		}, 500);
-		if (successful) {
-			clearInterval(intervalID);
-			return true;
-		}
+  		if (successful) {
+  			clearInterval(intervalID);
+  			return true;
+  		}
     }
 
     getUserID() {
@@ -121,31 +136,164 @@ class Chat extends React.Component {
         });
     }
 
-    render() {
-        const { chats, userID, displayName} = this.state;
-        console.log("now: " + userID);
-        return (
-            <div id="chatroom">
-                <h3>Chatroom</h3>
-                <ul className="chats" ref="chats">
-                    {
-                        chats.map((chat) =>
-                            <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
-                            <b>{chat.displayName}</b>
-                            <br/>
-						        <p>{chat.content}</p>
-						    </li>
-                        )
-                    }
-                </ul>
-		        <div className="messagebox">
-		        </div>
+    kickUser(uid) {
+      var isAdmin = false;
+      var kickLink = uid;
+      var userID = firebase.auth().currentUser.uid;
+      var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+      userRoomKey.once('value').then(function(snapshot){
+        var roomKey = snapshot.val().currentRoom;
+        var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
+        adminLocation.once('value').then((snapshot) => {
+          var admin = snapshot.val();
+          console.log('admin: ' + admin);
+          if (userID == admin) {
+            isAdmin = true;
+            console.log("am I admin? " + isAdmin);
+            var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
+            updateUsers.once('value').then((snapshot) => {
+              snapshot.forEach((childSnapshot) => {
+                var selectedUser = childSnapshot.val();
+                var selectedUserKey = childSnapshot.key;
+                if ( kickLink == selectedUser ) {
+                  window.alert(kickLink + " has been removed from the room");
+                  firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
+                  var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
+                  getRoom.update({
+                    currentRoom: ''
+                  })
+                  var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
+                  numUsers.transaction(function(numberOfUsers) {
+                    return (numberOfUsers || 0) - 1;
+                  });
+                }
+                console.log("selectedUser: " + selectedUser);
+              });
+            });
+          }
+          else{
+            console.log("You are not admin");
+          }
+        });
+      });
+    }
 
-		        <form className="input" onSubmit={(e) => this.submitMessage(e)}>
-	                    <input id="currentMessage" type="text" ref="msg" />
-	                    <input type="submit" value="Submit" />
-		        </form>
+    getUserList() {
+        try {
+          var userID = firebase.auth().currentUser.uid;
+        } catch(exception) {
+          this.getUserList.bind(this);
+        }
+        var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+        getRoom.on('value', (snapshot) => {
+          try {
+            var roomKey = snapshot.val().currentRoom;
+          } catch (exception) {
+            this.getUserList.bind(this);
+          }
+          var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+          var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
+          userList.on('value', (user) => {
+            this.setState({
+              userList: []
+            })
+            user.forEach((childSnapshot) => {
+              var id = childSnapshot.val();
+              var keys = Object.keys(childSnapshot.val());
+              var getName = firebase.database().ref('users/' + id + '/name');
+              getName.once('value').then((name) => {
+                  var gotName = name.val();
+                  this.setState({
+                      userList: this.state.userList.concat([{
+                      name: gotName,
+                      id: id
+                  }])
+                });
+              });
+            });
+          });
+        });
+      }
+
+      makeAdmin(uid) {
+        var isAdmin = false;
+        var makeAdmin = uid;
+        console.log("make Admin: " + makeAdmin);
+        var userID = firebase.auth().currentUser.uid;
+        var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+        userRoomKey.once('value').then(function(snapshot){
+          var roomKey = snapshot.val().currentRoom;
+          var updateAdmin = firebase.database().ref('rooms/' + roomKey);
+          var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
+          adminLocation.once('value').then((snapshot) => {
+            var admin = snapshot.val();
+            console.log('admin: ' + admin);
+            if (userID == admin) {
+              isAdmin = true;
+              console.log("am I admin? " + isAdmin);
+              updateAdmin.push();
+              updateAdmin.update({
+                admin: makeAdmin
+              });
+              console.log("admin is now ": admin);
+            }
+            else{
+              console.log("You are not admin");
+            }
+          });
+        });
+      }
+
+    render() {
+        const { chats, userID, displayName, userList} = this.state;
+        return (
+
+            <div id="chatroom">
+
+            <div>
+              <Button color="primary" onClick={this.toggle} style={{ marginBottom: '0,5rem'}}>Users</Button>
+              <Collapse isOpen={this.state.collapse}>
+                <Card style={{background: "transparent"}}>
+                      <Table className="cardscrollbox">
+                       {
+                           userList.map((name) =>
+                             <tr>
+                               <td className="userNames">
+                                 {name.name}
+                               </td>
+                               <td>
+                                 <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
+                               </td>
+                               <td>
+                                 <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
+                               </td>
+                             </tr>
+                           )
+                       }
+                     </Table>
+                </Card>
+              </Collapse>
             </div>
+
+            <div>
+              <h3>Chatroom</h3>
+              <ul className="chats" ref="chats">
+                  {
+                    chats.map((chat) =>
+                        <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
+                          <b>{chat.displayName}</b>
+                          <br/>
+            			        <p>{chat.content}</p>
+            			    </li>
+                    )
+                  }
+              </ul>
+  		        <form className="input" onSubmit={(e) => this.submitMessage(e)}>
+  	                    <input id="currentMessage" type="text" ref="msg" />
+  	                    <input type="submit" value="Submit" />
+  		        </form>
+            </div>
+          </div>
         );
     }
 }

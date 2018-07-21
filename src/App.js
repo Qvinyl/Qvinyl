@@ -7,9 +7,7 @@ import Chat from './Chat'
 import Player from './Player'
 import Queue from './Queue'
 import * as firebase from 'firebase';
-import {Container, Row, Col, Button} from 'reactstrap'
-
-{/*Jac is testing pushing on master lol*/}
+import {Container, Row, Col, Button} from 'reactstrap';
 
 var config = {
     apiKey: "AIzaSyDG-IPOENqC8cDOdsm683gz-MGQUYroero",
@@ -26,47 +24,43 @@ function logoutButton(){
 }
 
 class App extends Component {
+  constructor (props) {
+    super(props);
+  }
   render () {
     return (
-
-    <Container fluid>  
-      <div className="app">
-        <Row>
-          <div className="banner">
-            <div className="flexbox">
-              <div className="title">Qvinyl</div>
-              <pre id="object"></pre>
-              <Button outline color="primary" href="login.html" onClick={logoutButton} className="button"> Logout</Button>
-            </div>
-          </div>
-        </Row>
-
-        <Row>
-          <Col md="12">
-            <Player/>
-          </Col>
-        </Row>
+    <div className="app">
+      <Row noGutters>
+        <div className="banner">
+            <img className="logo" src="logo6.png"/>
+            <Button outline color="primary" href="login.html" onClick={logoutButton} className="button"> Logout</Button>
+        </div>
+      </Row>
+      <Container fluid>
+        <div className="appDiv">
+          <Row noGutters>
+            <Col md="12">
+              <Player/>
+            </Col>
+          </Row>
 
 
-        <Row>
-          <Col md="2">
-            <Sidenav/>
-          </Col>
-          <Col md="8">
-            <Row>
-              <Main/>
-            </Row>
-            <Row>
-              <Queue/>
-            </Row>
-          </Col>
-          <Col md="2">
-            <Chat/>
-          </Col>
-        </Row>
-
-      </div>
-    </Container>
+          <Row noGutters>
+            <Col md="2">
+              <Sidenav/>
+            </Col>
+            <Col md="8">
+              <Row noGutters>
+                <Main/>
+              </Row>
+            </Col>
+            <Col md="2">
+              <Chat/>
+            </Col>
+          </Row>
+        </div>
+      </Container>
+    </div>
     );
   }
 }
