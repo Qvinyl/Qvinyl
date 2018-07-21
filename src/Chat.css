@@ -26,16 +26,15 @@ body{
   justify-content:center;
 }
 
-.cardscrollbox {
-  /* background-color: #1c1f23; */
-  background-color: #232323;
-  font-family:sans-serif;
-  width: 100%;
-  font-size: 12px;
-}
-
 .userListButton{
   padding: 2px;
+}
+
+.cardscrollbox {
+  background-color: #1c1f23;
+  opacity: 0.8;
+  font-family:sans-serif;
+  font-size: 12px;
 }
 
 #chatroom{
@@ -46,14 +45,16 @@ body{
   transition: transform .3s cubic-bezier(0, .52, 0, 1);
   z-index: 0;
   background-color: #343a40; /*main color of chat*/
-  border-radius:5px;
   overflow: auto;
   padding: 0;
 }
 
+.opacity{
+  opacity: 0.8;
+}
+
 #chatroom h3{
-  background-color: #0078ce;
-  color:#fff;
+  background-color: transparent;
   margin:0;
   height:40px;
   font-size:20px;
@@ -65,11 +66,9 @@ body{
   justify-content:center
 }
 #chatroom .chats{
-  -webkit-box-sizing:border-box;
-  box-sizing:border-box;
   padding:0 20px;
   margin:10px 0 0;
-  height: 72vh;
+  height: 71vh;
   overflow-y:scroll;
 }
 
@@ -88,15 +87,16 @@ body{
 #chatroom .chats .chat img{
   width:20px;
   height:20px;
-  border-radius:50%;
   position:absolute;
   top:-10px;
-  left:0
+  left:0;
+  right: 0;
 }
 
 #chatroom .chats .chat.right{
   float:right;
   clear:both;
+  width:auto;
 }
 
 #chatroom .chats .chat.left{
@@ -111,12 +111,9 @@ body{
   color:
 }
 
-#chatRoom input {
-
-}
 
 #chatroom .input{
-  height:40px;
+  height:38px;
   margin-top:0px; /*Submit tab bar */
   width:100%;
   background: #808080; /*Color of Submit tab*/
@@ -130,12 +127,11 @@ body{
 #chatroom .input input[type=text]{
   background:hsla(0,0%,100%,.5); /*color of chat input box*/
   outline:0;
-  border:2px solid white; /*border color of input box*/
   padding:0 5px;
   border-top-left-radius:5px;
   border-bottom-left-radius:5px;
   margin-left:10px;
-  width:270px;
+  width:100%;
   height:25px;
 }
 #chatroom .input input[type=submit],.chatroom .input input[type=text]{

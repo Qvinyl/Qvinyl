@@ -31,6 +31,7 @@ class Sidenav extends Component {
 
     this.addRoom = this.addRoom.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this);
   }
 
   addRoom() {
@@ -103,7 +104,7 @@ class Sidenav extends Component {
        this.getUserList.bind(this);
      }
      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-     getRoom.on('value', (snapshot) => {
+     getRoom.once('value').then((snapshot) => {
        try {
          var roomKey = snapshot.val().currentRoom;
        } catch (exception) {
@@ -115,13 +116,20 @@ class Sidenav extends Component {
          user.forEach((childSnapshot) => {
            var userKey = childSnapshot.key;
            var id = childSnapshot.val();
+           console.log('key: ' + userKey);
+           console.log('id: ' + id);
            if(id === userID) {
+             console.log("hello");
+             var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
+             numUsers.transaction(function(numberOfUsers) {
+               return (numberOfUsers || 0) - 1;
+             });
              firebase.database().ref('/rooms/' + roomKey + '/users/' + userKey).remove();
              return true;
            }
-         });
-       });
-     });
+        });
+      });
+    });
   }
 
  getRoomList() {
@@ -226,18 +234,12 @@ class Sidenav extends Component {
                 <i class="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
                 <span className="joinText">Join Room</span>
               </Button>
-              
-
             </div>
           </div>
-          <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-            <i className="fas fa-plus" onClick={()=> this.leaveRoom()}></i>
-          </Button>
-
 
           <br />
           <br />
-          
+
 
           <hr color="white" />
 

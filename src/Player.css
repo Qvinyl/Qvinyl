@@ -4,16 +4,25 @@
 	width: 100%;
 }
 
-.progress {
-	float: left;
-}
-
 .progressBar {
 	width: 100%;
 	height: 5px;
 	position: absolute;
 	top: 5.5vh;
 	background-color: white;
+}
+
+.progressBar::-moz-progress-bar
+{
+    background: lightgrey;
+}
+.progressBar::-webkit-progress-bar
+{
+    background: grey;
+}
+.progressBar::-webkit-progress-value
+{
+    background: lightgrey;
 }
 
 .controls {
@@ -91,7 +100,7 @@
 }
 
 .minimizedPlayer {
-	height: 15vh;
+	height: 5vh;
 }
 
 .banner {

@@ -305,7 +305,7 @@ class Player extends Component {
 					<div className="center">
 						<img className="logo" src="logo6.png"/>
 					</div>
-						
+
 					<div className="right">
 						<p className="userName">
 							Welcome, <b>{this.state.currentUser}</b>
@@ -317,7 +317,7 @@ class Player extends Component {
 							max='1'
 							value={this.state.played}
 						/>
-					</div>            
+					</div>
 		        </div>
 
 				<div className="player">
@@ -340,7 +340,7 @@ class Player extends Component {
 								playing={true}
 								volume={this.state.volume}
 								url={this.state.song}
-								width="100%"
+								width="100vw"
 								height="100vh"
 								muted={this.state.mute}
 								onProgress={this.onProgress}
