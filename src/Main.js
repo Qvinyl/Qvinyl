@@ -3,6 +3,7 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Tooltip} from 'reactstrap'
 import {
   Container, 
   Row, 
@@ -35,13 +36,29 @@ class Main extends Component {
       currentRoomKey: '',
       videos: [],
       selectedVideo: '',
-      youtubeOpen: false
+      youtubeOpen: false,
+      hoveringKey: false,
+      hoveringSearch: false
     };
+    this.hoverKey = this.hoverKey.bind(this);
+    this.hoverSearch = this.hoverSearch.bind(this);
     this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
     this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
 
     this.videoSearch('lofi');
+  }
+
+  hoverKey() {
+    this.setState({
+      hoveringKey: !this.state.hoveringKey
+    })
+  }
+
+  hoverSearch() {
+    this.setState({
+      hoveringSearch: !this.state.hoveringSearch
+    })
   }
 
   pushMusicToDB(link) {
@@ -168,12 +185,24 @@ class Main extends Component {
       <div className="main">
 
           <div className="mainButton">
-            <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+            {/****************** TOOLTIP FOR ROOM KEY ******************/}
+            <Button id="keyButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
               <i className="fas fa-key roomKey" onClick={this.getRoomKey}></i>
             </Button>
-            <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+            <Tooltip placement="bottom" isOpen={this.state.hoveringKey} target="keyButton" toggle={this.hoverKey}>
+              Click to Copy to ClipBoard
+            </Tooltip>
+
+          {/****************** TOOLTIP FOR SEARCH MUSIC ******************/}
+            <Button id="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
               <i className="fas fa-search searchSong" onClick={this.openYoutubeSearch}></i>
             </Button>
+            <Tooltip placement="bottom" isOpen={this.state.hoveringSearch} target="searchButton" toggle={this.hoverSearch}>
+              Search Music
+            </Tooltip>
+
+
+
             <Modal isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
               <ModalBody>
                 <div>

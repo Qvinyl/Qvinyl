@@ -36,7 +36,7 @@ class App extends Component {
       console.log('user: ' + user);
     } else {
       console.log('user is not logged in');
-      window.location.replace("login.html");
+      //window.location.replace("login.html");
     }
   }
 

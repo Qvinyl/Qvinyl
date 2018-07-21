@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './Sidenav.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupAddon } from 'reactstrap'
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupAddon, Tooltip } from 'reactstrap'
 import firebase from 'firebase';
 
 class Sidenav extends Component {
@@ -14,14 +14,29 @@ class Sidenav extends Component {
           roomName: '',
           roomKey: '',
         }],
+      hoveringAdd: false,
+      hoveringJoin: false,
       addingRoom: false,
       joiningRoom: false
 
     };
-
+    this.hoverAdd = this.hoverAdd.bind(this);
+    this.hoverJoin = this.hoverJoin.bind(this);
     this.addRoom = this.addRoom.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
     this.leaveRoom = this.leaveRoom.bind(this);
+  }
+
+  hoverAdd() {
+    this.setState({
+      hoveringAdd: !this.state.hoveringAdd
+    })
+  }
+
+  hoverJoin() {
+    this.setState({
+      hoveringJoin: !this.state.hoveringJoin
+    })
   }
 
   addRoom() {
@@ -269,16 +284,22 @@ class Sidenav extends Component {
       <div className="sidenav">
           <div>
             <h3 className="navTitle"> ROOMS </h3>
-
             <div className="navButtons">
-              <Button className="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
-                <span className="addText">Add Room</span>
+              {/****************** TOOLTIP FOR ADD ROOM ******************/}
+              <Button id="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i className="fas fa-plus" onClick={()=> this.addRoom()}> </i>
               </Button>
-              <Button className="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <Tooltip placement="bottom" isOpen={this.state.hoveringAdd} target="addButton" toggle={this.hoverAdd}>
+                Add Room
+              </Tooltip>
+
+              {/****************** TOOLTIP FOR JOIN ROOM ******************/}
+              <Button id="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i class="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
-                <span className="joinText">Join Room</span>
               </Button>
+              <Tooltip placement="bottom" isOpen={this.state.hoveringJoin} target="joinButton" toggle={this.hoverJoin}>
+                Join Room
+              </Tooltip>
             </div>
           </div>
 
