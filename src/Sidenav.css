@@ -9,6 +9,7 @@
 
 .b_width {
   width: 100%;
+  cursor: pointer;
 }
 
 #roomList td {

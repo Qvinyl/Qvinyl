@@ -10,7 +10,6 @@
 	position: absolute;
 	top: 5.6vh;
 	background-color: white;
-	margin-top: 6vh;
 }
 
 .progressBar::-moz-progress-bar

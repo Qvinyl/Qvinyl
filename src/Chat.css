@@ -114,7 +114,8 @@ body{
 
 #chatroom .input{
   height:38px;
-  margin-top:0px; /*Submit tab bar */
+  margin-top:-15px; /*Submit tab bar */
+  bottom: 0;
   width:100%;
   background: #808080; /*Color of Submit tab*/
   display:-ms-flexbox;display:flex;
