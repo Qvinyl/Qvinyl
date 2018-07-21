@@ -5,6 +5,17 @@
 	margin-top: -1vh;
 }
 
+.songTitle {
+	margin-top: 4px;
+	margin-left: 15px;
+	color: white;
+}
+
+.currentPlay {
+	color: lightgrey;
+	font-weight: lighter;
+}
+
 .scrollingText {
 	width: 300px;
 }
@@ -146,12 +157,6 @@
 	width: 5vh;
 	float: left;
 	object-fit: cover;
-}
-
-.songTitle {
-	margin-top: 4px;
-	margin-left: 15px;
-	color: white;
 }
 
 .userName {

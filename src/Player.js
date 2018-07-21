@@ -293,10 +293,13 @@ class Player extends Component {
 					<div className="left">
 						<img className="albumart" src={this.state.currentSongImage}/>
 						<p className="songTitle">
+							<p className="currentPlay">
 							♫♪  Currently playing...
+							</p>
+
 							<br />
-							<marquee width="200px" behavior="scroll" direction="left" scrollamount="6">
-								<b>{this.state.currentSongTitle}</b>
+							<marquee width="300px" behavior="scroll" direction="left" scrollamount="6">
+								{this.state.currentSongTitle}
 							</marquee>
 						</p>
 						<a onClick={this.checkUserDownVote}>
