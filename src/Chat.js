@@ -260,7 +260,7 @@ class Chat extends React.Component {
           <div className="opacity">
       <Nav tabs style={{background:'' }}>
         <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
-          <NavLink 
+          <NavLink
             className={classnames({ active: this.state.activeTab === '1' })}
             onClick={() => { this.toggle('1'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
           >
@@ -307,7 +307,7 @@ class Chat extends React.Component {
         <TabPane tabId="2">
           <Row noGutters>
             <Col sm="12">
-              <Card Body style={{border: '0px'}}>
+              <Card Body style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}>
               <Table className="cardscrollbox">
                   {
                       userList.map((name) =>
