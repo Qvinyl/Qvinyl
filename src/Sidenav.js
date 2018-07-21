@@ -3,17 +3,7 @@ import React, { Component } from 'react'
 import './Sidenav.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import {
-  Table,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Input,
-  InputGroup,
-  InputGroupAddon
-} from 'reactstrap'
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupAddon } from 'reactstrap'
 import firebase from 'firebase';
 
 class Sidenav extends Component {

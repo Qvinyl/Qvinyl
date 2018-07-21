@@ -14,6 +14,7 @@ class Queue extends React.Component {
           }],
       };
       this.musicQueued = this.musicQueued.bind(this);
+      this.loadQueue = this.loadQueue.bind(this);
   }
 
   musicQueued() {
@@ -23,40 +24,37 @@ class Queue extends React.Component {
       this.musicQueued.bind(this);
     }
     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-    getRoom.once('value').then((snapshot) => {
+    getRoom.on('value', (snapshot) => {
       try {
         var roomKey = snapshot.val().currentRoom;
-        //console.log("child room: " + roomKey);
       } catch (exception) {
         this.musicQueued.bind(this);
       }
-      //console.log("roomKey: " + roomKey);
-      var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
-      songLocation.on('value', (song) => {
-        let clear = [];
+      this.loadQueue(roomKey);
+    });
+  }
+
+  loadQueue (roomKey) {
+    var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
+    songLocation.on('value', (song) => {
+      let clear = [];
+      this.setState({
+        songQueue: clear
+      })
+      song.forEach((childSnapshot) => {
+        var songLink = childSnapshot.val().link;
+        var queueBy = childSnapshot.val().queueBy;
+        var thumbnail = childSnapshot.val().thumbnail;
+        var title = childSnapshot.val().title;
+        var duration = childSnapshot.val().duration;
         this.setState({
-          songQueue: clear
-        })
-        try {
-          var keys = Object.keys(song.val());
-        } catch(exception) {
-          this.musicQueued();
-        }
-        song.forEach((childSnapshot) => {
-          var songLink = childSnapshot.val().link;
-          var queueBy = childSnapshot.val().queueBy;
-          var thumbnail = childSnapshot.val().thumbnail;
-          var title = childSnapshot.val().title;
-          var duration = childSnapshot.val().duration;
-          this.setState({
-						songQueue: this.state.songQueue.concat([{
-			        link: songLink,
-              queueBy: queueBy,
-              thumbnail: thumbnail,
-              title: title,
-              duration: duration
-						}])
-					});
+          songQueue: this.state.songQueue.concat([{
+            link: songLink,
+            queueBy: queueBy,
+            thumbnail: thumbnail,
+            title: title,
+            duration: duration
+          }])
         });
       });
     });
@@ -69,7 +67,6 @@ class Queue extends React.Component {
   render () {
     const {songQueue} = this.state;
     return (
-
       <Scrollbars className="scrollbox" style={{height:"50vh"}}>
         <Table className="table">
           {

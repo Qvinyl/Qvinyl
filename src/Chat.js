@@ -46,7 +46,7 @@ class Chat extends React.Component {
   }
 
     componentDidMount() {
-		    setTimeout(this.getUserID.bind(this), 1000);
+		    //setTimeout(this.getUserID.bind(this), 1000);
         this.scrollToBot();
     }
 
@@ -67,11 +67,11 @@ class Chat extends React.Component {
     }
 
     getUserID() {
-        try {
-   		   var userID = firebase.auth().currentUser.uid;
-        } catch(exception) {
-            this.getUserID.bind(this);
-        }
+      try {
+ 		   var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
+          this.getUserID.bind(this);
+      }
     	this.setState({
     		userID: userID
     	})
