@@ -26,7 +26,28 @@ function logoutButton(){
 class App extends Component {
   constructor (props) {
     super(props);
+    this.state = {
+      userID: false,
+    };
   }
+
+  checkLoggedIn() {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      this.setState({
+        userID: true
+      });
+    }
+    else {
+      console.log('user is not logged in');
+      window.location.href = "login.html";
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(this.checkLoggedIn.bind(this), 1000);
+  }
+
   render () {
     return (
     <div className="app">
