@@ -18,20 +18,22 @@ class Queue extends React.Component {
   }
 
   musicQueued() {
-    try {
-      var userID = firebase.auth().currentUser.uid;
-    } catch(exception) {
-      this.musicQueued.bind(this);
-    }
-    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-    getRoom.on('value', (snapshot) => {
+    setInterval(() => {
       try {
-        var roomKey = snapshot.val().currentRoom;
-      } catch (exception) {
+        var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
         this.musicQueued.bind(this);
       }
-      this.loadQueue(roomKey);
-    });
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+      getRoom.once('value').then((snapshot) => {
+        try {
+          var roomKey = snapshot.val().currentRoom;
+        } catch (exception) {
+          this.musicQueued.bind(this);
+        }
+        this.loadQueue(roomKey);
+      });
+    }, 500);
   }
 
   loadQueue (roomKey) {
