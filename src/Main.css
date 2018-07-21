@@ -23,14 +23,14 @@
 .mainButton {
   position: absolute;
   right: 0;
+  margin-top: 15px;
+  margin-right: 15px;
 }
 
 
 .roomKey {
   color: white;
-  font-size: 35px;
-  margin-top: 15px;
-  margin-right: 15px;
+  font-size: 25px;
   cursor: pointer;
   float:right;
 }
@@ -41,9 +41,7 @@
 
 .searchSong {
   color: white;
-  font-size: 35px;
-  margin-top: 15px;
-  margin-right: 15px;
+  font-size: 25px;
   cursor: pointer;
   float:right;
 }

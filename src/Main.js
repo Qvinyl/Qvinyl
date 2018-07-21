@@ -3,10 +3,28 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
+import {
+  Container, 
+  Row, 
+  Col, 
+  Button, 
+  InputGroup, 
+  InputGroupAddon, 
+  InputGroupText, 
+  Input, 
+  Table,
+  Modal,
+  ModalBody,
+  ModalFooter 
+} from 'reactstrap'
+
 import firebase from 'firebase'
 import './Queue.css';
 
+import _ from 'lodash';
+import YTSearch from 'youtube-api-search';
+import SearchBar from './search_bar.js'
+const API_KEY = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
 
 
 class Main extends Component {
@@ -14,16 +32,22 @@ class Main extends Component {
     super(props);
     this.state = {
       roomTitle: '',
-      currentRoomKey: ''
+      currentRoomKey: '',
+      videos: [],
+      selectedVideo: '',
+      youtubeOpen: false
     };
     this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
+    this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
+
+    this.videoSearch('lofi');
   }
 
-  pushMusicToDB() {
+  pushMusicToDB(link) {
+    console.log("sending link: " + link);
     var userID = firebase.auth().currentUser.uid;
     var name = firebase.auth().currentUser.displayName;
-    var link = document.getElementById("myLink").value;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
@@ -36,11 +60,10 @@ class Main extends Component {
       var position = link.lastIndexOf("=");
       var youtubeID = link.slice(position + 1, link.length);
       var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
-      var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
       var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
-                      + APIkey + '&part=snippet&id=' + youtubeID;
+                      + API_KEY + '&part=snippet&id=' + youtubeID;
       var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key='
-      + APIkey + '&part=contentDetails&id=' + youtubeID;
+      + API_KEY + '&part=contentDetails&id=' + youtubeID;
 
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
@@ -116,35 +139,82 @@ class Main extends Component {
     setTimeout(this.getRoomName.bind(this), 1000);
   }
 
+  videoSearch(term) {
+    YTSearch({ key: API_KEY, term: term }, videos => {
+      this.setState({
+        videos: videos,
+        selectedVideo: videos[0]
+      }); //Same as this.setState({ videos : videos })
+    });
+    console.log(this.state.videos);
+  }
+
+  openYoutubeSearch() {
+    this.setState({
+      youtubeOpen: !this.state.youtubeOpen
+    });
+    console.log(this.state.youtubeOpen);
+  }
+
   render () {
-    const {userList} = this.state;
+    const {userList, videos} = this.state;
+
+    const videoSearch = _.debounce(term => {
+      this.videoSearch(term);
+    }, 300);
+
+
     return (
       <div className="main">
 
           <div className="mainButton">
-            <i className="fas fa-search roomKey" onClick={this.getRoomKey}></i>
-            <i className="fas fa-key searchSong" onClick={this.getRoomKey}></i>
+            <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <i className="fas fa-key roomKey" onClick={this.getRoomKey}></i>
+            </Button>
+            <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <i className="fas fa-search searchSong" onClick={this.openYoutubeSearch}></i>
+            </Button>
+            <Modal isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
+              <ModalBody>
+                <div>
+                  <SearchBar onSearchTermChange={videoSearch} />
+
+                  <ul className="col-md-4 list-group">
+                    {
+                      videos.map((video) => 
+                        <li>
+                          <div>
+                            <div>
+                              <img src={video.snippet.thumbnails.default.url} />
+                            </div>
+                            <div >
+                              <div>{video.snippet.title}
+                                <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                                  <i className="fas fa-plus roomKey" 
+                                    onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
+                                  </i>
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      )
+                    }
+                  </ul>
+
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={this.openYoutubeSearch}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
           </div>
+
           <div className="roomWithKey">
             <p className="mainTitle">
               {this.state.roomTitle}
             </p>
           </div>
-
-          
-
-        <div className="mainInputContainer flexbox">
-          <div className="inputContainer">
-           {/*} <label className="linkT">Music Link:</label> */}
-            <InputGroup >
-              <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
-              <Input id="myLink" placeholder="Paste Music Link Here" />
-              <Button size="sm" color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
-                Submit
-              </Button>
-            </InputGroup>
-          </div>
-        </div>
         <div>
           <Queue />
         </div>
