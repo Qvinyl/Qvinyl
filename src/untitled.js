@@ -12,9 +12,7 @@ class Chat extends React.Component {
         super(props);
         this.state = {
             chats: [{
-              username: '',
-              displayName: '',
-              content: ''
+     			      username:" "
             }],
             userID: '',
             userList: [{
@@ -51,48 +49,48 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(this.getUserID.bind(this), 1000);
+		    setTimeout(this.getUserID.bind(this), 1000);
         this.scrollToBot();
     }
 
     getUserID() {
-      setInterval(() => {
-        try {
-          var userID = firebase.auth().currentUser.uid;
-        } catch(exception) {
-          this.getUserID.bind(this);
-        }
-        this.setState({
-          userID: userID
-        });
-        var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-        getRoom.once('value').then((snapshot) => {
-          try {
-            var roomKey = snapshot.val().currentRoom;
-          } catch (exception) {
-            this.getUserID.bind(this);
-          }
-          console.log("current chat room: " + roomKey);
-          if (roomKey != undefined) this.loadChat(roomKey);
-        });
-      }, 500);
+      try {
+        var userID = firebase.auth().currentUser.uid;
+      } catch(exception) {
+        this.getUserID.bind(this);
+      }
+      this.setState({
+        userID: userID
+      });
+      var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+    	getRoom.on('value', (snapshot) => {
+    		try {
+  				var roomKey = snapshot.val().currentRoom;
+  			} catch (exception) {
+  				this.getUserID.bind(this);
+  			}
+        this.loadChat(roomKey);
+      });
     }
 
-    
     loadChat(roomKey) {
       var chatLocation = firebase.database().ref('/rooms/' + roomKey + '/chats/');
-      chatLocation.on('value', (chatHistory) => {
-        
+      chatLocation.on('value', (snapshot) => {
+        let chats = snapshot.val();
+        try {
+          var keys = Object.keys(chats);
+        } catch (exception) {
+          return;
+        }
         let clear = [];
         this.setState({
           chats: clear
         });
-        
-        chatHistory.forEach((childSnapshot) => {
-          console.log(chatHistory.val());
-          var message = childSnapshot.val().message;
-          var user = childSnapshot.val().user;
-          var displayName = childSnapshot.val().name;
+        for(var i = 0; i < keys.length; i++){
+          var k = keys[i];
+          var message = chats[k].message;
+          var user = chats[k].user;
+          var displayName = chats[k].name;
           this.setState({
             chats: this.state.chats.concat([{
               username: user,
@@ -102,10 +100,10 @@ class Chat extends React.Component {
           }, () => {
             ReactDOM.findDOMNode(this.refs.msg).value = "";
           });
+        }
         });
       });
     }
-    
 
     submitMessage(e) {
         e.preventDefault();
@@ -319,7 +317,7 @@ class Chat extends React.Component {
       </div>
 
 
-      );
+        );
     }
 }
 
