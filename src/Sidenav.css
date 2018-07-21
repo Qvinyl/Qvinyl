@@ -34,13 +34,11 @@
 .addRoomBox, .joinRoomBox {
 	opacity: .8;
   background-color: #6c6d6d;
-  color: yellow;
-  border-radius: 50px;
+
 }
 
 .modalBody, .joinModalBody {
   background-color: #545656;
-  border-radius: 50px;
 }
 
 #addSubmit, #addCancel {
