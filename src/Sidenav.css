@@ -30,13 +30,42 @@
   position: relative;
   right:15%;
 }
+/*************** MODAL BOXES ***************/
+.addRoomBox, .joinRoomBox {
+	opacity: .8;
+  background-color: #6c6d6d;
+  color: yellow;
+  border-radius: 50px;
+}
 
-.addRoomBox {
-	opacity: 0.8;
+.modalBody, .joinModalBody {
+  background-color: #545656;
+  border-radius: 50px;
+}
+
+#addSubmit, #addCancel {
+  float: right;
+  margin: 3px 3px 3px 3px;
+}
+
+
+
+
+  #roomname, #roompw {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color:#989a9b;
 }
 
 .roomText {
   font-size: 12px;
+}
+
+.joinTitle, .addTitle {
+  color:white;
+  font-size: 24px;
+  letter-spacing: 2px;
+  font-weight: 500;
 }
 
 /*************** BUTTON HOVER OVER TEXTS***************/
@@ -46,7 +75,7 @@
   /*ToolTip text*/
     visibility: hidden;
     width: 90px;
-    background-color: #606466;
+    background-color: #939596;
     color: #fff;
     font-size: 12px;
     text-align: center;
