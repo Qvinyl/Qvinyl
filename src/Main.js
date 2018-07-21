@@ -34,12 +34,12 @@ class Main extends Component {
       roomTitle: '',
       currentRoomKey: '',
       videos: [],
-      selectedVideo: '',
       youtubeOpen: false
     };
     this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
     this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
+    this.parseDuration = this.parseDuration.bind(this);
 
     this.videoSearch('lofi');
   }
@@ -72,21 +72,44 @@ class Main extends Component {
           var title = json.items[0].snippet.title;
           fetch(youtubeAPIduration).then((response) => response.json()).then((json) => {
             var duration = json.items[0].contentDetails.duration;
-            var minutes = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("M"));
-            var seconds = duration.slice(duration.lastIndexOf("M") + 1, duration.lastIndexOf("S"));
-            duration = (minutes.length == 1 ? "0" + minutes : minutes)
-                      + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
+
+            // parsing duration
+            if (duration === "PT0S") {
+              parsedDuration = "Stream";
+            } else {
+              var parsedDuration = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("S"));
+              if (parsedDuration.includes("H")) {
+                var hours = parsedDuration.slice(0, parsedDuration.lastIndexOf("H"));
+                var minutes = parsedDuration.slice(parsedDuration.lastIndexOf("H") + 1, parsedDuration.lastIndexOf("M"));
+                var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
+                parsedDuration = (hours.length == 1 ? "0" + hours : hours)
+                          + ":" + (minutes.length == 1 ? "0" + minutes : minutes)
+                          + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
+              } else {
+                var minutes = parsedDuration.slice(0, parsedDuration.lastIndexOf("M"));
+                var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
+                parsedDuration = (minutes.length == 1 ? "0" + minutes : minutes)
+                          + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
+              }
+            }
+            
             songLocation.push({
               queueBy: name,
               link: link,
               thumbnail: youtubeImgURL,
               title: title,
-              duration: duration
+              duration: parsedDuration
             });
           });
         })
       }
     });
+  }
+
+  parseDuration (duration) {
+
+    
+    var hours = duration.slice(duration.lastIndexOf("M") + 1, duration.lastIndexOf("S"));
   }
 
   getRoomKey() {
@@ -142,9 +165,8 @@ class Main extends Component {
   videoSearch(term) {
     YTSearch({ key: API_KEY, term: term }, videos => {
       this.setState({
-        videos: videos,
-        selectedVideo: videos[0]
-      }); //Same as this.setState({ videos : videos })
+        videos: videos
+      });
     });
     console.log(this.state.videos);
   }
@@ -187,8 +209,9 @@ class Main extends Component {
                             <div>
                               <img src={video.snippet.thumbnails.default.url} />
                             </div>
-                            <div >
-                              <div>{video.snippet.title}
+                            <div>
+                              <div>
+                                <p>{video.snippet.title}</p>
                                 <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                                   <i className="fas fa-plus roomKey" 
                                     onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>

@@ -72,10 +72,10 @@ class Chat extends React.Component {
           } catch (exception) {
             this.getUserID.bind(this);
           }
-          console.log("current chat room: " + roomKey);
+          //console.log("current chat room: " + roomKey);
           if (roomKey != undefined) this.loadChat(roomKey);
         });
-      }, 500);
+      }, 1000);
     }
 
     
@@ -89,7 +89,7 @@ class Chat extends React.Component {
         });
         
         chatHistory.forEach((childSnapshot) => {
-          console.log(chatHistory.val());
+          //console.log(chatHistory.val());
           var message = childSnapshot.val().message;
           var user = childSnapshot.val().user;
           var displayName = childSnapshot.val().name;
@@ -99,8 +99,6 @@ class Chat extends React.Component {
               displayName: displayName,
               content: message,
             }])
-          }, () => {
-            ReactDOM.findDOMNode(this.refs.msg).value = "";
           });
         });
       });
@@ -126,7 +124,8 @@ class Chat extends React.Component {
                 message: userMessage,
                 user: userID,
                 name: displayName
-            })
+            });
+            document.getElementById("currentMessage").value = '';
         });
     }
 
@@ -244,7 +243,7 @@ class Chat extends React.Component {
 
           <div className="opacity">
       <Nav tabs style={{background:'' }}>
-        <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
+        <NavItem style={{height:"4vh", background:"#343a40", width:'50%', opacity: '0.8'}}>
           <NavLink
             className={classnames({ active: this.state.activeTab === '1' })}
             onClick={() => { this.toggle('1'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
@@ -252,7 +251,7 @@ class Chat extends React.Component {
             <span className="tabTitle">Chatroom</span>
           </NavLink>
         </NavItem>
-        <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
+        <NavItem style={{height:"4vh", background:"#343a40", width:'50%', opacity: '0.8'}}>
           <NavLink
             className={classnames({ active: this.state.activeTab === '2' })}
             onClick={() => { this.toggle('2'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
@@ -279,9 +278,8 @@ class Chat extends React.Component {
                     )
                   }
               </ul>
-              <form className="input" onSubmit={(e) => this.submitMessage(e)}>
-                        <input id="currentMessage" type="text" ref="msg" />
-                        <input type="submit" value="Submit" />
+              <form autoComplete="off" className="input" onSubmit={(e) => this.submitMessage(e)}>
+                        <input id="currentMessage" onFocus="this.value=''" type="text" ref="msg" />
               </form>
             </div>
           </div>

@@ -33,7 +33,7 @@ class Queue extends React.Component {
         }
         this.loadQueue(roomKey);
       });
-    }, 500);
+    }, 1000);
   }
 
   loadQueue (roomKey) {

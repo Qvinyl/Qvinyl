@@ -281,7 +281,7 @@ class Player extends Component {
 	render () {
 		// initializing css style inject
 		var video = {
-			height: this.state.hiddenVideo ? "15vh" : "100vh"
+			height: this.state.hiddenVideo ? "35vh" : "100vh"
 		};
 		var showAddSong = {
 			display: this.state.hiddenAddSong ? "none" : "block"
