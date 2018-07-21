@@ -211,13 +211,6 @@ class Sidenav extends Component {
 
     return (
       <div className="sidenav">
-        {/*
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-            </InputGroupAddon>
-            <Input placeholder="Search Room Name" className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
-          </InputGroup>
-        */}
           <div>
             <h3 className="title"> ROOMS </h3>
 
@@ -247,6 +240,7 @@ class Sidenav extends Component {
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
           <ModalBody className="modalBody" toggle={this.addRoom}> 
             <h3 className="joinTitle"> <i className="fas fa-plus"></i>   ADD NEW ROOM </h3>
+            <br />
             <div className="addbox" id="addbox">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Room Name</InputGroupAddon>
@@ -271,6 +265,7 @@ class Sidenav extends Component {
         <Modal className="joinRoomBox" isOpen={this.state.joiningRoom} toggle={this.joinRoom}>
           <ModalBody className="joinModalBody" toggle={this.joinRoom}> 
             <h3 className="joinTitle"> <i class="fas fa-door-open"></i>   JOIN A ROOM </h3>
+            <br />
             <div className="addbox" id="addbox">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Key</InputGroupAddon>

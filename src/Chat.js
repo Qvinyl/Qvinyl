@@ -262,11 +262,11 @@ class Chat extends React.Component {
           <div className="opacity">
       <Nav tabs style={{background:'' }}>
         <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
-          <NavLink
+          <NavLink 
             className={classnames({ active: this.state.activeTab === '1' })}
             onClick={() => { this.toggle('1'); }} style={{color: 'white', background: '#212529', border: '0px', borderRadius: '0px'}}
           >
-            Chatroom
+            <span style={{cursor:'pointer'}}>Chatroom</span>
           </NavLink>
         </NavItem>
         <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
@@ -274,7 +274,7 @@ class Chat extends React.Component {
             className={classnames({ active: this.state.activeTab === '2' })}
             onClick={() => { this.toggle('2'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
           >
-            Users
+            <span style={{cursor:'pointer'}}>Users</span>
           </NavLink>
         </NavItem>
       </Nav>

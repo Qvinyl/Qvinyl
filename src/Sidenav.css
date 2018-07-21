@@ -40,6 +40,10 @@
 
 .modalBody, .joinModalBody {
   background-color: #545656;
+  border-style: ridge;
+  border-width: 1.5px;
+  border-color: #e0e0e0;
+
 }
 
 #addSubmit, #addCancel {
@@ -74,7 +78,7 @@
   /*ToolTip text*/
     visibility: hidden;
     width: 90px;
-    background-color: #939596;
+    background-color: #606466;
     color: #fff;
     font-size: 12px;
     text-align: center;
