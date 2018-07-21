@@ -5,18 +5,18 @@ import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Tooltip} from 'reactstrap'
 import {
-  Container, 
-  Row, 
-  Col, 
-  Button, 
-  InputGroup, 
-  InputGroupAddon, 
-  InputGroupText, 
-  Input, 
+  Container,
+  Row,
+  Col,
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
   Table,
   Modal,
   ModalBody,
-  ModalFooter 
+  ModalFooter
 } from 'reactstrap'
 
 import firebase from 'firebase'
@@ -38,10 +38,12 @@ class Main extends Component {
       selectedVideo: '',
       youtubeOpen: false,
       hoveringKey: false,
-      hoveringSearch: false
+      hoveringSearch: false,
+      hoveringDelete: false,
     };
     this.hoverKey = this.hoverKey.bind(this);
     this.hoverSearch = this.hoverSearch.bind(this);
+    this.hoverDelete = this.hoverDelete.bind(this);
     this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
     this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
@@ -56,6 +58,12 @@ class Main extends Component {
   }
 
   hoverSearch() {
+    this.setState({
+      hoveringSearch: !this.state.hoveringSearch
+    })
+  }
+
+  hoverDelete() {
     this.setState({
       hoveringSearch: !this.state.hoveringSearch
     })
@@ -152,6 +160,32 @@ class Main extends Component {
     });
   }
 
+  destroyRoom() {
+    var isAdmin = false;
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.once('value').then(function(snapshot){
+      var roomKey = snapshot.val().currentRoom;
+      var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
+      adminLocation.once('value').then((snapshot) => {
+        var admin = snapshot.val();
+        console.log('admin: ' + admin);
+        if (userID == admin) {
+          isAdmin = true;
+          console.log("am I admin? " + isAdmin);
+          firebase.database().ref('users/' + userID + "/roomKeys").push();
+          firebase.database().ref('users/' + userID + "/roomKeys").set({
+            currentRoom: ''
+          });
+          var deleteRoom = firebase.database().ref('rooms/' + roomKey).remove();
+        }
+        else{
+          console.log("You are not admin");
+        }
+      });
+    });
+  }
+
   componentDidMount() {
     setTimeout(this.getRoomName.bind(this), 1000);
   }
@@ -201,6 +235,13 @@ class Main extends Component {
               Search Music
             </Tooltip>
 
+          {/****************** TOOLTIP FOR DELETE ROOM ******************/}
+          <Button id="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+            <i className="fas fa-times searchSong" onClick={this.destroyRoom}></i>
+          </Button>
+          <Tooltip placement="bottom" isOpen={this.state.hoveringDelete} target="searchButton" toggle={this.hoverDelete}>
+            Search Music
+          </Tooltip>
 
 
             <Modal isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
@@ -210,7 +251,7 @@ class Main extends Component {
 
                   <ul className="col-md-4 list-group">
                     {
-                      videos.map((video) => 
+                      videos.map((video) =>
                         <li>
                           <div>
                             <div>
@@ -219,7 +260,7 @@ class Main extends Component {
                             <div >
                               <div>{video.snippet.title}
                                 <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                  <i className="fas fa-plus roomKey" 
+                                  <i className="fas fa-plus roomKey"
                                     onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
                                   </i>
                                 </Button>
