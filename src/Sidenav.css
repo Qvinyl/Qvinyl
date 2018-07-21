@@ -4,7 +4,7 @@
   background: #343a40;
   display: block;
   opacity: 0.8;
-  padding: 10px;
+  padding: 20px;
 }
 
 .b_width {
@@ -18,32 +18,10 @@
    border: 1px solid black;
    */
    color: white;
-   cursor: pointer;
 }
-#roomList tr:hover {
-  background-color: #011222;
-}
-.selected {
-  background-color: #011222;
-  color: #011222;
-}
-<<<<<<< HEAD
-.title {
-  color: white;
-  float: left;
-}
-
-.buttons {
-  float: right;
-}
-
-.addRoomBox {
-  opacity: 0.8;
-}
-=======
 
 .navTitle {
-	color: white;
+  color: white;
   left: 0;
   position: absolute;
   margin-left: 20px;
@@ -60,7 +38,7 @@
 
 /*************** MODAL BOXES ***************/
 .addRoomBox, .joinRoomBox {
-	opacity: .8;
+  opacity: .8;
   background-color: #6c6d6d;
 
 }
@@ -218,4 +196,3 @@
 /*.iconButton {
   margin: 1px 1px 1px 1px;
 }*/
->>>>>>> 758b8300b25eeda5fd8adec870dfcff89c63215f
