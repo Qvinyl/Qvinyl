@@ -1,10 +1,14 @@
+html {
+  background: black;
+}
+
 body {
   background: black;
 }
 
 .app {
-  margin-bottom: -10px;
   background: black;
+  margin-bottom: 20px;
 }
 
 
