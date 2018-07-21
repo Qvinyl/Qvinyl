@@ -90,13 +90,15 @@ class Queue extends React.Component {
                       height="100" width="150"
                     />
                   </td>
-                  <td>
-                    <b>{song.title}</b>
+                  <td className="songTitle">
+                    {song.title}
                     <br />
-                    Queued by {song.queueBy}
+                    <span className="queueBy">
+                     Queued by {song.queueBy}
+                    </span>
                   </td>
-                  <td>
-                    {song.duration}
+                  <td className="songTime">
+                    <i class="fas fa-clock"></i> {song.duration}
                   </td>
                 </tr>
               )

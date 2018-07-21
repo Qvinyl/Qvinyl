@@ -26,15 +26,91 @@ class Sidenav extends Component {
           roomKey: '',
           highlighted: '',
         }],
-      addingRoom: false
+      addingRoom: false,
+      joiningRoom: false
+
     };
 
     this.addRoom = this.addRoom.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this);
   }
   addRoom() {
     this.setState({
       addingRoom: !this.state.addingRoom
     })
+  }
+
+  joinRoom() {
+    this.setState({
+      joiningRoom: !this.state.joiningRoom
+    })
+  }
+
+  checkValidKey() {
+    var isValid = false;
+    var link = document.getElementById("linkOfRoom").value;
+    var rooms = firebase.database().ref('rooms/');
+    rooms.once('value').then((snapshot) => {
+      snapshot.forEach((room) => {
+        console.log('Link: ' + link);
+        console.log('room: ' + room.key);
+        if (link === room.key) {
+          isValid = true;
+          console.log("The Key is valid");
+          this.joinPrivateRoom();
+          return true;
+        }
+      });
+    });
+    if (isValid == true) {
+      console.log('is valid key');
+    }
+    else{
+      console.log("Key is not valid");
+    }
+  }
+  
+  joinPrivateRoom() {
+    this.joinRoom();
+    var temp = false;
+    var link = document.getElementById("linkOfRoom").value;
+    console.log("moving to room:" + link);
+    if (link == "") {
+      return;
+    }
+    var userID = firebase.auth().currentUser.uid;
+    var displayName = firebase.auth().currentUser.displayName;
+    var getUser= firebase.database().ref('users/' + userID);
+    getUser.push();
+    getUser.set({
+      name: displayName
+    })
+    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+    getRoom.push();
+    getRoom.set({
+      currentRoom: link
+    })
+    console.log("moving to room:" + link);
+    var updateUsers = firebase.database().ref('rooms/' + link + '/users');
+    updateUsers.once('value').then((snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        var user = childSnapshot.val();
+         if (childSnapshot.val() === userID) {
+             console.log(childSnapshot.val() === userID);
+             temp = true;
+             return true;
+         }
+       });
+       if (temp == false) {
+         console.log(userID);
+         updateUsers.push(userID);
+         var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
+         numUsers.transaction(function(numberOfUsers) {
+           return (numberOfUsers || 0) + 1;
+         });
+       }
+     });
   }
 
  searchRoom() {
@@ -53,6 +129,7 @@ class Sidenav extends Component {
  }
 
  joinPublicRoom(roomKey) {
+   this.leaveRoom();
    var temp = false;
    var userID = firebase.auth().currentUser.uid;
    var displayName = firebase.auth().currentUser.displayName;
@@ -93,6 +170,41 @@ class Sidenav extends Component {
   // alert("Number of rows: "+numRows);
   for(var i = 0 ; i<numRows; i++)
       rowNum.rows[i].style.backgroundColor = "black";
+  }
+
+ leaveRoom() {
+     try {
+       var userID = firebase.auth().currentUser.uid;
+     } catch(exception) {
+       this.getUserList.bind(this);
+     }
+     var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+     getRoom.once('value').then((snapshot) => {
+       try {
+         var roomKey = snapshot.val().currentRoom;
+       } catch (exception) {
+         this.leaveRoom.bind(this);
+       }
+       var roomLocation = firebase.database().ref('/rooms/' + roomKey);
+       var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
+       userList.once('value').then((user) => {
+         user.forEach((childSnapshot) => {
+           var userKey = childSnapshot.key;
+           var id = childSnapshot.val();
+           console.log('key: ' + userKey);
+           console.log('id: ' + id);
+           if(id === userID) {
+             console.log("hello");
+             var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
+             numUsers.transaction(function(numberOfUsers) {
+               return (numberOfUsers || 0) - 1;
+             });
+             firebase.database().ref('/rooms/' + roomKey + '/users/' + userKey).remove();
+             return true;
+           }
+        });
+      });
+    });
   }
 
  getRoomList() {
@@ -176,54 +288,66 @@ class Sidenav extends Component {
 
     return (
       <div className="sidenav">
-        {/*
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-            </InputGroupAddon>
-            <Input placeholder="Search Room Name" className="inlink" type="text" name="name" id="room" onChange={()=>this.searchRoom()}/>
-          </InputGroup>
-        */}
           <div>
-            <h3 className="title"> ROOMS </h3>
-            <div className="buttons">
-              <Button style={{borderRadius:100}}>
-                <i className="fas fa-search"></i>
-              </Button>
-              <Button style={{borderRadius:100}}>
+            <h3 className="navTitle"> ROOMS </h3>
+
+            <div className="navButtons">
+              <Button className="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
+                <span className="addText">Add Room</span>
+              </Button>
+              <Button className="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                <i class="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
+                <span className="joinText">Join Room</span>
               </Button>
             </div>
           </div>
 
-          
-
-          <br />
           <br />
           <hr color="white" />
 
+        {/***************** MODAL FOR ADD ROOM *****************/}
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
-          <ModalHeader toggle={this.addRoom}>Add New Room</ModalHeader>
-          <ModalBody>
+          <ModalBody className="modalBody" toggle={this.addRoom}> 
+            <h3 className="joinTitle"> <i className="fas fa-plus"></i>   ADD NEW ROOM </h3>
+            <br />
             <div className="addbox" id="addbox">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Room Name</InputGroupAddon>
-                <Input placeholder="" id="roomname"/>
+                <Input  placeholder="" id="roomname"/>
               </InputGroup>
               <br />
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Room Password</InputGroupAddon>
                 <Input placeholder="" id="roompw"/>
               </InputGroup>
-
               <br/>
-              <input id="privacy" name="private" type="checkbox"  /> Make Private
+              <input id="privacy" name="private" type="checkbox"  /> 
+              <span style={{color:"white"}}>   Make Private </span>
+              <br/>
+                <Button color="primary" id="addSubmit" onClick={()=> this.createRoom()}>Submit</Button>
+                <Button color="secondary" id="addCancel" onClick={this.addRoom}>Cancel</Button>
             </div>
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" id="myBtn" onClick={()=> this.createRoom()}>Submit</Button>
-            <Button color="secondary" onClick={this.addRoom}>Cancel</Button>
-          </ModalFooter>
         </Modal>
+
+      {/***************** MODAL FOR JOIN ROOM *****************/}
+        <Modal className="joinRoomBox" isOpen={this.state.joiningRoom} toggle={this.joinRoom}>
+          <ModalBody className="joinModalBody" toggle={this.joinRoom}> 
+            <h3 className="joinTitle"> <i class="fas fa-door-open"></i>   JOIN A ROOM </h3>
+            <br />
+            <div className="addbox" id="addbox">
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">Key</InputGroupAddon>
+                <Input placeholder="Paste Desired Room Key Here" id="linkOfRoom"  />
+              </InputGroup>
+              <br/>
+                <Button color="primary" id="addSubmit" onClick={()=> this.checkValidKey()}>Join</Button>
+                <Button color="secondary" id="addCancel" onClick={this.joinRoom}>Cancel</Button>
+            </div>
+          </ModalBody>
+        </Modal>
+
 
         <Scrollbars className="sidescrollbox" style={{height:"70vh"}}>
           <Table hover borderless id="roomList">

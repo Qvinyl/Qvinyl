@@ -1,9 +1,15 @@
+html {
+  background: black;
+}
+
 body {
   background: black;
+  overflow-y: hidden;
 }
 
 .app {
   background: black;
+  margin-bottom: 20px;
 }
 
 
@@ -40,4 +46,8 @@ body {
   float: right;
 
   /*float: right; does not work hmm*/
+}
+
+.noScroll {
+  overflow: hidden;
 }

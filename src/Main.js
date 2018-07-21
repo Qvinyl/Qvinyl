@@ -3,10 +3,28 @@ import Queue from './Queue'
 import './Main.css';
 import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col, Button, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
+import {
+  Container, 
+  Row, 
+  Col, 
+  Button, 
+  InputGroup, 
+  InputGroupAddon, 
+  InputGroupText, 
+  Input, 
+  Table,
+  Modal,
+  ModalBody,
+  ModalFooter 
+} from 'reactstrap'
+
 import firebase from 'firebase'
 import './Queue.css';
 
+import _ from 'lodash';
+import YTSearch from 'youtube-api-search';
+import SearchBar from './search_bar.js'
+const API_KEY = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
 
 
 class Main extends Component {
@@ -14,75 +32,16 @@ class Main extends Component {
     super(props);
     this.state = {
       roomTitle: '',
-      currentRoomKey: ''
+      currentRoomKey: '',
+      videos: [],
+      selectedVideo: '',
+      youtubeOpen: false
     };
+    this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
-    this.getUserList = this.getUserList.bind(this);
-  }
+    this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
 
-  checkValidKey() {
-    var isValid = false;
-    var link = document.getElementById("roomLink").value;
-    var rooms = firebase.database().ref('rooms/');
-    rooms.once('value').then((snapshot) => {
-      snapshot.forEach((room) => {
-        console.log('Link: ' + link);
-        console.log('room: ' + room.key);
-        if (link === room.key) {
-          isValid = true;
-          console.log("The Key is valid");
-          this.joinRoom();
-          return true;
-        }
-      });
-    });
-    if (isValid == true) {
-      console.log('is valid key');
-    }
-    else{
-      console.log("Key is not valid");
-    }
-  }
-
-  joinRoom() {
-    var temp = false;
-    var link = document.getElementById("roomLink").value;
-    if (link == "") {
-      return;
-    }
-    var userID = firebase.auth().currentUser.uid;
-    var displayName = firebase.auth().currentUser.displayName;
-    var getUser= firebase.database().ref('users/' + userID);
-    getUser.push();
-    getUser.set({
-      name: displayName
-    })
-    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-    getRoom.push();
-    getRoom.set({
-      currentRoom: link
-    })
-    var updateUsers = firebase.database().ref('rooms/' + link + '/users');
-    updateUsers.once('value').then((snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        var user = childSnapshot.val();
-         if (childSnapshot.val() === userID) {
-             console.log(childSnapshot.val() === userID);
-             temp = true;
-             return true;
-         }
-       });
-       if (temp == false) {
-         console.log(userID);
-         updateUsers.push(userID);
-         var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
-         numUsers.transaction(function(numberOfUsers) {
-           return (numberOfUsers || 0) + 1;
-         });
-       }
-     });
-  }
-
+<<<<<<< HEAD
   getUserList() {
       try {
         var userID = firebase.auth().currentUser.uid;
@@ -154,12 +113,15 @@ class Main extends Component {
         });
       });
       */
+=======
+    this.videoSearch('lofi');
+>>>>>>> 758b8300b25eeda5fd8adec870dfcff89c63215f
   }
 
-  pushMusicToDB() {
+  pushMusicToDB(link) {
+    console.log("sending link: " + link);
     var userID = firebase.auth().currentUser.uid;
     var name = firebase.auth().currentUser.displayName;
-    var link = document.getElementById("myLink").value;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
@@ -171,38 +133,11 @@ class Main extends Component {
       // get youtube ID
       var position = link.lastIndexOf("=");
       var youtubeID = link.slice(position + 1, link.length);
-
       var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
-
-      var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
       var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
-                      + APIkey + '&part=snippet&id=' + youtubeID;
+                      + API_KEY + '&part=snippet&id=' + youtubeID;
       var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key='
-      + APIkey + '&part=contentDetails&id=' + youtubeID;
-
-      /*
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=5CMuZrTy6jw'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=SA8dLEBY61o'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=cULQhvuq1Zc'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=_DjE4gbIVZk'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=ZURA7fT-ozM'
-      });
-      */
-
+      + API_KEY + '&part=contentDetails&id=' + youtubeID;
 
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
@@ -224,16 +159,11 @@ class Main extends Component {
             });
           });
         })
-
-
       }
-
-      console.log("this is roomKey: " + roomKey);
     });
   }
 
-
-  getRoomName() {
+  getRoomKey() {
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then((snapshot) => {
@@ -243,52 +173,122 @@ class Main extends Component {
           currentRoomKey: roomKey
         })
       } catch (exception) {
+        this.getRoomKey.bind(this);
+      }
+    });
+
+    // copy to ClipBoard
+    var textField = document.createElement('textarea');
+    textField.innerText = this.state.currentRoomKey;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+  }
+
+  getRoomName() {
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.on('value', (snapshot) => {
+      try {
+        var roomKey = snapshot.val().currentRoom;
+      } catch (exception) {
         this.getRoomName.bind(this);
       }
-      console.log("this is roomKey: " + roomKey);
-      console.log("this is state roomKey: " + this.state.currentRoomKey);
+      var roomLocation = firebase.database().ref('rooms/' + roomKey);
+      roomLocation.once('value').then((snapshot) => {
+        try {
+          var roomTitle = snapshot.val().roomname;
+        } catch (exception) {
+          this.getRoomName.bind(this);
+        }
+        this.setState({
+          roomTitle: roomTitle
+        });
+      });
     });
   }
 
   componentDidMount() {
-    //setTimeout(this.getUserList.bind(this), 1000);
+    setTimeout(this.getRoomName.bind(this), 1000);
+  }
+
+  videoSearch(term) {
+    YTSearch({ key: API_KEY, term: term }, videos => {
+      this.setState({
+        videos: videos,
+        selectedVideo: videos[0]
+      }); //Same as this.setState({ videos : videos })
+    });
+    console.log(this.state.videos);
+  }
+
+  openYoutubeSearch() {
+    this.setState({
+      youtubeOpen: !this.state.youtubeOpen
+    });
+    console.log(this.state.youtubeOpen);
   }
 
   render () {
-    const {userList} = this.state;
+    const {userList, videos} = this.state;
+
+    const videoSearch = _.debounce(term => {
+      this.videoSearch(term);
+    }, 300);
+
+
     return (
       <div className="main">
 
-          <div className="mainTitle">{this.state.roomTitle}
-            <i className="fas fa-key key" onClick={this.getRoomName}></i>
-              <label style={{marginLeft: 10}} className="linkT">
-                {this.state.currentRoomKey}
-              </label>
+          <div className="mainButton">
+            <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <i className="fas fa-key roomKey" onClick={this.getRoomKey}></i>
+            </Button>
+            <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+              <i className="fas fa-search searchSong" onClick={this.openYoutubeSearch}></i>
+            </Button>
+            <Modal isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
+              <ModalBody>
+                <div>
+                  <SearchBar onSearchTermChange={videoSearch} />
+
+                  <ul className="col-md-4 list-group">
+                    {
+                      videos.map((video) => 
+                        <li>
+                          <div>
+                            <div>
+                              <img src={video.snippet.thumbnails.default.url} />
+                            </div>
+                            <div >
+                              <div>{video.snippet.title}
+                                <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                                  <i className="fas fa-plus roomKey" 
+                                    onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
+                                  </i>
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      )
+                    }
+                  </ul>
+
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={this.openYoutubeSearch}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
           </div>
 
-        <div className="mainInputContainer flexbox">
-          <div className="inputContainer">
-            <label className="linkT">Music Link:</label>
-            <InputGroup >
-              <InputGroupAddon addonType="prepend">♫♪</InputGroupAddon>
-              <Input id="myLink" placeholder="youtube.com"/>
-              <Button color="primary"  id="myBtn" onClick={()=> this.pushMusicToDB()}>
-                Submit
-              </Button>
-            </InputGroup>
+          <div className="roomWithKey">
+            <p className="mainTitle">
+              {this.state.roomTitle}
+            </p>
           </div>
-
-          <div className="inputContainer">
-            <label className="linkT"> Room Link: </label>
-            <InputGroup >
-              <InputGroupAddon addonType="prepend">https://</InputGroupAddon>
-              <Input placeholder="https://Qvinyl/Rooms/a47BD89"/>
-              <Button color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
-                Join Room
-              </Button>
-            </InputGroup>
-          </div>
-        </div>
         <div>
           <Queue />
         </div>

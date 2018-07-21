@@ -1,12 +1,16 @@
 .main {
   width:100%;
-  height: 85vh;
+  height: 80vh;
   background: #232323;
   opacity: 0.8;
 }
 
 .flexbox{
   display: flex;
+}
+
+.roomWithKey {
+  text-align: center;
 }
 
 .mainTitle {
@@ -16,12 +20,36 @@
   padding: 10px;
 }
 
-.key {
-  color: #0078ce;
-  font-size: 24px;
-  cursor: pointer;
-  float: left;
+.mainButton {
+  position: absolute;
+  right: 0;
+  margin-top: 15px;
+  margin-right: 15px;
 }
+
+
+.roomKey {
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+  float:right;
+}
+
+.roomKey:hover {
+  opacity: 0.6;
+}
+
+.searchSong {
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+  float:right;
+}
+
+.searchSong:hover {
+  opacity: 0.6;
+}
+
 
 
 /************ INPUT CONTAINER CSS ************/
@@ -36,7 +64,20 @@
 
 #myBtn {
   margin-left: 2%;
+  border-radius: 12px;
 }
+
+#myLink, #roomLink {
+  border-top-right-radius: 11px;
+  border-bottom-right-radius: 11px;
+  background-color:#606466;
+}
+
+input::-webkit-input-placeholder {
+color: white !important;
+}
+
+
 
 .linkT {
   font-size: 16px;

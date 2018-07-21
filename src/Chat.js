@@ -3,10 +3,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
-import {Container, Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
-
-import Message from './Message.js';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import classnames from 'classnames';
+import {Container, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
 
 class Chat extends React.Component {
     constructor(props, context) {
@@ -23,6 +22,7 @@ class Chat extends React.Component {
             }],
             displayName: '',
             collapse: false,
+            activeTab: '1'
         };
 
         this.toggle = this.toggle.bind(this);
@@ -31,13 +31,22 @@ class Chat extends React.Component {
         this.getUserList = this.getUserList.bind(this);
     }
 
-    toggle() {
-      this.setState({ collapse: !this.state.collapse });
+    // toggle() {
+    //   this.setState({ collapse: !this.state.collapse });
+    //   this.getUserList();
+    // }
+
+    toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
       this.getUserList();
     }
+  }
 
     componentDidMount() {
-		setTimeout(this.getUserID.bind(this), 1000);
+		    setTimeout(this.getUserID.bind(this), 1000);
         this.scrollToBot();
     }
 
@@ -248,52 +257,83 @@ class Chat extends React.Component {
         const { chats, userID, displayName, userList} = this.state;
         return (
 
+          <div className="opacity">
+      <Nav tabs style={{background:'' }}>
+        <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
+          <NavLink 
+            className={classnames({ active: this.state.activeTab === '1' })}
+            onClick={() => { this.toggle('1'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
+          >
+            <span className="tabTitle">Chatroom</span>
+          </NavLink>
+        </NavItem>
+        <NavItem style={{background:"#343a40", width:'50%', opacity: '0.8'}}>
+          <NavLink
+            className={classnames({ active: this.state.activeTab === '2' })}
+            onClick={() => { this.toggle('2'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
+          >
+            <span className="tabTitle">Users</span>
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={this.state.activeTab}>
+        <TabPane tabId="1">
+          <Row noGutters>
+            <Col sm="12">
+            <Card style={{border: '0px'}}>
             <div id="chatroom">
-
             <div>
-              <Button color="primary" onClick={this.toggle} style={{ marginBottom: '0,5rem'}}>Users</Button>
-              <Collapse isOpen={this.state.collapse}>
-                <Card style={{background: "transparent"}}>
-                      <Table className="cardscrollbox">
-                       {
-                           userList.map((name) =>
-                             <tr>
-                               <td className="userNames">
-                                 {name.name}
-                               </td>
-                               <td>
-                                 <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
-                               </td>
-                               <td>
-                                 <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
-                               </td>
-                             </tr>
-                           )
-                       }
-                     </Table>
-                </Card>
-              </Collapse>
-            </div>
-
-            <div>
-              <h3>Chatroom</h3>
               <ul className="chats" ref="chats">
                   {
                     chats.map((chat) =>
                         <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
                           <b>{chat.displayName}</b>
                           <br/>
-            			        <p>{chat.content}</p>
-            			    </li>
+                          <p>{chat.content}</p>
+                      </li>
                     )
                   }
               </ul>
-  		        <form className="input" onSubmit={(e) => this.submitMessage(e)}>
-  	                    <input id="currentMessage" type="text" ref="msg" />
-  	                    <input type="submit" value="Submit" />
-  		        </form>
+              <form className="input" onSubmit={(e) => this.submitMessage(e)}>
+                        <input id="currentMessage" type="text" ref="msg" />
+                        <input type="submit" value="Submit" />
+              </form>
             </div>
           </div>
+              </Card>
+            </Col>
+          </Row>
+        </TabPane>
+        <TabPane tabId="2">
+          <Row noGutters>
+            <Col sm="12">
+              <Card Body style={{border: '0px'}}>
+              <Table className="cardscrollbox">
+                  {
+                      userList.map((name) =>
+                        <tr>
+                          <td className="userNames">
+                            {name.name}
+                          </td>
+                          <td>
+                            <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
+                          </td>
+                          <td>
+                            <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
+                          </td>
+                        </tr>
+                      )
+                  }
+                </Table>
+
+              </Card>
+            </Col>
+          </Row>
+        </TabPane>
+      </TabContent>
+      </div>
+
+
         );
     }
 }

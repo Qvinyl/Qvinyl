@@ -16,7 +16,8 @@
     "react-scrollbar": "^0.5.4",
     "reactstrap": "^6.3.0",
     "redux": "^4.0.0",
-    "video-react": "^0.11.2"
+    "video-react": "^0.11.2",
+    "youtube-api-search": "0.0.5"
   },
   "scripts": {
     "predeploy": "npm run build",

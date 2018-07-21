@@ -20,6 +20,32 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.songTitle {
+  text-align: left;
+  font-weight:600;
+  font-size: 90%;
+  letter-spacing: .5px;
+  margin-top: 50px;
+}
+
+.queueBy {
+  font-size:70%;
+  font-weight: 100;
+  letter-spacing: .5px;
+  color: #c4c4c4;
+}
+
+.songTime {
+  font-size: 70%;
+  letter-spacing: 1.5px;
+}
+
+img {
+  object-fit: cover;
+  width:100px;
+  height:100px;
+}
+
 
 /*
 .tr2 {
