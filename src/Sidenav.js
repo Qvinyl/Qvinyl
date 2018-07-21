@@ -24,15 +24,24 @@ class Sidenav extends Component {
           roomName: '',
           roomKey: '',
         }],
-      addingRoom: false
+      addingRoom: false,
+      joiningRoom: false
+
     };
 
     this.addRoom = this.addRoom.bind(this);
+    this.joinRoom = this.joinRoom.bind(this);
   }
 
   addRoom() {
     this.setState({
       addingRoom: !this.state.addingRoom
+    })
+  }
+
+  joinRoom() {
+    this.setState({
+      joiningRoom: !this.state.joiningRoom
     })
   }
 
@@ -214,7 +223,7 @@ class Sidenav extends Component {
                 <span className="addText">Add Room</span>
               </Button>
               <Button className="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i class="fas fa-door-open"></i>
+                <i class="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
                 <span className="joinText">Join Room</span>
               </Button>
               
@@ -232,29 +241,46 @@ class Sidenav extends Component {
 
           <hr color="white" />
 
+        {/***************** MODAL FOR ADD ROOM *****************/}
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
-          <ModalHeader toggle={this.addRoom}>Add New Room</ModalHeader>
-          <ModalBody>
+          <ModalBody className="modalBody" toggle={this.addRoom}> 
+            <h3 className="joinTitle"> <i className="fas fa-plus"></i>   ADD NEW ROOM </h3>
             <div className="addbox" id="addbox">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Room Name</InputGroupAddon>
-                <Input placeholder="" id="roomname"/>
+                <Input  placeholder="" id="roomname"/>
               </InputGroup>
               <br />
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Room Password</InputGroupAddon>
                 <Input placeholder="" id="roompw"/>
               </InputGroup>
-
               <br/>
-              <input id="privacy" name="private" type="checkbox"  /> Make Private
+              <input id="privacy" name="private" type="checkbox"  /> 
+              <span style={{color:"white"}}>   Make Private </span>
+              <br/>
+                <Button color="primary" id="addSubmit" onClick={()=> this.createRoom()}>Submit</Button>
+                <Button color="secondary" id="addCancel" onClick={this.addRoom}>Cancel</Button>
             </div>
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" id="myBtn" onClick={()=> this.createRoom()}>Submit</Button>
-            <Button color="secondary" onClick={this.addRoom}>Cancel</Button>
-          </ModalFooter>
         </Modal>
+
+      {/***************** MODAL FOR JOIN ROOM *****************/}
+        <Modal className="joinRoomBox" isOpen={this.state.joiningRoom} toggle={this.joinRoom}>
+          <ModalBody className="joinModalBody" toggle={this.joinRoom}> 
+            <h3 className="joinTitle"> <i class="fas fa-door-open"></i>   JOIN A ROOM </h3>
+            <div className="addbox" id="addbox">
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">Key</InputGroupAddon>
+                <Input  placeholder="Paste Desired Room Key Here" id="roomname"/>
+              </InputGroup>
+              <br/>
+                <Button color="primary" id="addSubmit">Join</Button>
+                <Button color="secondary" id="addCancel" onClick={this.joinRoom}>Cancel</Button>
+            </div>
+          </ModalBody>
+        </Modal>
+
 
         <Scrollbars className="sidescrollbox" style={{height:"70vh"}}>
           <Table borderless id="roomList">
