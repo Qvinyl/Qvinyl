@@ -27,6 +27,23 @@ class App extends Component {
   constructor (props) {
     super(props);
   }
+
+  checkLoggedIn() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+      // User is signed in.
+      console.log('user: ' + user);
+    } else {
+      console.log('user is not logged in');
+      window.location.replace("login.html");
+    }
+  }
+
+  componentDidMount() {
+    this.checkLoggedIn();
+  }
+
   render () {
     return (
     <div className="app">
