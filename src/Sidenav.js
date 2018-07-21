@@ -46,6 +46,72 @@ class Sidenav extends Component {
     })
   }
 
+  checkValidKey() {
+    var isValid = false;
+    var link = document.getElementById("linkOfRoom").value;
+    var rooms = firebase.database().ref('rooms/');
+    rooms.once('value').then((snapshot) => {
+      snapshot.forEach((room) => {
+        console.log('Link: ' + link);
+        console.log('room: ' + room.key);
+        if (link === room.key) {
+          isValid = true;
+          console.log("The Key is valid");
+          this.joinPrivateRoom();
+          return true;
+        }
+      });
+    });
+    if (isValid == true) {
+      console.log('is valid key');
+    }
+    else{
+      console.log("Key is not valid");
+    }
+  }
+  
+  joinPrivateRoom() {
+    this.joinRoom();
+    var temp = false;
+    var link = document.getElementById("linkOfRoom").value;
+    console.log("moving to room:" + link);
+    if (link == "") {
+      return;
+    }
+    var userID = firebase.auth().currentUser.uid;
+    var displayName = firebase.auth().currentUser.displayName;
+    var getUser= firebase.database().ref('users/' + userID);
+    getUser.push();
+    getUser.set({
+      name: displayName
+    })
+    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+    getRoom.push();
+    getRoom.set({
+      currentRoom: link
+    })
+    console.log("moving to room:" + link);
+    var updateUsers = firebase.database().ref('rooms/' + link + '/users');
+    updateUsers.once('value').then((snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        var user = childSnapshot.val();
+         if (childSnapshot.val() === userID) {
+             console.log(childSnapshot.val() === userID);
+             temp = true;
+             return true;
+         }
+       });
+       if (temp == false) {
+         console.log(userID);
+         updateUsers.push(userID);
+         var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
+         numUsers.transaction(function(numberOfUsers) {
+           return (numberOfUsers || 0) + 1;
+         });
+       }
+     });
+  }
+
  searchRoom() {
    var input = document.getElementById("room");
    var filter = input.value.toUpperCase();
@@ -212,13 +278,9 @@ class Sidenav extends Component {
     return (
       <div className="sidenav">
           <div>
-            <h3 className="title"> ROOMS </h3>
+            <h3 className="navTitle"> ROOMS </h3>
 
-            <div className="buttons">
-              <Button className="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i className="fas fa-search"></i>
-                <span className="searchText">Search Room</span>
-              </Button>
+            <div className="navButtons">
               <Button className="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
                 <i className="fas fa-plus" onClick={()=> this.addRoom()}></i>
                 <span className="addText">Add Room</span>
@@ -231,9 +293,6 @@ class Sidenav extends Component {
           </div>
 
           <br />
-          <br />
-
-
           <hr color="white" />
 
         {/***************** MODAL FOR ADD ROOM *****************/}
@@ -269,10 +328,10 @@ class Sidenav extends Component {
             <div className="addbox" id="addbox">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">Key</InputGroupAddon>
-                <Input  placeholder="Paste Desired Room Key Here" id="roomname"/>
+                <Input placeholder="Paste Desired Room Key Here" id="linkOfRoom"  />
               </InputGroup>
               <br/>
-                <Button color="primary" id="addSubmit">Join</Button>
+                <Button color="primary" id="addSubmit" onClick={()=> this.checkValidKey()}>Join</Button>
                 <Button color="secondary" id="addCancel" onClick={this.joinRoom}>Cancel</Button>
             </div>
           </ModalBody>

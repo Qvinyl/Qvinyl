@@ -138,7 +138,9 @@
 
 .albumart {
 	height: 5vh;
+	width: 5vh;
 	float: left;
+	object-fit: cover;
 }
 
 .songTitle {

@@ -20,17 +20,22 @@
    color: white;
 }
 
-.title {
+.navTitle {
 	color: white;
-
-  text-align: center;
+  left: 0;
+  position: absolute;
+  margin-left: 20px;
+  margin-top: -5px;
 }
 
-.buttons {
-	float: right;
-  position: relative;
-  right:15%;
+.navButtons {
+  right: 0;
+  position: absolute;
+  margin-right: 20px;
+  margin-top: -10px;
 }
+
+
 /*************** MODAL BOXES ***************/
 .addRoomBox, .joinRoomBox {
 	opacity: .8;
@@ -54,7 +59,7 @@
 
 
 
-  #roomname, #roompw {
+#roomname, #roompw {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   background-color:#989a9b;

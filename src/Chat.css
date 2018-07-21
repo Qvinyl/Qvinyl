@@ -14,6 +14,10 @@ body{
     display:inline-block;
     }
 
+.tabTitle {
+  cursor: pointer;
+}
+
 .App{
   background-color:#1ee494;
   height:100vh;

@@ -188,6 +188,11 @@ class Player extends Component {
 	    } catch(exception) {
 	        this.onPageLoad.bind(this);
 	    }
+	    var userName = firebase.auth().currentUser.displayName;
+	    console.log(userName);
+	    this.setState({
+			currentUser: userName
+		});
 	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 	    getRoom.once('value').then((snapshot) => {
 			try {
@@ -222,11 +227,6 @@ class Player extends Component {
 		    } catch(exception) {
 		        this.onPageLoad.bind(this);
 		    }
-		    var userName = firebase.auth().currentUser.displayName;
-		    console.log(userName);
-		    this.setState({
-				currentUser: userName
-			});
 		    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
 		    getRoom.once('value').then((snapshot) => {
 				try {
@@ -341,7 +341,7 @@ class Player extends Component {
 								volume={this.state.volume}
 								url={this.state.song}
 								width="100vw"
-								height="108vh"
+								height="100vh"
 								muted={this.state.mute}
 								onProgress={this.onProgress}
 								onEnded={this.skipVideo}

@@ -16,72 +16,9 @@ class Main extends Component {
       roomTitle: '',
       currentRoomKey: ''
     };
+    this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
   }
-
-  checkValidKey() {
-    var isValid = false;
-    var link = document.getElementById("roomLink").value;
-    var rooms = firebase.database().ref('rooms/');
-    rooms.once('value').then((snapshot) => {
-      snapshot.forEach((room) => {
-        console.log('Link: ' + link);
-        console.log('room: ' + room.key);
-        if (link === room.key) {
-          isValid = true;
-          console.log("The Key is valid");
-          this.joinRoom();
-          return true;
-        }
-      });
-    });
-    if (isValid == true) {
-      console.log('is valid key');
-    }
-    else{
-      console.log("Key is not valid");
-    }
-  }
-
-  joinRoom() {
-    var temp = false;
-    var link = document.getElementById("roomLink").value;
-    if (link == "") {
-      return;
-    }
-    var userID = firebase.auth().currentUser.uid;
-    var displayName = firebase.auth().currentUser.displayName;
-    var getUser= firebase.database().ref('users/' + userID);
-    getUser.push();
-    getUser.set({
-      name: displayName
-    })
-    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-    getRoom.push();
-    getRoom.set({
-      currentRoom: link
-    })
-    var updateUsers = firebase.database().ref('rooms/' + link + '/users');
-    updateUsers.once('value').then((snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        var user = childSnapshot.val();
-         if (childSnapshot.val() === userID) {
-             console.log(childSnapshot.val() === userID);
-             temp = true;
-             return true;
-         }
-       });
-       if (temp == false) {
-         console.log(userID);
-         updateUsers.push(userID);
-         var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
-         numUsers.transaction(function(numberOfUsers) {
-           return (numberOfUsers || 0) + 1;
-         });
-       }
-     });
-  }
-
 
   pushMusicToDB() {
     var userID = firebase.auth().currentUser.uid;
@@ -98,38 +35,12 @@ class Main extends Component {
       // get youtube ID
       var position = link.lastIndexOf("=");
       var youtubeID = link.slice(position + 1, link.length);
-
       var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
-
       var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
       var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
                       + APIkey + '&part=snippet&id=' + youtubeID;
       var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key='
       + APIkey + '&part=contentDetails&id=' + youtubeID;
-
-      /*
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=5CMuZrTy6jw'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=SA8dLEBY61o'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=cULQhvuq1Zc'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=_DjE4gbIVZk'
-      });
-      songLocation.push({
-        queueBy: name,
-        link: 'https://www.youtube.com/watch?v=ZURA7fT-ozM'
-      });
-      */
-
 
       if (link.includes("https://www.youtube.com/")
         || link.includes("https://soundcloud.com/")
@@ -151,17 +62,11 @@ class Main extends Component {
             });
           });
         })
-
-
       }
-
-      console.log("this is roomKey: " + roomKey);
     });
   }
 
-
-
-  getRoomName() {
+  getRoomKey() {
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then((snapshot) => {
@@ -171,11 +76,44 @@ class Main extends Component {
           currentRoomKey: roomKey
         })
       } catch (exception) {
+        this.getRoomKey.bind(this);
+      }
+    });
+
+    // copy to ClipBoard
+    var textField = document.createElement('textarea');
+    textField.innerText = this.state.currentRoomKey;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+  }
+
+  getRoomName() {
+    var userID = firebase.auth().currentUser.uid;
+    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+    userRoomKey.on('value', (snapshot) => {
+      try {
+        var roomKey = snapshot.val().currentRoom;
+      } catch (exception) {
         this.getRoomName.bind(this);
       }
-      console.log("this is roomKey: " + roomKey);
-      console.log("this is state roomKey: " + this.state.currentRoomKey);
+      var roomLocation = firebase.database().ref('rooms/' + roomKey);
+      roomLocation.once('value').then((snapshot) => {
+        try {
+          var roomTitle = snapshot.val().roomname;
+        } catch (exception) {
+          this.getRoomName.bind(this);
+        }
+        this.setState({
+          roomTitle: roomTitle
+        });
+      });
     });
+  }
+
+  componentDidMount() {
+    setTimeout(this.getRoomName.bind(this), 1000);
   }
 
   render () {
@@ -183,12 +121,17 @@ class Main extends Component {
     return (
       <div className="main">
 
-          <div className="mainTitle">{this.state.roomTitle}
-            <i className="fas fa-key key" onClick={this.getRoomName}></i>
-              <label style={{marginLeft: 10}} className="linkT">
-                {this.state.currentRoomKey}
-              </label>
+          <div className="mainButton">
+            <i className="fas fa-search roomKey" onClick={this.getRoomKey}></i>
+            <i className="fas fa-key searchSong" onClick={this.getRoomKey}></i>
           </div>
+          <div className="roomWithKey">
+            <p className="mainTitle">
+              {this.state.roomTitle}
+            </p>
+          </div>
+
+          
 
         <div className="mainInputContainer flexbox">
           <div className="inputContainer">
@@ -201,17 +144,6 @@ class Main extends Component {
               </Button>
             </InputGroup>
           </div>
-
-          <div className="inputContainer">
-            <InputGroup >
-              <InputGroupAddon addonType="prepend">☻</InputGroupAddon>
-              <Input id="roomLink" placeholder="Past Room Link Here"/>
-              <Button size="sm" color="primary"  id="myBtn" onClick={()=> this.checkValidKey()}>
-                Join Room
-              </Button>
-            </InputGroup>
-          </div>
-          
         </div>
         <div>
           <Queue />

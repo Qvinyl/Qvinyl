@@ -9,6 +9,10 @@
   display: flex;
 }
 
+.roomWithKey {
+  text-align: center;
+}
+
 .mainTitle {
   font-size: 36px;
   color: white;
@@ -16,15 +20,36 @@
   padding: 10px;
 }
 
-.key {
-  color: #0078ce;
-  font-size: 24px;
-  cursor: pointer;
-  float: left;
+.mainButton {
+  position: absolute;
+  right: 0;
 }
 
-.key:hover {
-  color:#006dbc;
+
+.roomKey {
+  color: white;
+  font-size: 35px;
+  margin-top: 15px;
+  margin-right: 15px;
+  cursor: pointer;
+  float:right;
+}
+
+.roomKey:hover {
+  opacity: 0.6;
+}
+
+.searchSong {
+  color: white;
+  font-size: 35px;
+  margin-top: 15px;
+  margin-right: 15px;
+  cursor: pointer;
+  float:right;
+}
+
+.searchSong:hover {
+  opacity: 0.6;
 }
 
 
