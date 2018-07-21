@@ -6,6 +6,7 @@
   "dependencies": {
     "bootstrap": "^4.1.2",
     "firebase": "^5.2.0",
+    "iso8601-duration": "^1.1.1",
     "npm": "^6.2.0",
     "react": "^16.4.1",
     "react-custom-scrollbars": "^4.2.1",

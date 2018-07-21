@@ -22,6 +22,8 @@ import {
 import firebase from 'firebase'
 import './Queue.css';
 
+import {parse, toSeconds, pattern} from 'iso8601-duration';
+
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
 import SearchBar from './search_bar.js'
@@ -101,30 +103,24 @@ class Main extends Component {
 
             // parsing duration
             if (duration === "PT0S") {
-              parsedDuration = "Stream";
+              duration = "Stream";
             } else {
-              var parsedDuration = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("S"));
-              if (parsedDuration.includes("H")) {
-                var hours = parsedDuration.slice(0, parsedDuration.lastIndexOf("H"));
-                var minutes = parsedDuration.slice(parsedDuration.lastIndexOf("H") + 1, parsedDuration.lastIndexOf("M"));
-                var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
-                parsedDuration = (hours.length == 1 ? "0" + hours : hours)
-                          + ":" + (minutes.length == 1 ? "0" + minutes : minutes)
-                          + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
-              } else {
-                var minutes = parsedDuration.slice(0, parsedDuration.lastIndexOf("M"));
-                var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
-                parsedDuration = (minutes.length == 1 ? "0" + minutes : minutes)
-                          + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
-              }
+              duration = toSeconds(parse(duration));
+              duration = Number(duration);
+              var hours = Math.floor(duration / 3600);
+              var mins = Math.floor(duration % 3600 / 60);
+              var secs = Math.floor(duration % 3600 % 60);
+              duration = (hours > 0 ? (hours < 10 ? "0" + hours : hours) + ":" : "") 
+                + (mins > 0 ? (mins < 10 ? "0" + mins : mins) + ":" : (hours > 0 ? "00:" : "0:"))
+                + (secs > 0 ? (secs < 10 ? "0" + secs : secs) : "00");
             }
-            
+
             songLocation.push({
               queueBy: name,
               link: link,
               thumbnail: youtubeImgURL,
               title: title,
-              duration: parsedDuration
+              duration: duration
             });
           });
         })
@@ -133,9 +129,31 @@ class Main extends Component {
   }
 
   parseDuration (duration) {
-
-    
-    var hours = duration.slice(duration.lastIndexOf("M") + 1, duration.lastIndexOf("S"));
+    if (duration === "PT0S") {
+      parsedDuration = "Stream";
+    } else {
+      var parsedDuration = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("S"));
+      if (parsedDuration.includes("H")) {
+        var hours = parsedDuration.slice(0, parsedDuration.lastIndexOf("H"));
+        var minutes = parsedDuration.slice(parsedDuration.lastIndexOf("H") + 1, parsedDuration.lastIndexOf("M"));
+        var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
+        parsedDuration = (hours.length == 1 ? "0" + hours : hours)
+                  + ":" + (minutes.length == 1 ? "0" + minutes : minutes)
+                  + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
+      } else if (!parsedDuration.includes("M")) {
+        var hours = parsedDuration.slice(0, parsedDuration.lastIndexOf("H"));
+        var minutes = parsedDuration.slice(parsedDuration.lastIndexOf("H") + 1, parsedDuration.lastIndexOf("M"));
+        var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
+        parsedDuration = (hours.length == 1 ? "0" + hours : hours)
+                  + ":" + (minutes.length == 1 ? "0" + minutes : minutes)
+                  + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
+      } else {
+        var minutes = parsedDuration.slice(0, parsedDuration.lastIndexOf("M"));
+        var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
+        parsedDuration = (minutes.length == 1 ? "0" + minutes : minutes)
+                  + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
+      }
+    }
   }
 
   getRoomKey() {
