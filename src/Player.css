@@ -5,6 +5,10 @@
 	margin-top: -1vh;
 }
 
+.scrollingText {
+	width: 300px;
+}
+
 .progressBar {
 	width: 100%;
 	height: 5px;

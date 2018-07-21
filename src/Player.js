@@ -295,7 +295,9 @@ class Player extends Component {
 						<p className="songTitle">
 							♫♪  Currently playing...
 							<br />
-							<b>{this.state.currentSongTitle}</b>
+							<marquee width="200px" behavior="scroll" direction="left" scrollamount="6">
+								<b>{this.state.currentSongTitle}</b>
+							</marquee>
 						</p>
 						<a onClick={this.checkUserDownVote}>
 							<i id="downvote" className="fas fa-fast-forward thumbsdown" ></i>
