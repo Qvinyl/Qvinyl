@@ -10,14 +10,14 @@ import * as firebase from 'firebase';
 import {Container, Row, Col, Button} from 'reactstrap';
 
 var config = {
-    apiKey: "AIzaSyDG-IPOENqC8cDOdsm683gz-MGQUYroero",
-    authDomain: "qvinyl-d222d.firebaseapp.com",
-    databaseURL: "https://qvinyl-d222d.firebaseio.com",
-    projectId: "qvinyl-d222d",
-    storageBucket: "qvinyl-d222d.appspot.com",
-    messagingSenderId: "912092441416"
-};
-firebase.initializeApp(config);
+    apiKey: "AIzaSyCPc36j9KKh0OHwNp6jxnZAImJmdoSmdN0",
+    authDomain: "qvinyl-d19ec.firebaseapp.com",
+    databaseURL: "https://qvinyl-d19ec.firebaseio.com",
+    projectId: "qvinyl-d19ec",
+    storageBucket: "qvinyl-d19ec.appspot.com",
+    messagingSenderId: "218472401275"
+  };
+  firebase.initializeApp(config);
 
 function logoutButton(){
     firebase.auth().signOut();
