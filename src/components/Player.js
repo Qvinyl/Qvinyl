@@ -285,7 +285,11 @@ class Player extends Component {
 	}
 
 	findDownvotePercentage () {
-		var userID = firebase.auth().currentUser.uid;
+		try{
+			var userID = firebase.auth().currentUser.uid;
+		} catch (exception) {
+			return;
+		}
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		userRoomKey.once('value').then((snapshot) => {
 			try {
@@ -350,7 +354,7 @@ class Player extends Component {
 						<p className="userName">
 							Welcome, <b>{this.state.currentUser}</b>
 						</p>
-						<Button style={{borderRadius:100}} href="login.html" onClick={logoutButton} className="logout">Logout</Button>
+						<Button style={{borderRadius:100}} onClick={logoutButton} className="logout">Logout</Button>
 					</div>
 		            <div>
 						<progress className="progressBar"

@@ -56,7 +56,7 @@ export default class App extends Component {
   render() {
     return this.state.loading === true ? <h1>Loading</h1> : (
       <BrowserRouter>
-        <div>
+            {/*
             <Link to="/" className="navbar-brand">Home</Link>
             <Link to="/Qvinyl" className="navbar-brand">Qvinyl</Link>
             {
@@ -72,7 +72,8 @@ export default class App extends Component {
                   <Link to="/register" className="navbar-brand">Register</Link>
                 </span>
             }
-
+            */}
+            
             <Switch>
               <Route path='/' exact component={Home} />
               <PublicRoute authed={this.state.authed} path='/login' component={Login} />
@@ -80,8 +81,6 @@ export default class App extends Component {
               <PrivateRoute authed={this.state.authed} path='/Qvinyl' component={Qvinyl} />
               <Route render={() => <h3>No Match</h3>} />
             </Switch>
-
-        </div>
       </BrowserRouter>
     );
   }
