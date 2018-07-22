@@ -2,6 +2,15 @@ import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
 import './Login.css'
 import logo from './logo6.png';
+import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
+
+import { 
+  CustomInput, Form, FormGroup, Label, Container, Row, Col,
+  InputGroup, InputGroupAddon, InputGroupText, Input, Button 
+} from 'reactstrap';
+
+
+
 function setErrorMsg(error) {
   return {
     loginMessage: error
@@ -25,31 +34,30 @@ export default class Login extends Component {
   render () {
     return (
       <div className='background'>
-      <div className="centerLogo">
-        <img src={logo} alt="Logo" className='logo6' />
-      </div>
-        <div className="col-sm-4 col-sm-offset-3 center">
-
-            <form className="forms" onSubmit={this.handleSubmit}>
-              <div className="form-group">
-
-                <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
-              </div>
-              <div className="form-group">
-
-                <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
-              </div>
-              {
-                this.state.loginMessage &&
-                <div className="alert alert-danger" role="alert">
-                  <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                  <span className="sr-only">Error:</span>
-                  &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
-                </div>
-              }
-              <button type="submit" className="btn loginButton center" style={{width: '100%'}}>Login</button>
-            </form>
+        <div className="centerLogo">
+          <img src={logo} alt="Logo" className='logo6' />
         </div>
+        <Container>
+          <Row>
+          <Col sm="6" className="center">
+
+              <Form className="loginForm" onSubmit={this.handleSubmit}>
+                <FormGroup>
+                  <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+                </FormGroup>
+                <FormGroup>
+                  <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+                </FormGroup>
+                <Button type="submit" style={{width: '50%'}}>Login</Button>
+                <p className="register">
+                  Don't have an account? Please 
+                  <Link to="/register"> Register</Link>.
+                </p>
+
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }
