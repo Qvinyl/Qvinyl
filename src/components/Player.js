@@ -5,7 +5,7 @@ import firebase from 'firebase'
 import {
 	Button,
 	Navbar,
-  	NavbarToggler,
+  NavbarToggler,
 	NavbarBrand,
 	Nav,
 	NavItem,
@@ -385,11 +385,11 @@ class Player extends Component {
 							style={hideSkipButton}
 							className="skipProgress"
 							percent={this.state.percentage}
-							strokeWidth="6" 
+							strokeWidth="6"
 							strokeColor="lightgrey"/>
 							<i id="downvote" className="fas fa-fast-forward thumbsdown" ></i>
 						</a>
-						
+
 					</div>
 
 					<div className="minimizedPlayer" style={video}>

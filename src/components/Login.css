@@ -1,0 +1,23 @@
+.background {
+  height: 100vh;
+  width: 100%;
+  background: #232323;
+  position: fixed;
+}
+
+.forms {
+  margin-top: 85%;
+  background: #232323;
+  position: relative;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+}
+
+.loginButton {
+  width: 100%;
+  background: #6a6976;
+  color: white;
+}
