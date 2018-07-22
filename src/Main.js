@@ -42,7 +42,9 @@ class Main extends Component {
       hoveringKey: false,
       hoveringSearch: false,
       hoveringDelete: false,
+      deletingRoom: false
     };
+    this.deleteRoom = this.deleteRoom.bind(this)
     this.hoverKey = this.hoverKey.bind(this);
     this.hoverSearch = this.hoverSearch.bind(this);
     this.hoverDelete = this.hoverDelete.bind(this);
@@ -68,7 +70,13 @@ class Main extends Component {
 
   hoverDelete() {
     this.setState({
-      hoveringSearch: !this.state.hoveringSearch
+      hoveringDelete: !this.state.hoveringDelete
+    })
+  }
+
+  deleteRoom() {
+    this.setState({
+      deletingRoom: !this.state.deletingRoom
     })
   }
 
@@ -267,6 +275,7 @@ class Main extends Component {
       <div className="main">
 
           <div className="mainButton">
+            {/**********************************  TOOLTIPS  **********************************/}
             {/****************** TOOLTIP FOR ROOM KEY ******************/}
             <Button id="keyButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
               <i className="fas fa-key roomKey" onClick={this.getRoomKey}></i>
@@ -284,26 +293,26 @@ class Main extends Component {
             </Tooltip>
 
           {/****************** TOOLTIP FOR DELETE ROOM ******************/}
-          <Button id="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-            <i className="fas fa-times searchSong" onClick={this.destroyRoom}></i>
+          <Button id="deleteButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+            <i className="fas fa-times searchSong" onClick={()=> this.deleteRoom()}></i>
           </Button>
-          <Tooltip placement="bottom" isOpen={this.state.hoveringDelete} target="searchButton" toggle={this.hoverDelete}>
-            Search Music
+          <Tooltip placement="bottom" isOpen={this.state.hoveringDelete} target="deleteButton" toggle={this.hoverDelete}>
+            Delete Room
           </Tooltip>
 
+
+
+            {/**********************************  MODAL BOXES  **********************************/}
              {/***************** MODAL FOR SEARCH MUSIC *****************/}
             <Modal className="searchBox" isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
               <ModalBody className="searchBody">
                 <h3 className="searchTitle">  <i className="fas fa-search searchSong"></i>  SEARCH MUSIC:  </h3>
                 <div>
-                  <SearchBar placeholder='Testing..' onSearchTermChange={videoSearch} />
-
-
+                  <SearchBar onSearchTermChange={videoSearch} />
                   <Table className="col-md-4 list-group">
                     {
                       videos.map((video) =>
                         <tr className="rowDivider">
-
                           <td>
                             <img src={video.snippet.thumbnails.default.url} />
                           </td>
@@ -319,23 +328,31 @@ class Main extends Component {
                                 </i>
                              </Button>
                            </td>
-
-
-                        </tr>
-
-
-                       
+                        </tr>                       
                       )
                     }
                   </Table>
-
                   <br/>
-                  <Button color="secondary" onClick={this.openYoutubeSearch}>Cancel</Button> 
-
+                  <Button color="secondary" style={{float:'right'}} onClick={this.openYoutubeSearch}>Cancel</Button> 
                 </div>
-              </ModalBody>
-              
+              </ModalBody> 
             </Modal>
+
+            {/***************** MODAL FOR DELETE ROOM *****************/}
+            <Modal className="deleteRoomBox" isOpen={this.state.deletingRoom} toggle={this.deleteRoom}>
+              <ModalBody className="deleteModalBody" toggle={this.deleteRoom}> 
+                <h3 className="deleteTitle"> <i class="fas fa-door-closed"></i>  CONFIRM DELETION </h3>
+                <br/>
+               <span style={{color:'white'}}> Are you sure you permanently want to delete this room? </span>
+                <br />
+                <div className="addbox" id="addbox">
+                  <br/>
+                  <Button color="primary" id="addSubmit" onClick={this.destroyRoom} >Delete Room</Button>
+                  <Button color="secondary" id="addCancel" onClick={this.deleteRoom}>Cancel</Button>
+               </div>
+              </ModalBody>
+            </Modal>  
+
           </div>
 
           <div className="roomWithKey">

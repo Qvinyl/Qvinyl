@@ -121,9 +121,21 @@ color: white !important;
   font-weight: 500;
 }
 
-.modalBody {
-  background-color: pink;
-  
+.deleteRoomBox {
+  opacity: .8;
+  background-color: #6c6d6d;
 }
 
+.deleteModalBody {
+  background-color: #545656;
+  border-style: ridge;
+  border-width: 1.5px;
+  border-color: #e0e0e0;
+}
 
+.deleteTitle {
+  color:white;
+  font-size: 24px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
