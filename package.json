@@ -8,6 +8,7 @@
     "firebase": "^5.2.0",
     "iso8601-duration": "^1.1.1",
     "npm": "^6.2.0",
+    "rc-progress": "^2.2.5",
     "react": "^16.4.1",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.4.1",
