@@ -301,7 +301,6 @@ class Main extends Component {
           </Tooltip>
 
 
-
             {/**********************************  MODAL BOXES  **********************************/}
              {/***************** MODAL FOR SEARCH MUSIC *****************/}
             <Modal className="searchBox" isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>

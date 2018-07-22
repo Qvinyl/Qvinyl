@@ -5,7 +5,7 @@ import './Chat.css';
 import firebase from 'firebase';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import {Container, InputGroup, InputGroupAddon, InputGroupText, Input, Table } from 'reactstrap'
+import {Container, InputGroup, InputGroupAddon, InputGroupText, Input, Table, Tooltip } from 'reactstrap'
 
 class Chat extends React.Component {
     constructor(props, context) {
@@ -23,15 +23,31 @@ class Chat extends React.Component {
             }],
             displayName: '',
             collapse: false,
-            activeTab: '1'
+            activeTab: '1',
+            hoveringKickUser: false,
+            hoveringAdmin: false
         };
 
+        this.hoverAdmin = this.hoverAdmin.bind(this);
+        this.hoverKickUser = this.hoverKickUser.bind(this);
         this.toggle = this.toggle.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.getUserList = this.getUserList.bind(this);
         this.loadChat = this.loadChat.bind(this);
         this.getUserID = this.getUserID.bind(this);
     }
+
+    hoverAdmin() {
+    this.setState({
+      hoveringAdmin: !this.state.hoveringAdmin
+    })
+  }
+
+    hoverKickUser() {
+    this.setState({
+      hoveringKickUser: !this.state.hoveringKickUser
+    })
+  }
 
     toggle(tab) {
       if (this.state.activeTab !== tab) {
@@ -279,7 +295,7 @@ class Chat extends React.Component {
                   }
               </ul>
               <form autoComplete="off" className="input" onSubmit={(e) => this.submitMessage(e)}>
-                        <input id="currentMessage" onFocus="this.value=''" type="text" ref="msg" />
+                        <Input placeholder="Type a message..."id="currentMessage" onFocus="this.value=''" type="text" ref="msg" />
               </form>
             </div>
           </div>
@@ -299,10 +315,22 @@ class Chat extends React.Component {
                             {name.name}
                           </td>
                           <td>
-                            <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>
+                            <Button id="kickUserButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                              <i class="fas fa-frown-open" onClick={() => this.kickUser(name.id)} value = {name.id}></i>
+                            </Button>
+                            <Tooltip placement="top" isOpen={this.state.hoveringKickUser} target="kickUserButton" toggle={this.hoverKickUser}>
+                              Kick Out User
+                            </Tooltip>
+                            {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>*/}
                           </td>
                           <td>
-                            <Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>
+                            <Button id="adminButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                              <i class="fas fa-crown" onClick={() => this.makeAdmin(name.id)} value = {name.id}></i>
+                            </Button>
+                            <Tooltip placement="top" isOpen={this.state.hoveringAdmin} target="adminButton" toggle={this.hoverAdmin}>
+                              Make User Admin
+                            </Tooltip>
+                            {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>*/}
                           </td>
                         </tr>
                       )
