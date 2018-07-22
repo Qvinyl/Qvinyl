@@ -16,7 +16,7 @@ import {
   Table,
   Modal,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from 'reactstrap'
 
 import firebase from 'firebase'
@@ -284,41 +284,50 @@ class Main extends Component {
             Search Music
           </Tooltip>
 
-
-            <Modal isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
-              <ModalBody>
+             {/***************** MODAL FOR SEARCH MUSIC *****************/}
+            <Modal className="searchBox" isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
+              <ModalBody className="searchBody">
+                <h3 className="searchTitle">  <i className="fas fa-search searchSong"></i>  SEARCH MUSIC:  </h3>
                 <div>
-                  <SearchBar onSearchTermChange={videoSearch} />
+                  <SearchBar placeholder='Testing..' onSearchTermChange={videoSearch} />
 
-                  <ul className="col-md-4 list-group">
+
+                  <Table className="col-md-4 list-group">
                     {
                       videos.map((video) =>
-                        <li>
-                          <div>
-                            <div>
-                              <img src={video.snippet.thumbnails.default.url} />
-                            </div>
-                            <div>
-                              <div>
-                                <p>{video.snippet.title}</p>
-                                <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                  <i className="fas fa-plus roomKey"
-                                    onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
-                                  </i>
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
+                        <tr className="rowDivider">
+
+                          <td>
+                            <img src={video.snippet.thumbnails.default.url} />
+                          </td>
+                          <td className="songTitle" style={{width: '100%'}}>
+                            {video.snippet.title}
+                            <br/>
+                          </td>
+
+                          <td >
+                           <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                                <i className="fas fa-plus roomKey"
+                                  onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
+                                </i>
+                             </Button>
+                           </td>
+
+
+                        </tr>
+
+
+                       
                       )
                     }
-                  </ul>
+                  </Table>
+
+                  <br/>
+                  <Button color="secondary" onClick={this.openYoutubeSearch}>Cancel</Button> 
 
                 </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={this.openYoutubeSearch}>Cancel</Button>
-              </ModalFooter>
+              
             </Modal>
           </div>
 

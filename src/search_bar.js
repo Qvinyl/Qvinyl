@@ -20,6 +20,7 @@ class SearchBar extends Component {
           onChange={event => this.onInputChange(event.target.value)}
           style = {{ width: "75%" }}
         />
+        
       </div>
     );
   }

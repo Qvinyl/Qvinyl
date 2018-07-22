@@ -98,3 +98,32 @@ color: white !important;
   color:white;
    letter-spacing: 1.5px;
 }
+
+
+/*************** MODAL BOXES ***************/
+.searchBox {
+  opacity: .8;
+  background-color: #6c6d6d;
+
+}
+
+.searchBody {
+  background-color: #545656;
+  border-style: ridge;
+  border-width: 1.5px;
+  border-color: #e0e0e0;
+}
+
+.searchTitle {
+  color:white;
+  font-size: 24px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.modalBody {
+  background-color: pink;
+  
+}
+
+
