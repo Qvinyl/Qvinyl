@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
 import './Login.css'
+import logo from './logo6.png';
 function setErrorMsg(error) {
   return {
     loginMessage: error
@@ -24,8 +25,8 @@ export default class Login extends Component {
   render () {
     return (
       <div className='background'>
-      <div className="center">
-        <img className="logo" src="logo6.png"/>
+      <div className="centerLogo">
+        <img src={logo} alt="Logo" className='logo6' />
       </div>
         <div className="col-sm-4 col-sm-offset-3 center">
 
