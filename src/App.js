@@ -40,9 +40,6 @@ class App extends Component {
     }
     else {
       console.log('user is not logged in');
-
-        window.location.replace("login.html");
-
       window.location.href = "login.html";
 
     }

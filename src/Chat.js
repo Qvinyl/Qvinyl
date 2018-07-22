@@ -51,7 +51,7 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(this.getUserID.bind(this), 1000);
+        setTimeout(this.getUserID.bind(this), 500);
         this.scrollToBot();
     }
 
@@ -78,16 +78,16 @@ class Chat extends React.Component {
       }, 1000);
     }
 
-    
+
     loadChat(roomKey) {
       var chatLocation = firebase.database().ref('/rooms/' + roomKey + '/chats/');
       chatLocation.on('value', (chatHistory) => {
-        
+
         let clear = [];
         this.setState({
           chats: clear
         });
-        
+
         chatHistory.forEach((childSnapshot) => {
           //console.log(chatHistory.val());
           var message = childSnapshot.val().message;
@@ -103,7 +103,7 @@ class Chat extends React.Component {
         });
       });
     }
-    
+
 
     submitMessage(e) {
         e.preventDefault();
@@ -290,7 +290,7 @@ class Chat extends React.Component {
         <TabPane tabId="2">
           <Row noGutters>
             <Col sm="12">
-              <Card Body style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}>
+              <Card Body style={{color: 'white', background: '#1c1f23', border: '0px', borderRadius: '0px', height:'100vh'}}>
               <Table className="cardscrollbox">
                   {
                       userList.map((name) =>

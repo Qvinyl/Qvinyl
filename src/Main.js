@@ -110,7 +110,7 @@ class Main extends Component {
               var hours = Math.floor(duration / 3600);
               var mins = Math.floor(duration % 3600 / 60);
               var secs = Math.floor(duration % 3600 % 60);
-              duration = (hours > 0 ? (hours < 10 ? "0" + hours : hours) + ":" : "") 
+              duration = (hours > 0 ? (hours < 10 ? "0" + hours : hours) + ":" : "")
                 + (mins > 0 ? (mins < 10 ? "0" + mins : mins) + ":" : (hours > 0 ? "00:" : "0:"))
                 + (secs > 0 ? (secs < 10 ? "0" + secs : secs) : "00");
             }
@@ -215,9 +215,16 @@ class Main extends Component {
         if (userID == admin) {
           isAdmin = true;
           console.log("am I admin? " + isAdmin);
-          firebase.database().ref('users/' + userID + "/roomKeys").push();
-          firebase.database().ref('users/' + userID + "/roomKeys").set({
-            currentRoom: ''
+          var peopleInRoom = firebase.database().ref('rooms/' + roomKey + '/users');
+          peopleInRoom.once('value').then((users) => {
+            users.forEach((user) => {
+              var uid = user.val();
+              console.log("user: " + user.val());
+              firebase.database().ref('users/' + uid + "/roomKeys").push();
+              firebase.database().ref('users/' + uid + "/roomKeys").set({
+                currentRoom: ''
+              });
+            })
           });
           var deleteRoom = firebase.database().ref('rooms/' + roomKey).remove();
         }

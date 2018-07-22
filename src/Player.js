@@ -11,6 +11,7 @@ import {
 	NavItem,
 	NavLink
 } from 'reactstrap';
+import {Circle, Line} from 'rc-progress';
 
 function logoutButton(){
     firebase.auth().signOut();
@@ -29,7 +30,9 @@ class Player extends Component {
 			song: '',
 			currentSongTitle: '',
 			currentSongImage: '',
-			currentUser: ''
+			currentUser: '',
+			pressDownButton: false,
+			percentage: 0
 		};
 
 		// initialize helper functions
@@ -41,6 +44,7 @@ class Player extends Component {
 		this.changeVolume = this.changeVolume.bind(this);
 		this.incrementDownvotes = this.incrementDownvotes.bind(this);
 		this.toggleMute = this.toggleMute.bind(this);
+		this.findDownvotePercentage = this.findDownvotePercentage.bind(this);
 	}
 
 	toggleMute () {
@@ -76,6 +80,15 @@ class Player extends Component {
  	}
 
 	checkUserDownVote() {
+		this.setState({
+			pressDownButton: !this.state.pressDownButton
+		})
+		setTimeout(() => {
+			this.setState({
+				pressDownButton: false
+			});
+		}, 5000);
+
 		var temp = false;
 		var currUser = firebase.auth().currentUser;
 		var userID = firebase.auth().currentUser.uid;
@@ -119,7 +132,7 @@ class Player extends Component {
 	setDownvotesToZ() {
 		var userID = firebase.auth().currentUser.uid;
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-		userRoomKey.once('value').then(function(snapshot){
+		userRoomKey.once('value').then((snapshot) => {
 			var roomKey = snapshot.val().currentRoom;
 			firebase.database().ref('rooms/'+ roomKey).update({
 				downvotes: 0,
@@ -222,6 +235,7 @@ class Player extends Component {
 	    });
 
 	 	setInterval(() => {
+	 		this.findDownvotePercentage();
 		    try {
 		     	var userID = firebase.auth().currentUser.uid;
 		    } catch(exception) {
@@ -270,6 +284,27 @@ class Player extends Component {
 	 	}, 500);
 	}
 
+	findDownvotePercentage () {
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then((snapshot) => {
+			try {
+				var roomKey = snapshot.val().currentRoom;
+			} catch (exception) {
+				return;
+			}
+			var roomLocation = firebase.database().ref('rooms/' + roomKey);
+			roomLocation.once('value').then((snapshot) => {
+				var numUsers = snapshot.val().numberOfUsers;
+				var downvotes = snapshot.val().downvotes;
+				var percentage = (downvotes/(numUsers/2)) * 100;
+				this.setState({
+					percentage: percentage
+				})
+			});
+		});
+	}
+
   	componentDidMount() {
 	 	setTimeout(this.onPageLoad.bind(this), 2000);
  	}
@@ -286,7 +321,6 @@ class Player extends Component {
 		var showAddSong = {
 			display: this.state.hiddenAddSong ? "none" : "block"
 		};
-
 		return (
 			<div>
 				<div className="banner">
@@ -302,9 +336,6 @@ class Player extends Component {
 								{this.state.currentSongTitle}
 							</marquee>
 						</p>
-						<a onClick={this.checkUserDownVote}>
-							<i id="downvote" className="fas fa-fast-forward thumbsdown" ></i>
-						</a>
 					</div>
 
 					<div className="center">
@@ -326,7 +357,8 @@ class Player extends Component {
 		        </div>
 
 				<div className="player">
-					<div className="controls">
+
+					<div className="right">
 						<a onClick={this.toggleMute}>
 							<i className={"fas fa-volume-off muting" + (this.state.mute ? " show" : " hide")}></i>
 						</a>
@@ -336,6 +368,19 @@ class Player extends Component {
 						<a onClick={this.hideVideo}>
 							<i className="fas fa-arrows-alt fullScreen fa-rotate-45"></i>
 						</a>
+					</div>
+
+					<div className="skipDiv">
+						<a onClick={this.checkUserDownVote}>
+
+							<Circle
+							className="skipProgress"
+							percent={this.state.percentage}
+							strokeWidth="6" 
+							strokeColor="lightgrey"/>
+							<i id="downvote" className="fas fa-fast-forward thumbsdown" ></i>
+						</a>
+						
 					</div>
 
 					<div className="minimizedPlayer" style={video}>
