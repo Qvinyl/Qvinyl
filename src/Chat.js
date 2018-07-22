@@ -51,7 +51,7 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(this.getUserID.bind(this), 1000);
+        setTimeout(this.getUserID.bind(this), 500);
         this.scrollToBot();
     }
 
