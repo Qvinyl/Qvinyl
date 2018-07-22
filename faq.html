@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Qvinyl</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="stylesheets/indexcss.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+
+        .navbar {
+          background-color: transparent;
+          margin-bottom: 0;
+          border: none;
+        }
+        a:hover,.navbar-nav>.active > a{ color: #0078ce !important; }
+        .navbar-nav>.active > a{ color: #0078ce !important; }
+        @media screen and (max-width: 767px) {
+          .row.content {height:auto;}
+        }
+        body{
+          background:#232323;
+        }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href=login.html>Home</a></li>
+        <li><a href=about.html>About</a></li>
+        <li class="active"><a href=#>FAQ</a></li>
+        <li><a href=contacts.html>Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-12 text-left">
+    <font color= #747474>
+      <h1>FAQ</h1>
+      <p>Got any questions? Here are some answers!
+      </p>
+      <hr>
+
+
+<form action="/action_page.php">
+    <div class="col-sm-3 text-left">
+  </div>
+    <div class="col-sm-6 text-left">
+
+  <h3> How do you login? </h3>
+  <p> Go click on the home button </p>
+
+  <h3> How do you signup? </h3>
+  <p> Click on link in home page </p>
+</font>
+
+  </div>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCzu-xeBz0BbR0lqy_LFWxrQFVdqxhKa88",
+    authDomain: "nosegoes-34831.firebaseapp.com",
+    databaseURL: "https://nosegoes-34831.firebaseio.com",
+    projectId: "nosegoes-34831",
+    storageBucket: "",
+    messagingSenderId: "837300799095"
+  };
+  firebase.initializeApp(config);
+</script>
+
+</body>
+
+</html>
