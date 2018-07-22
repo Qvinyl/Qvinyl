@@ -321,6 +321,10 @@ class Player extends Component {
 		var showAddSong = {
 			display: this.state.hiddenAddSong ? "none" : "block"
 		};
+		var hideSkipButton = {
+			display: this.state.hiddenVideo ? "block" : "none"
+		}
+
 		return (
 			<div>
 				<div className="banner">
@@ -371,9 +375,10 @@ class Player extends Component {
 					</div>
 
 					<div className="skipDiv">
-						<a onClick={this.checkUserDownVote}>
+						<a style={hideSkipButton} onClick={this.checkUserDownVote}>
 
 							<Circle
+							style={hideSkipButton}
 							className="skipProgress"
 							percent={this.state.percentage}
 							strokeWidth="6" 

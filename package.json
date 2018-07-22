@@ -1,7 +1,7 @@
 {
   "name": "Qvinyl",
   "version": "0.1.0",
-  "homepage": "https://qvinyl.github.io/Qvinyl/public/login.html",
+  "homepage": "https://qvinyl.github.io/Qvinyl/",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.1.2",
