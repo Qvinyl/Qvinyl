@@ -74,7 +74,7 @@ class Sidenav extends Component {
       console.log("Key is not valid");
     }
   }
-  
+
   joinPrivateRoom() {
     this.joinRoom();
     var temp = false;
@@ -243,13 +243,11 @@ class Sidenav extends Component {
     var name = firebase.auth().currentUser.displayName;
     var database = firebase.database();
     var roomName = document.getElementById("roomname").value;
-    var roomPW = document.getElementById("roompw").value;
     var privacy = document.getElementById("privacy").checked;
     var roomPush = database.ref().push();
     var roomKey = roomPush.key;
     var songs = database.ref('rooms/' + roomKey).set({
       roomname: roomName,
-      password: roomPW,
       downvoters: '',
       songs: '',
       chats: '',
@@ -308,7 +306,7 @@ class Sidenav extends Component {
 
         {/***************** MODAL FOR ADD ROOM *****************/}
         <Modal className="addRoomBox" isOpen={this.state.addingRoom} toggle={this.addRoom}>
-          <ModalBody className="modalBody" toggle={this.addRoom}> 
+          <ModalBody className="modalBody" toggle={this.addRoom}>
             <h3 className="joinTitle"> <i className="fas fa-plus"></i>   ADD NEW ROOM </h3>
             <br />
             <div className="addbox" id="addbox">
@@ -317,12 +315,8 @@ class Sidenav extends Component {
                 <Input  placeholder="" id="roomname"/>
               </InputGroup>
               <br />
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">Room Password</InputGroupAddon>
-                <Input placeholder="" id="roompw"/>
-              </InputGroup>
               <br/>
-              <input id="privacy" name="private" type="checkbox"  /> 
+              <input id="privacy" name="private" type="checkbox"  />
               <span style={{color:"white"}}>   Make Private </span>
               <br/>
                 <Button color="primary" id="addSubmit" onClick={()=> this.createRoom()}>Submit</Button>
@@ -333,7 +327,7 @@ class Sidenav extends Component {
 
       {/***************** MODAL FOR JOIN ROOM *****************/}
         <Modal className="joinRoomBox" isOpen={this.state.joiningRoom} toggle={this.joinRoom}>
-          <ModalBody className="joinModalBody" toggle={this.joinRoom}> 
+          <ModalBody className="joinModalBody" toggle={this.joinRoom}>
             <h3 className="joinTitle"> <i class="fas fa-door-open"></i>   JOIN A ROOM </h3>
             <br />
             <div className="addbox" id="addbox">
