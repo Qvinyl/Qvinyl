@@ -5,10 +5,11 @@ import logo from './LoginLogo.png';
 import { ref, firebaseAuth } from '../config/constants'
 import firebase from 'firebase'
 import './Register.css'
+import { Link } from 'react-router-dom'
 
 import {
   CustomInput, Form, FormGroup, Label, Container, Row, Col,
-  InputGroup, InputGroupAddon, InputGroupText, Input, Button
+  InputGroup, InputGroupAddon, InputGroupText, Input, Button, FormText
 } from 'reactstrap';
 
 function setErrorMsg(error) {
@@ -24,7 +25,8 @@ export default class Register extends Component {
     auth(this.email.value, this.pw.value)
       .catch(e => this.setState(setErrorMsg(e)))
 
-    firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value).then((user) => {
+    firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
+      .then((user) => {
       console.log(user);
       var user1= firebase.auth().currentUser;
       console.log(user1);
@@ -51,17 +53,26 @@ export default class Register extends Component {
               <Form className="loginForm" onSubmit={this.handleSubmit}>
               <FormGroup>
                 <div className="flexbox">
-                  <input className="firstname" type="name" style={{width: '50%'}} className="form-control" placeholder="First Name" ref={(firstName) => this.firstName = firstName} />
-                  <input className="lastname" type="name" style={{width: '50%'}} className="form-control" placeholder=" Last Name" ref={(lastName) => this.lastName = lastName} />
+                  <Input className="firstname" type="name" 
+                    style={{width: '50%'}} placeholder="First Name" 
+                    innerRef={(firstName) => this.firstName = firstName} />
+                  <Input className="lastname" type="name" 
+                    style={{width: '50%'}} placeholder="Last Name" 
+                    innerRef={(lastName) => this.lastName = lastName} />
                 </div>
               </FormGroup>
                 <FormGroup>
-                  <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+                  <Input innerRef={(email) => this.email = email} placeholder="Email"/>
                 </FormGroup>
                 <FormGroup>
-                  <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+                  <Input type="password" placeholder="Password" innerRef={(pw) => this.pw = pw} />
+                  <FormText>Password must be at least 8 characters.</FormText>
                 </FormGroup>
                 <Button type="submit" style={{width: '50%'}}>Register</Button>
+                <p className="register">
+                  Already have an account? Let's 
+                  <Link to="/login"> Login</Link>.
+                </p>
               </Form>
             </Col>
           </Row>

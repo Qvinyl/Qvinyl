@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
 import './Login.css'
 import logo from './LoginLogo.png';
-import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import {
   CustomInput, Form, FormGroup, Label, Container, Row, Col,
@@ -43,14 +43,18 @@ export default class Login extends Component {
 
               <Form className="loginForm" onSubmit={this.handleSubmit}>
                 <FormGroup>
-                  <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+                  <InputGroup>
+                    <Input innerRef={(email) => this.email = email} placeholder="Email"/>
+                  </InputGroup>
                 </FormGroup>
                 <FormGroup>
-                  <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+                  <InputGroup>
+                    <Input type="password" placeholder="Password" innerRef={(pw) => this.pw = pw} />
+                  </InputGroup>
                 </FormGroup>
                 <Button type="submit" style={{width: '50%'}}>Login</Button>
                 <p className="register">
-                  Don't have an account? Please
+                  Don't have an account? Let's
                   <Link to="/register"> Register</Link>.
                 </p>
 
