@@ -69,6 +69,7 @@ class Chat extends React.Component {
     componentDidMount() {
         setTimeout(this.getUserID.bind(this), 500);
         this.scrollToBot();
+
     }
 
     getUserID() {
@@ -87,8 +88,7 @@ class Chat extends React.Component {
           } catch (exception) {
             this.getUserID.bind(this);
           }
-          //console.log("current chat room: " + roomKey);
-          if (roomKey != undefined) this.loadChat(roomKey);
+          if (roomKey !== undefined) this.loadChat(roomKey);
         });
     }
 
@@ -128,7 +128,7 @@ class Chat extends React.Component {
         userRoomKey.once('value').then(function(snapshot) {
             console.log("userID: " + userID);
             var roomKey = snapshot.val().currentRoom;
-            if (roomKey == "") {
+            if (roomKey === "") {
               window.alert("you are not in a room");
               return;
             }
@@ -154,7 +154,7 @@ class Chat extends React.Component {
         adminLocation.once('value').then((snapshot) => {
           var admin = snapshot.val();
           console.log('admin: ' + admin);
-          if (userID == admin) {
+          if (userID === admin) {
             isAdmin = true;
             console.log("am I admin? " + isAdmin);
             var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
@@ -162,7 +162,7 @@ class Chat extends React.Component {
               snapshot.forEach((childSnapshot) => {
                 var selectedUser = childSnapshot.val();
                 var selectedUserKey = childSnapshot.key;
-                if ( kickLink == selectedUser ) {
+                if ( kickLink === selectedUser ) {
                   window.alert(kickLink + " has been removed from the room");
                   firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
                   var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
@@ -198,7 +198,6 @@ class Chat extends React.Component {
           } catch (exception) {
             this.getUserList.bind(this);
           }
-          var roomLocation = firebase.database().ref('/rooms/' + roomKey);
           var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
           userList.on('value', (user) => {
             this.setState({
@@ -206,7 +205,6 @@ class Chat extends React.Component {
             })
             user.forEach((childSnapshot) => {
               var id = childSnapshot.val();
-              var keys = Object.keys(childSnapshot.val());
               var getName = firebase.database().ref('users/' + id + '/name');
               getName.once('value').then((name) => {
                   var gotName = name.val();
@@ -235,7 +233,7 @@ class Chat extends React.Component {
           adminLocation.once('value').then((snapshot) => {
             var admin = snapshot.val();
             console.log('admin: ' + admin);
-            if (userID == admin) {
+            if (userID === admin) {
               isAdmin = true;
               console.log("am I admin? " + isAdmin);
               updateAdmin.push();
@@ -252,7 +250,7 @@ class Chat extends React.Component {
       }
 
     render() {
-        const { chats, userID, displayName, userList} = this.state;
+        const { chats, userID, userList} = this.state;
         return (
 
           <div className="opacity">

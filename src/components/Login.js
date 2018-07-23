@@ -5,8 +5,8 @@ import logo from './LoginLogo.png';
 import { Link } from 'react-router-dom'
 
 import {
-  CustomInput, Form, FormGroup, Label, Container, Row, Col,
-  InputGroup, InputGroupAddon, InputGroupText, Input, Button
+  Form, FormGroup, Container, Row, Col,
+  InputGroup, Input, Button
 } from 'reactstrap';
 
 

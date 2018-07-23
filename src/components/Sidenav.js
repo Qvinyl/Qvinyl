@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import './Sidenav.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, InputGroup, InputGroupAddon, Tooltip } from 'reactstrap'
+import { 
+  Table, Modal, ModalBody, Button, Input, 
+  InputGroup, InputGroupAddon, Tooltip } from 'reactstrap'
 import firebase from 'firebase';
 
 class Sidenav extends Component {
@@ -67,7 +69,7 @@ class Sidenav extends Component {
         }
       });
     });
-    if (isValid == true) {
+    if (isValid === true) {
       console.log('is valid key');
     }
     else{
@@ -79,8 +81,7 @@ class Sidenav extends Component {
     this.joinRoom();
     var temp = false;
     var link = document.getElementById("linkOfRoom").value;
-    console.log("moving to room:" + link);
-    if (link == "") {
+    if (link === "") {
       return;
     }
     var userID = firebase.auth().currentUser.uid;
@@ -95,19 +96,15 @@ class Sidenav extends Component {
     getRoom.set({
       currentRoom: link
     })
-    console.log("moving to room:" + link);
     var updateUsers = firebase.database().ref('rooms/' + link + '/users');
     updateUsers.once('value').then((snapshot) => {
       snapshot.forEach((childSnapshot) => {
-        var user = childSnapshot.val();
-         if (childSnapshot.val() === userID) {
-             console.log(childSnapshot.val() === userID);
-             temp = true;
-             return true;
-         }
+        if (childSnapshot.val() === userID) {
+          temp = true;
+          return true;
+        }
        });
-       if (temp == false) {
-         console.log(userID);
+       if (temp === false) {
          updateUsers.push(userID);
          var numUsers = firebase.database().ref('rooms').child(link).child('numberOfUsers');
          numUsers.transaction(function(numberOfUsers) {
@@ -150,15 +147,12 @@ class Sidenav extends Component {
    var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
    updateUsers.once('value').then((snapshot) => {
      snapshot.forEach((childSnapshot) => {
-       var user = childSnapshot.val();
         if (childSnapshot.val() === userID) {
-            console.log(childSnapshot.val() === userID);
             temp = true;
             return true;
         }
       });
-      if (temp == false) {
-        console.log(userID);
+      if (temp === false) {
         updateUsers.push(userID);
         var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
         numUsers.transaction(function(numberOfUsers) {
@@ -181,16 +175,12 @@ class Sidenav extends Component {
        } catch (exception) {
          this.leaveRoom.bind(this);
        }
-       var roomLocation = firebase.database().ref('/rooms/' + roomKey);
        var userList = firebase.database().ref('/rooms/' + roomKey + '/users');
        userList.once('value').then((user) => {
          user.forEach((childSnapshot) => {
            var userKey = childSnapshot.key;
            var id = childSnapshot.val();
-           console.log('key: ' + userKey);
-           console.log('id: ' + id);
            if(id === userID) {
-             console.log("hello");
              var numUsers = firebase.database().ref('rooms').child(roomKey).child('numberOfUsers');
              numUsers.transaction(function(numberOfUsers) {
                return (numberOfUsers || 0) - 1;
@@ -204,11 +194,6 @@ class Sidenav extends Component {
   }
 
  getRoomList() {
-   try {
-     var userID = firebase.auth().currentUser.uid;
-   } catch(exception) {
-     this.getRoomList.bind(this);
-   }
    var roomList = firebase.database().ref('rooms/');
    roomList.on('value', (snapshot) => {
      let clear = [];
@@ -219,13 +204,7 @@ class Sidenav extends Component {
       var roomName = childSnapshot.val().roomname;
       var roomKey = childSnapshot.key;
       var privacy = childSnapshot.val().privacy;
-      if (privacy == false) {
-        //console.log(childSnapshot.val().roomname);
-        try {
-          var keys = Object.keys(childSnapshot.val());
-        } catch(exception) {
-          this.getRoomList();
-        }
+      if (privacy === false) {
         this.setState({
             roomList: this.state.roomList.concat([{
             roomName: roomName,
@@ -246,7 +225,7 @@ class Sidenav extends Component {
     var privacy = document.getElementById("privacy").checked;
     var roomPush = database.ref().push();
     var roomKey = roomPush.key;
-    var songs = database.ref('rooms/' + roomKey).set({
+    database.ref('rooms/' + roomKey).set({
       roomname: roomName,
       downvoters: '',
       songs: '',
@@ -267,7 +246,6 @@ class Sidenav extends Component {
     database.ref('users/' + userID + "/roomKeys").set({
       currentRoom: roomKey
     });
-    console.log(userID);
  }
 
 
