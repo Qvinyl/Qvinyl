@@ -271,7 +271,7 @@ class Sidenav extends Component {
 
               {/****************** TOOLTIP FOR JOIN ROOM ******************/}
               <Button id="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                <i class="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
+                <i className="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
               </Button>
               <Tooltip placement="bottom" isOpen={this.state.hoveringJoin} target="joinButton" toggle={this.hoverJoin}>
                 Join Room
@@ -306,7 +306,7 @@ class Sidenav extends Component {
       {/***************** MODAL FOR JOIN ROOM *****************/}
         <Modal className="joinRoomBox" isOpen={this.state.joiningRoom} toggle={this.joinRoom}>
           <ModalBody className="joinModalBody" toggle={this.joinRoom}>
-            <h3 className="joinTitle"> <i class="fas fa-door-open"></i>   JOIN A ROOM </h3>
+            <h3 className="joinTitle"> <i className="fas fa-door-open"></i>   JOIN A ROOM </h3>
             <br />
             <div className="addbox" id="addbox">
               <InputGroup>
@@ -323,16 +323,17 @@ class Sidenav extends Component {
 
         <Scrollbars className="sidescrollbox" style={{height:"70vh"}}>
           <Table borderless id="roomList">
+            <tbody>
             {
               roomList.map((room) =>
                 <tr>
                   <td>
                     <a className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </a>
-
                   </td>
                 </tr>
               )
             }
+            </tbody>
           </Table>
         </Scrollbars>
       </div>

@@ -71,28 +71,30 @@ class Queue extends React.Component {
     return (
       <Scrollbars className="scrollbox" style={{height:"50vh"}}>
         <Table className="table">
+          <tbody>
           {
-              songQueue.map((song) =>
-                <tr>
-                  <td> 
-                    <img
-                      src={song.thumbnail}
-                      height="100" width="150"
-                    alt="thumbnail"/>
-                  </td>
-                  <td className="songTitle">
-                    {song.title}
-                    <br />
-                    <span className="queueBy">
-                     Queued by {song.queueBy}
-                    </span>
-                  </td>
-                  <td className="songTime">
-                    <i class="fas fa-clock"></i> {song.duration}
-                  </td>
-                </tr>
-              )
+            songQueue.map((song) =>
+              <tr>
+                <td> 
+                  <img
+                    src={song.thumbnail}
+                    height="100" width="150"
+                  alt="thumbnail"/>
+                </td>
+                <td className="songTitle">
+                  {song.title}
+                  <br />
+                  <span className="queueBy">
+                   Queued by {song.queueBy}
+                  </span>
+                </td>
+                <td className="songTime">
+                  <i className="fas fa-clock"></i> {song.duration}
+                </td>
+              </tr>
+            )
           }
+          </tbody>
         </Table>
       </Scrollbars>
     );
