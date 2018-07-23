@@ -74,6 +74,7 @@ class Queue extends React.Component {
           <tbody>
           {
             songQueue.map((song, index) =>
+              song.thumbnail && 
               <tr key={index}>
                 <td> 
                   <img

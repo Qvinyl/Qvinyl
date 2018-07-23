@@ -75,6 +75,7 @@ class Chat extends React.Component {
     }
 
     getUserID() {
+      setInterval(() => {
         try {
           var userID = firebase.auth().currentUser.uid;
         } catch(exception) {
@@ -84,7 +85,7 @@ class Chat extends React.Component {
           userID: userID
         });
         var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-        getRoom.on('value', (snapshot) => {
+        getRoom.once('value').then((snapshot) => {
           try {
             var roomKey = snapshot.val().currentRoom;
           } catch (exception) {
@@ -92,6 +93,7 @@ class Chat extends React.Component {
           }
           if (roomKey !== undefined) this.loadChat(roomKey);
         });
+      }, 1500);
     }
 
 
