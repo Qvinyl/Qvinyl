@@ -327,30 +327,30 @@ class Main extends Component {
                                 </i>
                              </Button>
                            </td>
-                        </tr>                       
+                        </tr>
                       )
                     }
                   </Table>
                   <br/>
-                  <Button color="secondary" style={{float:'right'}} onClick={this.openYoutubeSearch}>Cancel</Button> 
+                  <Button color="secondary" style={{float:'right'}} onClick={this.openYoutubeSearch}>Cancel</Button>
                 </div>
-              </ModalBody> 
+              </ModalBody>
             </Modal>
 
             {/***************** MODAL FOR DELETE ROOM *****************/}
             <Modal className="deleteRoomBox" isOpen={this.state.deletingRoom} toggle={this.deleteRoom}>
-              <ModalBody className="deleteModalBody" toggle={this.deleteRoom}> 
+              <ModalBody className="deleteModalBody" toggle={this.deleteRoom}>
                 <h3 className="deleteTitle"> <i class="fas fa-door-closed"></i>  CONFIRM DELETION </h3>
                 <br/>
                <span style={{color:'white'}}> Are you sure you permanently want to delete this room? </span>
                 <br />
                 <div className="addbox" id="addbox">
                   <br/>
-                  <Button color="primary" id="addSubmit" onClick={this.destroyRoom} >Delete Room</Button>
+                  <Button color="danger" id="addSubmit" onClick={this.destroyRoom}>Delete Room</Button>
                   <Button color="secondary" id="addCancel" onClick={this.deleteRoom}>Cancel</Button>
                </div>
               </ModalBody>
-            </Modal>  
+            </Modal>
 
           </div>
 
