@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { auth } from '../helpers/auth'
 import './Login.css'
 import logo from './LoginLogo.png';
-import { ref, firebaseAuth } from '../config/constants'
+import {firebaseAuth } from '../config/constants'
 import firebase from 'firebase'
 import './Register.css'
 

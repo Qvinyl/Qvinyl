@@ -1,28 +1,19 @@
 import React, { Component } from 'react'
 import Queue from './Queue'
 import './Main.css';
-import Player from './Player'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Tooltip} from 'reactstrap'
 import {
-  Container,
-  Row,
-  Col,
   Button,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
   Table,
   Modal,
   ModalBody,
-  ModalFooter,
 } from 'reactstrap'
 
 import firebase from 'firebase'
 import './Queue.css';
 
-import {parse, toSeconds, pattern} from 'iso8601-duration';
+import {parse, toSeconds} from 'iso8601-duration';
 
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';

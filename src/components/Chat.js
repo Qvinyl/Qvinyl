@@ -1,11 +1,11 @@
 //import React from 'react';
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import {Container, InputGroup, InputGroupAddon, InputGroupText, Input, Table, Tooltip } from 'reactstrap'
+import {Input, Table, Tooltip } from 'reactstrap'
 
 class Chat extends React.Component {
     constructor(props, context) {
@@ -72,7 +72,6 @@ class Chat extends React.Component {
     }
 
     getUserID() {
-      setInterval(() => {
         try {
           var userID = firebase.auth().currentUser.uid;
         } catch(exception) {
@@ -82,7 +81,7 @@ class Chat extends React.Component {
           userID: userID
         });
         var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-        getRoom.once('value').then((snapshot) => {
+        getRoom.on('value', (snapshot) => {
           try {
             var roomKey = snapshot.val().currentRoom;
           } catch (exception) {
@@ -91,7 +90,6 @@ class Chat extends React.Component {
           //console.log("current chat room: " + roomKey);
           if (roomKey != undefined) this.loadChat(roomKey);
         });
-      }, 1000);
     }
 
 

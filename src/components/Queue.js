@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import "./Queue.css"
-import {Container, Row, Col, Button, Table} from 'reactstrap'
+import {Table} from 'reactstrap'
 import firebase from 'firebase';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -72,21 +72,13 @@ class Queue extends React.Component {
       <Scrollbars className="scrollbox" style={{height:"50vh"}}>
         <Table className="table">
           {
-            /*
-            <tr>
-              <th></th>
-              <th>Track Name</th>
-              <th>Duration</th>
-              <th>Queued by</th>
-            </tr>
-            */
               songQueue.map((song) =>
                 <tr>
                   <td> 
                     <img
                       src={song.thumbnail}
                       height="100" width="150"
-                    />
+                    alt="thumbnail"/>
                   </td>
                   <td className="songTitle">
                     {song.title}
