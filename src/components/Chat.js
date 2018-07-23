@@ -3,7 +3,9 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Row, Col } from 'reactstrap';
+import { 
+  TabContent, TabPane, Nav, NavItem, 
+  NavLink, Card, Button, Row, Col, CardBody } from 'reactstrap';
 import classnames from 'classnames';
 import {Input, Table, Tooltip } from 'reactstrap'
 
@@ -302,37 +304,40 @@ class Chat extends React.Component {
         <TabPane tabId="2">
           <Row noGutters>
             <Col sm="12">
-              <Card Body style={{color: 'white', background: '#1c1f23', border: '0px', borderRadius: '0px', height:'100vh'}}>
-              <Table className="cardscrollbox">
-                  {
-                      userList.map((name) =>
-                        <tr>
-                          <td className="userNames">
-                            {name.name}
-                          </td>
-                          <td>
-                            <Button id="kickUserButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                              <i class="fas fa-frown-open" onClick={() => this.kickUser(name.id)} value = {name.id}></i>
-                            </Button>
-                            <Tooltip placement="top" isOpen={this.state.hoveringKickUser} target="kickUserButton" toggle={this.hoverKickUser}>
-                              Kick Out User
-                            </Tooltip>
-                            {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>*/}
-                          </td>
-                          <td>
-                            <Button id="adminButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                              <i class="fas fa-crown" onClick={() => this.makeAdmin(name.id)} value = {name.id}></i>
-                            </Button>
-                            <Tooltip placement="top" isOpen={this.state.hoveringAdmin} target="adminButton" toggle={this.hoverAdmin}>
-                              Make User Admin
-                            </Tooltip>
-                            {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>*/}
-                          </td>
-                        </tr>
-                      )
-                  }
-                </Table>
-
+              <Card style={{color: 'white', background: '#1c1f23', border: '0px', borderRadius: '0px', height:'100vh'}}>
+                <CardBody>
+                  <Table className="cardscrollbox">
+                    <tbody>
+                      {
+                        userList.map((name) =>
+                          <tr>
+                            <td className="userNames">
+                              {name.name}
+                            </td>
+                            <td>
+                              <Button id="kickUserButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                                <i className="fas fa-frown-open" onClick={() => this.kickUser(name.id)} value = {name.id}></i>
+                              </Button>
+                              <Tooltip placement="top" isOpen={this.state.hoveringKickUser} target="kickUserButton" toggle={this.hoverKickUser}>
+                                Kick Out User
+                              </Tooltip>
+                              {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>*/}
+                            </td>
+                            <td>
+                              <Button id="adminButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                                <i className="fas fa-crown" onClick={() => this.makeAdmin(name.id)} value = {name.id}></i>
+                              </Button>
+                              <Tooltip placement="top" isOpen={this.state.hoveringAdmin} target="adminButton" toggle={this.hoverAdmin}>
+                                Make User Admin
+                              </Tooltip>
+                              {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>*/}
+                            </td>
+                          </tr>
+                        )
+                      }
+                    </tbody>
+                  </Table>
+                </CardBody>
               </Card>
             </Col>
           </Row>

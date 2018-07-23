@@ -331,7 +331,7 @@ class Player extends Component {
 						<img className="albumart" src={this.state.currentSongImage} alt=""/>
 						{
 							this.state.currentSongTitle &&
-							<p className="songTitle">
+							<div className="songTitle">
 								<p className="currentPlay">
 								♫♪  Currently playing...
 								</p>
@@ -340,7 +340,7 @@ class Player extends Component {
 								<marquee width="300px" behavior="scroll" direction="left" scrollamount="6">
 									{this.state.currentSongTitle}
 								</marquee>
-							</p>
+							</div>
 						}
 					</div>
 
