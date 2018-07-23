@@ -294,7 +294,7 @@ class Main extends Component {
 
           {/****************** TOOLTIP FOR DELETE ROOM ******************/}
           <Button id="deleteButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-            <i className="fas fa-times searchSong" onClick={()=> this.deleteRoom()}></i>
+            <i className="fas fa-times removeRoom" onClick={()=> this.deleteRoom()}></i>
           </Button>
           <Tooltip placement="bottom" isOpen={this.state.hoveringDelete} target="deleteButton" toggle={this.hoverDelete}>
             Delete Room

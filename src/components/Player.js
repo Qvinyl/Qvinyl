@@ -300,12 +300,16 @@ class Player extends Component {
 			}
 			var roomLocation = firebase.database().ref('rooms/' + roomKey);
 			roomLocation.once('value').then((snapshot) => {
-				var numUsers = snapshot.val().numberOfUsers;
-				var downvotes = snapshot.val().downvotes;
-				var percentage = (downvotes/(numUsers/2)) * 100;
-				this.setState({
-					percentage: percentage
-				})
+				try {
+					var numUsers = snapshot.val().numberOfUsers;
+					var downvotes = snapshot.val().downvotes;
+					var percentage = (downvotes/(numUsers/2)) * 100;
+					this.setState({
+						percentage: percentage
+					})
+				} catch (exception) {
+					return;
+				}
 			});
 		});
 	}
@@ -334,17 +338,20 @@ class Player extends Component {
 			<div>
 				<div className="banner">
 					<div className="left">
-						<img className="albumart" src={this.state.currentSongImage}/>
-						<p className="songTitle">
-							<p className="currentPlay">
-							♫♪  Currently playing...
-							</p>
+						<img className="albumart" src={this.state.currentSongImage} alt=""/>
+						{
+							this.state.currentSongTitle &&
+							<p className="songTitle">
+								<p className="currentPlay">
+								♫♪  Currently playing...
+								</p>
 
-							<br />
-							<marquee width="300px" behavior="scroll" direction="left" scrollamount="6">
-								{this.state.currentSongTitle}
-							</marquee>
-						</p>
+								<br />
+								<marquee width="300px" behavior="scroll" direction="left" scrollamount="6">
+									{this.state.currentSongTitle}
+								</marquee>
+							</p>
+						}
 					</div>
 
 					<div className="center">

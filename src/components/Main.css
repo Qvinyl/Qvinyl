@@ -14,10 +14,11 @@
 }
 
 .mainTitle {
-  font-size: 36px;
+  font-size: 45px;
   color: white;
   font-weight: bold;
   padding: 10px;
+  margin-top: 10px;
 }
 
 .mainButton {
@@ -30,7 +31,10 @@
 
 .roomKey {
   color: white;
-  font-size: 25px;
+  font-size: 20px;
+  line-height: 25px;
+  height: 25px;
+  width: 20px;
   cursor: pointer;
   float:right;
 }
@@ -41,7 +45,10 @@
 
 .searchSong {
   color: white;
-  font-size: 25px;
+  font-size: 20px;
+  line-height: 25px;
+  height: 25px;
+  width: 20px;
   cursor: pointer;
   float:right;
 }
@@ -50,7 +57,19 @@
   opacity: 0.6;
 }
 
+.removeRoom {
+  color: white;
+  font-size: 25px;
+  line-height: 25px;
+  height: 25px;
+  width: 20px;
+  cursor: pointer;
+  float:right;
+}
 
+.removeRoom:hover {
+  opacity: 0.6;
+}
 
 
 /************ INPUT CONTAINER CSS ************/
