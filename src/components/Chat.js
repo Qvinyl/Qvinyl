@@ -179,7 +179,7 @@ class Chat extends React.Component {
             });
           }
           else{
-            console.log("You are not admin");
+            window.alert("You are not Admin");
           }
         });
       });

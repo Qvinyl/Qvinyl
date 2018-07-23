@@ -71,7 +71,6 @@ class Main extends Component {
   }
 
   pushMusicToDB(link) {
-    console.log("sending link: " + link);
     var userID = firebase.auth().currentUser.uid;
     var name = firebase.auth().currentUser.displayName;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -199,7 +198,7 @@ class Main extends Component {
           firebase.database().ref('rooms/' + roomKey).remove();
         }
         else{
-          console.log("You are not admin");
+          window.alert("You are not admin");
         }
       });
     });
@@ -237,7 +236,7 @@ class Main extends Component {
       <div className="main">
 
           <div className="mainButton">
-            {/**********************************  TOOLTIPS  **********************************/}
+          {/**********************************  TOOLTIPS  **********************************/}
             {/****************** TOOLTIP FOR ROOM KEY ******************/}
             <Button id="keyButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
               <i className="fas fa-key roomKey" onClick={this.getRoomKey}></i>
@@ -263,7 +262,7 @@ class Main extends Component {
           </Tooltip>
 
 
-            {/**********************************  MODAL BOXES  **********************************/}
+          {/**********************************  MODAL BOXES  **********************************/}
              {/***************** MODAL FOR SEARCH MUSIC *****************/}
             <Modal className="searchBox" isOpen={this.state.youtubeOpen} toggle={this.openYoutubeSearch}>
               <ModalBody className="searchBody">
