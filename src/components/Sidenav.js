@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import {
   Table, Modal, ModalBody, Button, Input,
   InputGroup, InputGroupAddon, Tooltip } from 'reactstrap'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 class Sidenav extends Component {
   constructor (props) {

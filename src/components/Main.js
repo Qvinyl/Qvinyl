@@ -10,7 +10,7 @@ import {
   ModalBody,
 } from 'reactstrap'
 
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import './Queue.css';
 
 import {parse, toSeconds} from 'iso8601-duration';

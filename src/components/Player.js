@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import './Player.css';
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import logo from './logo6.png';
 import {
 	Button
