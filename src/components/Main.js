@@ -172,7 +172,6 @@ class Main extends Component {
   }
 
   destroyRoom() {
-    var isAdmin = false;
     var userID = firebase.auth().currentUser.uid;
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
@@ -181,7 +180,6 @@ class Main extends Component {
       adminLocation.once('value').then((snapshot) => {
         var admin = snapshot.val();
         if (userID === admin) {
-          isAdmin = true;
           var peopleInRoom = firebase.database().ref('rooms/' + roomKey + '/users');
           peopleInRoom.once('value').then((users) => {
             users.forEach((user) => {

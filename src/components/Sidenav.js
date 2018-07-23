@@ -54,13 +54,11 @@ class Sidenav extends Component {
   }
 
   checkValidKey() {
-    var isValid = false;
     var link = document.getElementById("linkOfRoom").value;
     var rooms = firebase.database().ref('rooms/');
     rooms.once('value').then((snapshot) => {
       snapshot.forEach((room) => {
         if (link === room.key) {
-          isValid = true;
           this.joinPrivateRoom();
           return true;
         }

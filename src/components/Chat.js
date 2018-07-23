@@ -143,7 +143,6 @@ class Chat extends React.Component {
     }
 
     kickUser(uid) {
-      var isAdmin = false;
       var kickLink = uid;
       var userID = firebase.auth().currentUser.uid;
       var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -153,7 +152,6 @@ class Chat extends React.Component {
         adminLocation.once('value').then((snapshot) => {
           var admin = snapshot.val();
           if (userID === admin) {
-            isAdmin = true;
             var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
             updateUsers.once('value').then((snapshot) => {
               snapshot.forEach((childSnapshot) => {
@@ -217,7 +215,6 @@ class Chat extends React.Component {
       }
 
       makeAdmin(uid) {
-        var isAdmin = false;
         var makeAdmin = uid;
         var userID = firebase.auth().currentUser.uid;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -228,7 +225,6 @@ class Chat extends React.Component {
           adminLocation.once('value').then((snapshot) => {
             var admin = snapshot.val();
             if (userID === admin) {
-              isAdmin = true;
               updateAdmin.push();
               updateAdmin.update({
                 admin: makeAdmin

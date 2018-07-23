@@ -85,7 +85,6 @@ class Player extends Component {
 		}, 5000);
 
 		var temp = false;
-		var currUser = firebase.auth().currentUser;
 		var userID = firebase.auth().currentUser.uid;
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		userRoomKey.once('value').then((snapshot) => {
@@ -94,9 +93,7 @@ class Player extends Component {
 		var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
 		downvotersLocation.once('value').then((snapshot) => {
 			var downvoter = snapshot.val();
-			var count = 0;
 			snapshot.forEach((childSnapshot) => {
-				count += 1;
 				if (childSnapshot.val() === userID) {
 					temp = true;
 					return true;
