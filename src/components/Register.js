@@ -22,8 +22,7 @@ export default class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     auth(this.email.value, this.pw.value)
-      .catch(e => this.setState(setErrorMsg(e)))
-
+      .catch(e =>  window.alert("Email is already in use"))
     firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
       .then((user) => {
       var user1= firebase.auth().currentUser;
