@@ -3,10 +3,11 @@ import { auth } from '../helpers/auth'
 import './Login.css'
 import logo from './logo6.png';
 import { ref, firebaseAuth } from '../config/constants'
+import firebase from 'firebase'
 
-import { 
+import {
   CustomInput, Form, FormGroup, Label, Container, Row, Col,
-  InputGroup, InputGroupAddon, InputGroupText, Input, Button 
+  InputGroup, InputGroupAddon, InputGroupText, Input, Button
 } from 'reactstrap';
 
 function setErrorMsg(error) {
@@ -21,15 +22,20 @@ export default class Register extends Component {
     e.preventDefault();
     auth(this.email.value, this.pw.value)
       .catch(e => this.setState(setErrorMsg(e)))
-      /*
+
     firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value).then((user) => {
       console.log(user);
-      user.updateProfile({
-        displayName: "Jane Q. User",
-        photoURL: "https://example.com/jane-q-user/profile.jpg"
+      var user1= firebase.auth().currentUser;
+      console.log(user1);
+      user1.updateProfile({
+        displayName: this.name.value,
+      }).then(function() {
+        // Update successful.
+        console.log(user1.displayName);
+      }).catch(function(error) {
+        // An error happened.
       });
     });
-    */
   }
   render () {
     return (

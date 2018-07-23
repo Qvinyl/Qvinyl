@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import './Player.css';
 import firebase from 'firebase'
+import logo from './logo6.png';
 import {
 	Button,
 	Navbar,
@@ -347,7 +348,7 @@ class Player extends Component {
 					</div>
 
 					<div className="center">
-						<img className="logo" src="logo6.png"/>
+						 <img src={logo} alt="Logo" className='logo' />
 					</div>
 
 					<div className="right">
