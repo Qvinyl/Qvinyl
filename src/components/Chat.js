@@ -44,7 +44,7 @@ class Chat extends React.Component {
       hoveringAdmin: !this.state.hoveringAdmin
     })
   }
-
+  
     hoverKickUser() {
     this.setState({
       hoveringKickUser: !this.state.hoveringKickUser
@@ -235,6 +235,7 @@ class Chat extends React.Component {
               });
             }
             else{
+              window.alert("You are not Admin");
             }
           });
         });

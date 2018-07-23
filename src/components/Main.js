@@ -180,15 +180,12 @@ class Main extends Component {
       var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
       adminLocation.once('value').then((snapshot) => {
         var admin = snapshot.val();
-        console.log('admin: ' + admin);
         if (userID === admin) {
           isAdmin = true;
-          console.log("am I admin? " + isAdmin);
           var peopleInRoom = firebase.database().ref('rooms/' + roomKey + '/users');
           peopleInRoom.once('value').then((users) => {
             users.forEach((user) => {
               var uid = user.val();
-              console.log("user: " + user.val());
               firebase.database().ref('users/' + uid + "/roomKeys").push();
               firebase.database().ref('users/' + uid + "/roomKeys").set({
                 currentRoom: ''
@@ -214,14 +211,12 @@ class Main extends Component {
         videos: videos
       });
     });
-    console.log(this.state.videos);
   }
 
   openYoutubeSearch() {
     this.setState({
       youtubeOpen: !this.state.youtubeOpen
     });
-    console.log(this.state.youtubeOpen);
   }
 
   render () {

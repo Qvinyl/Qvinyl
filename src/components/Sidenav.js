@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import './Sidenav.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { 
-  Table, Modal, ModalBody, Button, Input, 
+import {
+  Table, Modal, ModalBody, Button, Input,
   InputGroup, InputGroupAddon, Tooltip } from 'reactstrap'
 import firebase from 'firebase';
 
@@ -59,22 +59,13 @@ class Sidenav extends Component {
     var rooms = firebase.database().ref('rooms/');
     rooms.once('value').then((snapshot) => {
       snapshot.forEach((room) => {
-        console.log('Link: ' + link);
-        console.log('room: ' + room.key);
         if (link === room.key) {
           isValid = true;
-          console.log("The Key is valid");
           this.joinPrivateRoom();
           return true;
         }
       });
     });
-    if (isValid === true) {
-      console.log('is valid key');
-    }
-    else{
-      console.log("Key is not valid");
-    }
   }
 
   joinPrivateRoom() {

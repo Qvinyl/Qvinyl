@@ -26,14 +26,11 @@ export default class Register extends Component {
 
     firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
       .then((user) => {
-      console.log(user);
       var user1= firebase.auth().currentUser;
-      console.log(user1);
       user1.updateProfile({
         displayName: this.firstName.value + " " + this.lastName.value,
       }).then(function() {
         // Update successful.
-        console.log(user1.displayName);
       }).catch(function(error) {
         // An error happened.
       });
