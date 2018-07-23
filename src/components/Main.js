@@ -264,8 +264,8 @@ class Main extends Component {
                   <SearchBar onSearchTermChange={videoSearch} />
                   <Table className="col-md-4 list-group">
                     {
-                      videos.map((video) =>
-                        <tr className="rowDivider">
+                      videos.map((video, index) =>
+                        <tr key={index} className="rowDivider">
                           <td>
                             <img src={video.snippet.thumbnails.default.url} alt="thumbnail" />
                           </td>

@@ -314,8 +314,8 @@ class Sidenav extends Component {
           <Table borderless id="roomList">
             <tbody>
             {
-              roomList.map((room) =>
-                <tr>
+              roomList.map((room, index) =>
+                <tr key={index}>
                   <td>
                     <a className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </a>
                   </td>

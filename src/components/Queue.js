@@ -73,8 +73,8 @@ class Queue extends React.Component {
         <Table className="table">
           <tbody>
           {
-            songQueue.map((song) =>
-              <tr>
+            songQueue.map((song, index) =>
+              <tr key={index}>
                 <td> 
                   <img
                     src={song.thumbnail}
