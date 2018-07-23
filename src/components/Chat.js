@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
-import { 
+import {
   TabContent, TabPane, Nav, NavItem, Form,
   NavLink, Card, Button, Row, Col, CardBody } from 'reactstrap';
 import classnames from 'classnames';
@@ -44,7 +44,7 @@ class Chat extends React.Component {
       hoveringAdmin: !this.state.hoveringAdmin
     })
   }
-  
+
     hoverKickUser() {
     this.setState({
       hoveringKickUser: !this.state.hoveringKickUser
@@ -273,8 +273,8 @@ class Chat extends React.Component {
                   <div>
                     <ul className="chats" ref="chats">
                         {
-                          chats.map((chat) =>
-                              <li className={`chat ${ userID === chat.username ? "right" : "left"}`}>
+                          chats.map((chat, index) =>
+                              <li key={index} className={`chat ${ userID === chat.username ? "right" : "left"}`}>
                                 <b>{chat.displayName}</b>
                                 <br/>
                                 <p>{chat.content}</p>
@@ -283,7 +283,7 @@ class Chat extends React.Component {
                         }
                     </ul>
                     <Form autoComplete="off" className="input" onSubmit={(e) => this.submitMessage(e)}>
-                        <Input placeholder="Type a message..." id="currentMessage" onFocus={this.value=''} type="text" ref="msg" />
+                        <Input placeholder="Type a message..." id="currentMessage" type="text" ref="msg" />
                     </Form>
                   </div>
                 </div>
@@ -299,8 +299,8 @@ class Chat extends React.Component {
                   <Table className="cardscrollbox">
                     <tbody>
                       {
-                        userList.map((name) =>
-                          <tr>
+                        userList.map((name, index) =>
+                          <tr key={index}>
                             <td className="userNames">
                               {name.name}
                             </td>
