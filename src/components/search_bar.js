@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = { input: '' };
   }
 
@@ -20,7 +19,6 @@ class SearchBar extends Component {
           onChange={event => this.onInputChange(event.target.value)}
           style = {{ width: "75%" }}
         />
-        
       </div>
     );
   }
