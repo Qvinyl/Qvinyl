@@ -49,14 +49,14 @@ export default class Register extends Component {
           <Col sm="6" className="center">
 
               <Form className="loginForm" onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <div className="flexbox">
+                  <input className="firstname" type="name" style={{width: '50%'}} className="form-control" placeholder="First Name" ref={(firstName) => this.firstName = firstName} />
+                  <input className="lastname" type="name" style={{width: '50%'}} className="form-control" placeholder=" Last Name" ref={(lastName) => this.lastName = lastName} />
+                </div>
+              </FormGroup>
                 <FormGroup>
                   <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
-                </FormGroup>
-                <FormGroup>
-                  <div className="flexbox">
-                    <input className="firstname" type="name" style={{width: '50%'}} className="form-control" placeholder="First Name" ref={(firstName) => this.firstName = firstName} />
-                    <input className="lastname" type="name" style={{width: '50%'}} className="form-control" placeholder=" Last Name" ref={(lastName) => this.lastName = lastName} />
-                  </div>
                 </FormGroup>
                 <FormGroup>
                   <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
