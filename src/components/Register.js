@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { auth } from '../helpers/auth'
 import './Login.css'
-import logo from './logo6.png';
+import logo from './LoginLogo.png';
 import { ref, firebaseAuth } from '../config/constants'
 import firebase from 'firebase'
+import './Register.css'
 
 import {
   CustomInput, Form, FormGroup, Label, Container, Row, Col,
@@ -28,7 +29,7 @@ export default class Register extends Component {
       var user1= firebase.auth().currentUser;
       console.log(user1);
       user1.updateProfile({
-        displayName: this.name.value,
+        displayName: this.firstName.value + " " + this.lastName.value,
       }).then(function() {
         // Update successful.
         console.log(user1.displayName);
@@ -52,7 +53,10 @@ export default class Register extends Component {
                   <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
                 </FormGroup>
                 <FormGroup>
-                  <input type="name" className="form-control" placeholder="Name" ref={(name) => this.name = name} />
+                  <div className="flexbox">
+                    <input className="firstname" type="name" style={{width: '50%'}} className="form-control" placeholder="First Name" ref={(firstName) => this.firstName = firstName} />
+                    <input className="lastname" type="name" style={{width: '50%'}} className="form-control" placeholder=" Last Name" ref={(lastName) => this.lastName = lastName} />
+                  </div>
                 </FormGroup>
                 <FormGroup>
                   <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />

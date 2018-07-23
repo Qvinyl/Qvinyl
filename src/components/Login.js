@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
 import './Login.css'
-import logo from './logo6.png';
+import logo from './LoginLogo.png';
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
 
-import { 
+import {
   CustomInput, Form, FormGroup, Label, Container, Row, Col,
-  InputGroup, InputGroupAddon, InputGroupText, Input, Button 
+  InputGroup, InputGroupAddon, InputGroupText, Input, Button
 } from 'reactstrap';
 
 
@@ -50,7 +50,7 @@ export default class Login extends Component {
                 </FormGroup>
                 <Button type="submit" style={{width: '50%'}}>Login</Button>
                 <p className="register">
-                  Don't have an account? Please 
+                  Don't have an account? Please
                   <Link to="/register"> Register</Link>.
                 </p>
 
