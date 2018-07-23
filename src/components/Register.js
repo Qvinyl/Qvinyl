@@ -8,8 +8,7 @@ import './Register.css'
 import { Link } from 'react-router-dom'
 
 import {
-  CustomInput, Form, FormGroup, Label, Container, Row, Col,
-  InputGroup, InputGroupAddon, InputGroupText, Input, Button, FormText
+  Form, FormGroup, Container, Row, Col, Input, Button, FormText
 } from 'reactstrap';
 
 function setErrorMsg(error) {
@@ -53,11 +52,11 @@ export default class Register extends Component {
               <Form className="loginForm" onSubmit={this.handleSubmit}>
               <FormGroup>
                 <div className="flexbox">
-                  <Input className="firstname" type="name" 
-                    style={{width: '50%'}} placeholder="First Name" 
+                  <Input className="firstname" type="name"
+                    style={{width: '50%'}} placeholder="First Name"
                     innerRef={(firstName) => this.firstName = firstName} />
-                  <Input className="lastname" type="name" 
-                    style={{width: '50%'}} placeholder="Last Name" 
+                  <Input className="lastname" type="name"
+                    style={{width: '50%'}} placeholder="Last Name"
                     innerRef={(lastName) => this.lastName = lastName} />
                 </div>
               </FormGroup>
@@ -70,7 +69,7 @@ export default class Register extends Component {
                 </FormGroup>
                 <Button type="submit" style={{width: '50%'}}>Register</Button>
                 <p className="register">
-                  Already have an account? Let's 
+                  Already have an account? Let's
                   <Link to="/login"> Login</Link>.
                 </p>
               </Form>

@@ -42,7 +42,6 @@ class Main extends Component {
     this.getRoomKey = this.getRoomKey.bind(this);
     this.getRoomName = this.getRoomName.bind(this);
     this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
-    this.parseDuration = this.parseDuration.bind(this);
 
     this.videoSearch('lofi');
   }
@@ -78,7 +77,7 @@ class Main extends Component {
     var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
     userRoomKey.once('value').then(function(snapshot){
       var roomKey = snapshot.val().currentRoom;
-      if (roomKey == "") {
+      if (roomKey === "") {
         return;
       }
       var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
@@ -125,34 +124,6 @@ class Main extends Component {
         })
       }
     });
-  }
-
-  parseDuration (duration) {
-    if (duration === "PT0S") {
-      parsedDuration = "Stream";
-    } else {
-      var parsedDuration = duration.slice(duration.lastIndexOf("T") + 1, duration.lastIndexOf("S"));
-      if (parsedDuration.includes("H")) {
-        var hours = parsedDuration.slice(0, parsedDuration.lastIndexOf("H"));
-        var minutes = parsedDuration.slice(parsedDuration.lastIndexOf("H") + 1, parsedDuration.lastIndexOf("M"));
-        var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
-        parsedDuration = (hours.length == 1 ? "0" + hours : hours)
-                  + ":" + (minutes.length == 1 ? "0" + minutes : minutes)
-                  + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
-      } else if (!parsedDuration.includes("M")) {
-        var hours = parsedDuration.slice(0, parsedDuration.lastIndexOf("H"));
-        var minutes = parsedDuration.slice(parsedDuration.lastIndexOf("H") + 1, parsedDuration.lastIndexOf("M"));
-        var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
-        parsedDuration = (hours.length == 1 ? "0" + hours : hours)
-                  + ":" + (minutes.length == 1 ? "0" + minutes : minutes)
-                  + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
-      } else {
-        var minutes = parsedDuration.slice(0, parsedDuration.lastIndexOf("M"));
-        var seconds = parsedDuration.slice(parsedDuration.lastIndexOf("M") + 1, parsedDuration.lastIndexOf("S"));
-        parsedDuration = (minutes.length == 1 ? "0" + minutes : minutes)
-                  + ":" + (seconds.length == 1 ? "0" + seconds : seconds);
-      }
-    }
   }
 
   getRoomKey() {
@@ -211,7 +182,7 @@ class Main extends Component {
       adminLocation.once('value').then((snapshot) => {
         var admin = snapshot.val();
         console.log('admin: ' + admin);
-        if (userID == admin) {
+        if (userID === admin) {
           isAdmin = true;
           console.log("am I admin? " + isAdmin);
           var peopleInRoom = firebase.database().ref('rooms/' + roomKey + '/users');
@@ -225,7 +196,7 @@ class Main extends Component {
               });
             })
           });
-          var deleteRoom = firebase.database().ref('rooms/' + roomKey).remove();
+          firebase.database().ref('rooms/' + roomKey).remove();
         }
         else{
           console.log("You are not admin");
@@ -255,7 +226,7 @@ class Main extends Component {
   }
 
   render () {
-    const {userList, videos} = this.state;
+    const {videos} = this.state;
 
     const videoSearch = _.debounce(term => {
       this.videoSearch(term);
@@ -304,7 +275,7 @@ class Main extends Component {
                       videos.map((video) =>
                         <tr className="rowDivider">
                           <td>
-                            <img src={video.snippet.thumbnails.default.url} />
+                            <img src={video.snippet.thumbnails.default.url} alt="thumbnail" />
                           </td>
                           <td className="songTitle" style={{width: '100%'}}>
                             {video.snippet.title}
