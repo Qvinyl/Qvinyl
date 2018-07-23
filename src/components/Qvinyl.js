@@ -4,13 +4,7 @@ import Sidenav from './Sidenav'
 import Main from './Main'
 import Chat from './Chat'
 import Player from './Player'
-import Queue from './Queue'
-import * as firebase from 'firebase';
-import {Container, Row, Col, Button} from 'reactstrap';
-
-function logoutButton(){
-    firebase.auth().signOut();
-}
+import {Container, Row, Col} from 'reactstrap';
 
 class Qvinyl extends Component {
   constructor (props) {

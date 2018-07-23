@@ -4,15 +4,9 @@ import './Player.css';
 import firebase from 'firebase'
 import logo from './logo6.png';
 import {
-	Button,
-	Navbar,
-  NavbarToggler,
-	NavbarBrand,
-	Nav,
-	NavItem,
-	NavLink
+	Button
 } from 'reactstrap';
-import {Circle, Line} from 'rc-progress';
+import {Circle} from 'rc-progress';
 
 function logoutButton(){
     firebase.auth().signOut();
@@ -97,13 +91,12 @@ class Player extends Component {
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		userRoomKey.once('value').then((snapshot) => {
 		var roomKey = snapshot.val().currentRoom;
-		if (roomKey == "") return;
+		if (roomKey === "") return;
 		var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
 		downvotersLocation.once('value').then((snapshot) => {
 			var downvoter = snapshot.val();
 			var count = 0;
 			snapshot.forEach((childSnapshot) => {
-				var downvoter = childSnapshot.val();
 				count += 1;
 				console.log("child: " + childSnapshot.val())
 				if (childSnapshot.val() === userID) {
@@ -113,7 +106,7 @@ class Player extends Component {
 					return true;
 				}
 			});
-			if(temp == false || downvoter === '') {
+			if(temp === false || downvoter === '') {
 				var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
 				downvotersLoc.push(userID);
 				this.incrementDownvotes();
@@ -327,9 +320,6 @@ class Player extends Component {
 		var video = {
 			height: this.state.hiddenVideo ? "35vh" : "100vh"
 		};
-		var showAddSong = {
-			display: this.state.hiddenAddSong ? "none" : "block"
-		};
 		var hideSkipButton = {
 			display: this.state.hiddenVideo ? "block" : "none"
 		}
@@ -415,20 +405,6 @@ class Player extends Component {
 							/>
 						</div>
 					</div>
-
-					{/*
-					<a onClick={this.hideVolume}>
-						<i className="fa fa-volume-down buttons"></i>
-					</a>
-					<div style={volumeSettings}>
-						<input
-							type="range"
-							min="0" max="1"
-							value={this.state.volume}
-							onInput={this.changeVolume}
-							step="0.05" />
-					</div>
-					*/}
 				</div>
 			</div>
 		);
