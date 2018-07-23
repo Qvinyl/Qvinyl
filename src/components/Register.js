@@ -44,7 +44,7 @@ export default class Register extends Component {
         </div>
         <Container>
           <Row>
-          <Col sm="6" className="center">
+          <Col sm="6" className="centerlogin">
 
               <Form className="loginForm" onSubmit={this.handleSubmit}>
               <FormGroup>
