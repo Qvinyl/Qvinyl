@@ -263,27 +263,29 @@ class Main extends Component {
                 <div>
                   <SearchBar onSearchTermChange={videoSearch} />
                   <Table className="col-md-4 list-group">
-                    {
-                      videos.map((video, index) =>
-                        <tr key={index} className="rowDivider">
-                          <td>
-                            <img src={video.snippet.thumbnails.default.url} alt="thumbnail" />
-                          </td>
-                          <td className="songTitle" style={{width: '100%'}}>
-                            {video.snippet.title}
-                            <br/>
-                          </td>
+                    <tbody>
+                        {
+                          videos.map((video, index) =>
+                            <tr key={index} className="rowDivider">
+                              <td>
+                                <img src={video.snippet.thumbnails.default.url} alt="thumbnail" />
+                              </td>
+                              <td className="songTitle" style={{width: '100%'}}>
+                                {video.snippet.title}
+                                <br/>
+                              </td>
 
-                          <td >
-                           <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                <i className="fas fa-plus roomKey"
-                                  onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
-                                </i>
-                             </Button>
-                           </td>
-                        </tr>
-                      )
-                    }
+                              <td>
+                               <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
+                                    <i className="fas fa-plus roomKey"
+                                      onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
+                                    </i>
+                                 </Button>
+                               </td>
+                            </tr>
+                          )
+                        }
+                    </tbody>
                   </Table>
                   <br/>
                   <Button color="secondary" style={{float:'right'}} onClick={this.openYoutubeSearch}>Cancel</Button>
