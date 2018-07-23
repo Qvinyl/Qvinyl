@@ -3,8 +3,8 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
 import firebase from 'firebase';
-import { 
-  TabContent, TabPane, Nav, NavItem, 
+import {
+  TabContent, TabPane, Nav, NavItem,
   NavLink, Card, Button, Row, Col, CardBody } from 'reactstrap';
 import classnames from 'classnames';
 import {Input, Table, Tooltip } from 'reactstrap'
@@ -44,7 +44,7 @@ class Chat extends React.Component {
       hoveringAdmin: !this.state.hoveringAdmin
     })
   }
-
+  
     hoverKickUser() {
     this.setState({
       hoveringKickUser: !this.state.hoveringKickUser
@@ -105,7 +105,6 @@ class Chat extends React.Component {
         });
 
         chatHistory.forEach((childSnapshot) => {
-          //console.log(chatHistory.val());
           var message = childSnapshot.val().message;
           var user = childSnapshot.val().user;
           var displayName = childSnapshot.val().name;
@@ -128,13 +127,11 @@ class Chat extends React.Component {
         var displayName = firebase.auth().currentUser.displayName;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
         userRoomKey.once('value').then(function(snapshot) {
-            console.log("userID: " + userID);
             var roomKey = snapshot.val().currentRoom;
             if (roomKey === "") {
               window.alert("you are not in a room");
               return;
             }
-            console.log("RoomKey: " + roomKey)
             var chatbase = firebase.database().ref('rooms/' + roomKey + '/chats');
             chatbase.push({
                 message: userMessage,
@@ -155,10 +152,8 @@ class Chat extends React.Component {
         var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
         adminLocation.once('value').then((snapshot) => {
           var admin = snapshot.val();
-          console.log('admin: ' + admin);
           if (userID === admin) {
             isAdmin = true;
-            console.log("am I admin? " + isAdmin);
             var updateUsers = firebase.database().ref('rooms/' + roomKey + '/users');
             updateUsers.once('value').then((snapshot) => {
               snapshot.forEach((childSnapshot) => {
@@ -176,7 +171,6 @@ class Chat extends React.Component {
                     return (numberOfUsers || 0) - 1;
                   });
                 }
-                console.log("selectedUser: " + selectedUser);
               });
             });
           }
@@ -225,7 +219,6 @@ class Chat extends React.Component {
       makeAdmin(uid) {
         var isAdmin = false;
         var makeAdmin = uid;
-        console.log("make Admin: " + makeAdmin);
         var userID = firebase.auth().currentUser.uid;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
         userRoomKey.once('value').then(function(snapshot){
@@ -234,18 +227,15 @@ class Chat extends React.Component {
           var adminLocation = firebase.database().ref('rooms/' + roomKey + '/admin');
           adminLocation.once('value').then((snapshot) => {
             var admin = snapshot.val();
-            console.log('admin: ' + admin);
             if (userID === admin) {
               isAdmin = true;
-              console.log("am I admin? " + isAdmin);
               updateAdmin.push();
               updateAdmin.update({
                 admin: makeAdmin
               });
-              console.log("admin is now ": admin);
             }
             else{
-              console.log("You are not admin");
+              window.alert("You are not Admin");
             }
           });
         });

@@ -87,7 +87,6 @@ class Player extends Component {
 		var temp = false;
 		var currUser = firebase.auth().currentUser;
 		var userID = firebase.auth().currentUser.uid;
-		console.log("displayname: " + currUser.displayName);
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		userRoomKey.once('value').then((snapshot) => {
 		var roomKey = snapshot.val().currentRoom;
@@ -98,10 +97,7 @@ class Player extends Component {
 			var count = 0;
 			snapshot.forEach((childSnapshot) => {
 				count += 1;
-				console.log("child: " + childSnapshot.val())
 				if (childSnapshot.val() === userID) {
-					console.log("count: " + count);
-					console.log(childSnapshot.val() === userID);
 					temp = true;
 					return true;
 				}
@@ -147,25 +143,7 @@ class Player extends Component {
 				snapshot.forEach((childSnapshot) => {
 					var songLink = childSnapshot.val().link;
 					var songKey = childSnapshot.key;
-					console.log("current song: " + this.state.song);
-					console.log("next song: " + songLink.link);
 					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
-					// handles duplicate song, song on load
-					/*
-					if (this.state.song === songLink) {
-						songLocation.limitToFirst(1).once('value').then((snapshot) => {
-							snapshot.forEach((childSnapshot) => {
-								var nextSongLink = childSnapshot.val();
-								var nextSongKey = childSnapshot.key;
-								firebase.database().ref('rooms/' + roomKey + '/songs/' + nextSongKey).remove();
-								this.setState({
-									song: nextSongLink
-								});
-							});
-						});
-						return;
-					}
-					*/
 					this.setState({
 						song: songLink
 					});
@@ -183,7 +161,6 @@ class Player extends Component {
 
 	// adjust volume according to slider
 	changeVolume (event) {
-		// console.log(this.state.volume)
 		this.setState({
 			volume: event.target.value
 		})
@@ -196,7 +173,6 @@ class Player extends Component {
 	        this.onPageLoad.bind(this);
 	    }
 	    var userName = firebase.auth().currentUser.displayName;
-	    console.log(userName);
 	    this.setState({
 			currentUser: userName
 		});
@@ -211,14 +187,12 @@ class Player extends Component {
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
 				snapshot.forEach((childSnapshot) => {
 					var songLink = childSnapshot.val().link;
-					console.log("loaded song: " + songLink);
 					this.setState({
 						song: songLink
 					});
 					var songProgress = firebase.database().ref('rooms/' + roomKey + '/songProgress');
 					songProgress.once('value').then((snapshot) => {
 						var currentProgress = snapshot.val();
-						console.log("current progress: " + currentProgress);
 						this.setState({
 							played: currentProgress
 						});
@@ -251,7 +225,6 @@ class Player extends Component {
 				songLocation.limitToFirst(1).once('value').then((snapshot) => {
 					snapshot.forEach((childSnapshot) => {
 						var songLink = childSnapshot.val().link;
-						//console.log("loaded song interval: " + songLink);
 						this.setState({
 							song: songLink
 						});
