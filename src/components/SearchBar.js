@@ -5,7 +5,8 @@ class SearchBar extends Component {
         super(props);
         this.state = { input: '' };
     }
-
+    
+    // on input, change state of input and parse input
     onInputChange(input) {
         this.setState({ input });
         this.props.onSearchTermChange(input);
