@@ -148,7 +148,7 @@ class Player extends Component {
 						this.setState({
 							song: songLink
 						});
-						// get youtube ID
+						// get youtube ID, find and set the song name and thumbnail
 						var youtubeID = songLink.slice(songLink.lastIndexOf("=") + 1, songLink.length);
 						var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
 						var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
@@ -163,6 +163,7 @@ class Player extends Component {
 						});
 					});
 				});
+				// dynamically update the song progress and store to database
 				var songProgress = firebase.database().ref('rooms/' + roomKey);
 				songProgress.update({
 					songProgress: this.state.played
