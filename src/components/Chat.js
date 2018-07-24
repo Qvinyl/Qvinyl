@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
 import './Chat.css';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import {
   TabContent, TabPane, Nav, NavItem, Form,
   NavLink, Card, Button, Row, Col, CardBody } from 'reactstrap';

@@ -3,7 +3,7 @@ import { auth } from '../helpers/auth'
 import './Login.css'
 import logo from './LoginLogo.png';
 import {firebaseAuth } from '../config/constants'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import './Register.css'
 import { Link } from 'react-router-dom'
 
@@ -22,8 +22,7 @@ export default class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     auth(this.email.value, this.pw.value)
-      .catch(e => this.setState(setErrorMsg(e)))
-
+      .catch(e =>  window.alert("Email is already in use"))
     firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
       .then((user) => {
       var user1= firebase.auth().currentUser;
@@ -44,7 +43,7 @@ export default class Register extends Component {
         </div>
         <Container>
           <Row>
-          <Col sm="6" className="center">
+          <Col sm="6" className="centerlogin">
 
               <Form className="loginForm" onSubmit={this.handleSubmit}>
               <FormGroup>

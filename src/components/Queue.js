@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Queue.css"
 import {Table} from 'reactstrap'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 class Queue extends React.Component {
@@ -74,7 +74,7 @@ class Queue extends React.Component {
           <tbody>
           {
             songQueue.map((song, index) =>
-              song.thumbnail && 
+              song.thumbnail &&
               <tr key={index}>
                 <td> 
                   <img

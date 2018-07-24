@@ -10,7 +10,7 @@ import {
   ModalBody,
 } from 'reactstrap'
 
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import './Queue.css';
 
 import {parse, toSeconds} from 'iso8601-duration';
@@ -248,7 +248,7 @@ class Main extends Component {
 
           {/****************** TOOLTIP FOR DELETE ROOM ******************/}
           <Button id="deleteButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-            <i className="fas fa-times removeRoom" onClick={()=> this.deleteRoom()}></i>
+            <i className="fas fa-times removeRoom" onClick={this.deleteRoom}></i>
           </Button>
           <Tooltip placement="bottom" isOpen={this.state.hoveringDelete} target="deleteButton" toggle={this.hoverDelete}>
             Delete Room
@@ -295,8 +295,8 @@ class Main extends Component {
 
             {/***************** MODAL FOR DELETE ROOM *****************/}
             <Modal className="deleteRoomBox" isOpen={this.state.deletingRoom} toggle={this.deleteRoom}>
-              <ModalBody className="deleteModalBody" toggle={this.deleteRoom}>
-                <h3 className="deleteTitle"> <i class="fas fa-door-closed"></i>  CONFIRM DELETION </h3>
+              <ModalBody className="deleteModalBody">
+                <h3 className="deleteTitle"> <i className="fas fa-door-closed"></i>  CONFIRM DELETION </h3>
                 <br/>
                <span style={{color:'white'}}> Are you sure you permanently want to delete this room? </span>
                 <br />
