@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { login, resetPassword } from '../helpers/auth'
+import { login } from '../helpers/auth'
 import './Login.css'
 import logo from './Logo7.png';
 import { Link } from 'react-router-dom'
@@ -26,7 +26,7 @@ export default class Login extends Component {
             this.setState(setErrorMsg('Invalid username/password.'))
         })
     }
-    
+
     render () {
         return (
             <div className='background'>

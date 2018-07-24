@@ -178,7 +178,7 @@ class Sidenav extends Component {
         });
     }
 
-    // grabs the list of rooms in room branch dynamically 
+    // grabs the list of rooms in room branch dynamically
     getRoomList() {
         var roomList = firebase.database().ref('rooms/');
         roomList.on('value', (snapshot) => {
@@ -245,16 +245,16 @@ class Sidenav extends Component {
                     <div className="navButtons">
 
                         {/****************** TOOLTIP FOR ADD ROOM ******************/}
-                        <Button id="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                            <i className="fas fa-plus" onClick={()=> this.addRoom()}> </i>
+                        <Button id="addButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={()=> this.addRoom()}>
+                            <i className="fas fa-plus"> </i>
                         </Button>
                         <Tooltip placement="bottom" isOpen={this.state.hoveringAdd} target="addButton" toggle={this.hoverAdd}>
                             Add Room
                         </Tooltip>
 
                         {/****************** TOOLTIP FOR JOIN ROOM ******************/}
-                        <Button id="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                            <i className="fas fa-door-open" onClick={()=> this.joinRoom()}></i>
+                        <Button id="joinButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={()=> this.joinRoom()}>
+                            <i className="fas fa-door-open"></i>
                         </Button>
                         <Tooltip placement="bottom" isOpen={this.state.hoveringJoin} target="joinButton" toggle={this.hoverJoin}>
                             Join Room
@@ -308,8 +308,8 @@ class Sidenav extends Component {
                         {
                             roomList.map((room, index) =>
                                 <tr key={index}>
-                                    <td className="hovering">
-                                        <a className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </a>
+                                    <td className="hovering" onClick={() => this.joinPublicRoom(room.roomKey)}>
+                                        <a className="b_width">{room.roomName} </a>
                                     </td>
                                 </tr>
                         )}
