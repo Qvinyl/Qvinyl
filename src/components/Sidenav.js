@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import ReactPlayer from 'react-player'
 import './Sidenav.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -28,30 +27,40 @@ class Sidenav extends Component {
         this.leaveRoom = this.leaveRoom.bind(this);
     }
 
+    // accounts for userID issue, as page might grab userID before firebase can respond
+    componentDidMount() {
+        setTimeout(this.getRoomList.bind(this), 1000);
+    }
+
+    // hover tooltip for add room button
     hoverAdd() {
         this.setState({
             hoveringAdd: !this.state.hoveringAdd
         })
     }
 
+    // hover tooltip for join room button
     hoverJoin() {
         this.setState({
             hoveringJoin: !this.state.hoveringJoin
         })
     }
 
+    // modal for add room button
     addRoom() {
         this.setState({
             addingRoom: !this.state.addingRoom
         })
     }
 
+    // modal for join room button
     joinRoom() {
         this.setState({
             joiningRoom: !this.state.joiningRoom
         })
     }
 
+    // check of room key is valid before joining
     checkValidKey() {
         var link = document.getElementById("linkOfRoom").value;
         var rooms = firebase.database().ref('rooms/');
@@ -65,6 +74,7 @@ class Sidenav extends Component {
         });
     }
 
+    // joins a private room or any room given a room key, sets currentRoom of user to room key
     joinPrivateRoom() {
         this.joinRoom();
         var temp = false;
@@ -102,21 +112,7 @@ class Sidenav extends Component {
         });
     }
 
-    searchRoom() {
-        var input = document.getElementById("room");
-        var filter = input.value.toUpperCase();
-        var table = document.getElementById("roomList");
-        var tr = table.getElementsByTagName("tr");
-        for (var i = 0; i < tr.length; i++) {
-            if(tr[i].innerHTML.toUpperCase().includes(filter)) {
-                tr[i].style.display = "";
-            }
-            else{
-                tr[i].style.display = "none";
-            }
-        }
-    }
-
+    // joins a public room so clicking on a room can set currentRoom of user to clicked room
     joinPublicRoom(roomKey) {
         this.leaveRoom();
         var temp = false;
@@ -150,6 +146,7 @@ class Sidenav extends Component {
         });
     }
 
+    // leaves room by deleting current room from current user
     leaveRoom() {
         try {
             var userID = firebase.auth().currentUser.uid;
@@ -181,6 +178,7 @@ class Sidenav extends Component {
         });
     }
 
+    // grabs the list of rooms in room branch dynamically 
     getRoomList() {
         var roomList = firebase.database().ref('rooms/');
         roomList.on('value', (snapshot) => {
@@ -204,6 +202,7 @@ class Sidenav extends Component {
         });
     }
 
+    // creation of room, pushing intialized data into database
     createRoom() {
         this.addRoom();
         var uid = firebase.auth().currentUser.uid;
@@ -234,11 +233,6 @@ class Sidenav extends Component {
         database.ref('users/' + userID + "/roomKeys").set({
             currentRoom: roomKey
         });
-    }
-
-
-    componentDidMount() {
-        setTimeout(this.getRoomList.bind(this), 1000);
     }
 
     render () {

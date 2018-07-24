@@ -42,111 +42,21 @@ class Player extends Component {
 		this.findDownvotePercentage = this.findDownvotePercentage.bind(this);
 	}
 
-	toggleMute () {
-		this.setState({
-			mute: !this.state.mute
-		})
+	// accounts for userID issue, as page might grab userID before firebase can respond
+	componentDidMount() {
+		setTimeout(this.onPageLoad.bind(this), 2000);
 	}
 
+	// updates progress for video
 	onProgress (state) {
 		this.setState(state)
 	}
 
-	incrementDownvotes() {
-		var userID = firebase.auth().currentUser.uid;
-		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-		userRoomKey.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().currentRoom;
-			var downvoteLocation = firebase.database().ref('rooms/'+roomKey);
-			downvoteLocation.once('value').then((snapshot) => {
-				var downvotes = snapshot.val().downvotes;
-				var numUsers = snapshot.val().numberOfUsers;
-				downvotes += 1;
-				downvoteLocation.push();
-				downvoteLocation.update({
-					downvotes: downvotes
-				});
-				if (downvotes/numUsers >= 0.5) {
-					this.skipVideo();
-					this.setDownvotesToZ();
-				}
-			});
-		});
-	}
-
-	checkUserDownVote() {
+	// toggles the state of mute
+	toggleMute () {
 		this.setState({
-			pressDownButton: !this.state.pressDownButton
+			mute: !this.state.mute
 		})
-		setTimeout(() => {
-			this.setState({
-				pressDownButton: false
-			});
-		}, 5000);
-
-		var temp = false;
-		var userID = firebase.auth().currentUser.uid;
-		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-		userRoomKey.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().currentRoom;
-			if (roomKey === "") return;
-			var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
-			downvotersLocation.once('value').then((snapshot) => {
-				var downvoter = snapshot.val();
-				snapshot.forEach((childSnapshot) => {
-					if (childSnapshot.val() === userID) {
-						temp = true;
-						return true;
-					}
-				});
-				if(temp === false || downvoter === '') {
-					var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
-					downvotersLoc.push(userID);
-					this.incrementDownvotes();
-					temp = true;
-				}
-			});
-		});
-	}
-
-	// hide playing video
-	hideVideo () {
-		this.setState({
-			hiddenVideo: !this.state.hiddenVideo
-		})
-	}
-
-	setDownvotesToZ() {
-		var userID = firebase.auth().currentUser.uid;
-		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-		userRoomKey.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().currentRoom;
-			firebase.database().ref('rooms/'+ roomKey).update({
-				downvotes: 0,
-				downvoters: ''
-			});
-		});
-	}
-
-	// skip current video
-	skipVideo (){
-		this.setDownvotesToZ();
-		var userID = firebase.auth().currentUser.uid;
-		var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-		getRoom.once('value').then((snapshot) => {
-			var roomKey = snapshot.val().currentRoom;
-			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
-			songLocation.limitToFirst(1).once('value').then((snapshot) => {
-				snapshot.forEach((childSnapshot) => {
-					var songLink = childSnapshot.val().link;
-					var songKey = childSnapshot.key;
-					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
-					this.setState({
-						song: songLink
-					});
-				});
-			});
-		});
 	}
 
 	// hide volume settings
@@ -163,7 +73,18 @@ class Player extends Component {
 		})
 	}
 
+	// hide playing video
+	hideVideo () {
+		this.setState({
+			hiddenVideo: !this.state.hiddenVideo
+		})
+	}
+
+	// two functions called on page load
+	// update Song Progress and updates thumbnail and song name of currently playing song
 	onPageLoad () {
+		// finds current song link and updates video progress to resume
+		// resume from either where everyone else is, or the last left off place when everyone leaves the room
 		try {
 			var userID = firebase.auth().currentUser.uid;
 		} catch(exception) {
@@ -199,6 +120,8 @@ class Player extends Component {
 			});
 		});
 
+		// dynamically sends the progress of the video to the database
+		// grabs the youtube id to update the current song that's playing, song name and thumbnail
 		setInterval(() => {
 			this.findDownvotePercentage();
 			try {
@@ -248,6 +171,96 @@ class Player extends Component {
 		}, 500);
 	}
 
+	// increments the number of downvotes and skips video when majority (>= 50%) is reached
+	incrementDownvotes() {
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().currentRoom;
+			var downvoteLocation = firebase.database().ref('rooms/'+roomKey);
+			downvoteLocation.once('value').then((snapshot) => {
+				var downvotes = snapshot.val().downvotes;
+				var numUsers = snapshot.val().numberOfUsers;
+				downvotes += 1;
+				downvoteLocation.push();
+				downvoteLocation.update({
+					downvotes: downvotes
+				});
+				if (downvotes/numUsers >= 0.5) {
+					this.skipVideo();
+					this.setDownvotesToZ();
+				}
+			});
+		});
+	}
+
+	// check if downvote is has already been pressed, accesses lists of downvoted users in Firebase
+	checkUserDownVote() {
+		this.setState({
+			pressDownButton: !this.state.pressDownButton
+		})
+
+		var temp = false;
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().currentRoom;
+			if (roomKey === "") return;
+			var downvotersLocation = firebase.database().ref('rooms/'+ roomKey +"/downvoters");
+			downvotersLocation.once('value').then((snapshot) => {
+				var downvoter = snapshot.val();
+				snapshot.forEach((childSnapshot) => {
+					if (childSnapshot.val() === userID) {
+						temp = true;
+						return true;
+					}
+				});
+				if(temp === false || downvoter === '') {
+					var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
+					downvotersLoc.push(userID);
+					this.incrementDownvotes();
+					temp = true;
+				}
+			});
+		});
+	}
+
+	// resets the downvotes when song ahs skipped
+	setDownvotesToZ() {
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().currentRoom;
+			firebase.database().ref('rooms/'+ roomKey).update({
+				downvotes: 0,
+				downvoters: ''
+			});
+		});
+	}
+
+	// skip current video by pushing next song in the queue to replace current song
+	skipVideo (){
+		this.setDownvotesToZ();
+		var userID = firebase.auth().currentUser.uid;
+		var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+		getRoom.once('value').then((snapshot) => {
+			var roomKey = snapshot.val().currentRoom;
+			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+			songLocation.limitToFirst(1).once('value').then((snapshot) => {
+				snapshot.forEach((childSnapshot) => {
+					var songLink = childSnapshot.val().link;
+					var songKey = childSnapshot.key;
+					firebase.database().ref('rooms/' + roomKey + '/songs/' + songKey).remove();
+					this.setState({
+						song: songLink
+					});
+				});
+			});
+		});
+	}
+
+	// finds the percentage towards a skip for downvotes
+	// displays on circular progress bar
 	findDownvotePercentage () {
 		try{
 			var userID = firebase.auth().currentUser.uid;
@@ -277,10 +290,7 @@ class Player extends Component {
 		});
 	}
 
-	componentDidMount() {
-		setTimeout(this.onPageLoad.bind(this), 2000);
-	}
-
+	// player reference from youtube player
 	ref = player => {
 		this.player = player
 	}

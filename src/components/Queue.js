@@ -17,6 +17,7 @@ class Queue extends React.Component {
         this.loadQueue = this.loadQueue.bind(this);
     }
 
+    // dynamic loading and listening of each song that's queued and as to queue
     musicQueued() {
         setInterval(() => {
             try {
@@ -36,6 +37,7 @@ class Queue extends React.Component {
         }, 1000);
     }
 
+    // loads each song stored in the database into the queue
     loadQueue (roomKey) {
         var songLocation = firebase.database().ref('/rooms/' + roomKey + '/songs');
         songLocation.on('value', (song) => {
@@ -62,6 +64,7 @@ class Queue extends React.Component {
         });
     }
 
+    // accounts for userID issue, as page might grab userID before firebase can respond
     componentDidMount() {
         setTimeout(this.musicQueued.bind(this), 1000);
     }

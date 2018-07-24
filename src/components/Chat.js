@@ -32,26 +32,45 @@ class Chat extends React.Component {
 
         this.hoverAdmin = this.hoverAdmin.bind(this);
         this.hoverKickUser = this.hoverKickUser.bind(this);
-        this.toggle = this.toggle.bind(this);
+        this.changeTab = this.changeTab.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.getUserList = this.getUserList.bind(this);
         this.loadChat = this.loadChat.bind(this);
         this.getUserID = this.getUserID.bind(this);
     }
 
+    // scroll to bottom of chat window
+    scrollToBot() {
+        ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(this.refs.chats).scrollHeight;
+    }
+
+    componentDidUpdate() {
+        this.scrollToBot();
+    }
+
+    // accounts for userID issue, as page might grab userID before firebase can respond
+    componentDidMount() {
+        setTimeout(this.getUserID.bind(this), 500);
+        this.scrollToBot();
+
+    }
+
+    // hovering tool tip for make admin
     hoverAdmin() {
         this.setState({
             hoveringAdmin: !this.state.hoveringAdmin
         })
     }
 
+    // hovering tool tip for kick user
     hoverKickUser() {
         this.setState({
             hoveringKickUser: !this.state.hoveringKickUser
         })
     }
 
-    toggle(tab) {
+    // setting different tabs
+    changeTab(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
@@ -60,20 +79,7 @@ class Chat extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        this.scrollToBot();
-    }
-
-    scrollToBot() {
-        ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(this.refs.chats).scrollHeight;
-    }
-
-    componentDidMount() {
-        setTimeout(this.getUserID.bind(this), 500);
-        this.scrollToBot();
-
-    }
-
+    // finds userID and loads chat history dynamically
     getUserID() {
         setInterval(() => {
             try {
@@ -99,16 +105,14 @@ class Chat extends React.Component {
         }, 1500);
     }
 
-
+    // iterates through database and grabs chat history
     loadChat(roomKey) {
         var chatLocation = firebase.database().ref('/rooms/' + roomKey + '/chats/');
         chatLocation.on('value', (chatHistory) => {
-
             let clear = [];
             this.setState({
                 chats: clear
             });
-
             chatHistory.forEach((childSnapshot) => {
                 var message = childSnapshot.val().message;
                 var user = childSnapshot.val().user;
@@ -124,7 +128,7 @@ class Chat extends React.Component {
         });
     }
 
-
+    // submits message to database and clears input field
     submitMessage(e) {
         e.preventDefault();
         var userMessage = document.getElementById("currentMessage").value;
@@ -132,11 +136,7 @@ class Chat extends React.Component {
         var displayName = firebase.auth().currentUser.displayName;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
         userRoomKey.once('value').then(function(snapshot) {
-            var roomKey = snapshot.val().currentRoom;
-            if (roomKey === "") {
-                window.alert("you are not in a room");
-                return;
-            }
+        	var roomKey = snapshot.val().currentRoom;
             var chatbase = firebase.database().ref('rooms/' + roomKey + '/chats');
             chatbase.push({
                 message: userMessage,
@@ -147,6 +147,7 @@ class Chat extends React.Component {
         });
     }
 
+    // iterates through list of users in database and removes user identified by uid
     kickUser(uid) {
         var kickLink = uid;
         var userID = firebase.auth().currentUser.uid;
@@ -163,7 +164,7 @@ class Chat extends React.Component {
                             var selectedUser = childSnapshot.val();
                             var selectedUserKey = childSnapshot.key;
                             if ( kickLink === selectedUser ) {
-                                window.alert(kickLink + " has been removed from the room");
+                                window.alert("User has been removed from the room");
                                 firebase.database().ref('rooms/' + roomKey + '/users/' + selectedUserKey).remove();
                                 var getRoom = firebase.database().ref('users/' + kickLink + '/roomKeys');
                                 getRoom.update({
@@ -184,6 +185,7 @@ class Chat extends React.Component {
         });
     }
 
+    // grabs the user list from the database
     getUserList() {
         try {
             var userID = firebase.auth().currentUser.uid;
@@ -219,6 +221,7 @@ class Chat extends React.Component {
         });
     }
 
+    // given uid of user, make that user admin, edits admin branch of room
     makeAdmin(uid) {
         var makeAdmin = uid;
         var userID = firebase.auth().currentUser.uid;
@@ -251,7 +254,7 @@ class Chat extends React.Component {
                     <NavItem style={{height:"4vh", background:"#343a40", width:'50%', opacity: '0.8'}}>
                         <NavLink
                         className={classnames({ active: this.state.activeTab === '1' })}
-                        onClick={() => { this.toggle('1'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
+                        onClick={() => { this.changeTab('1'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
                         >
                         <span className="tabTitle">Chatroom</span>
                         </NavLink>
@@ -259,7 +262,7 @@ class Chat extends React.Component {
                     <NavItem style={{height:"4vh", background:"#343a40", width:'50%', opacity: '0.8'}}>
                         <NavLink
                         className={classnames({ active: this.state.activeTab === '2' })}
-                        onClick={() => { this.toggle('2'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
+                        onClick={() => { this.changeTab('2'); }} style={{color: 'white', background: '#232323', border: '0px', borderRadius: '0px'}}
                         >
                             <span className="tabTitle">Users</span>
                         </NavLink>
@@ -313,7 +316,6 @@ class Chat extends React.Component {
                                                             <Tooltip placement="top" isOpen={this.state.hoveringKickUser} target="kickUserButton" toggle={this.hoverKickUser}>
                                                                 Kick Out User
                                                             </Tooltip>
-                                                            {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.kickUser(name.id)} value = {name.id}> Kick User </Button>*/}
                                                         </td>
                                                         <td>
                                                             <Button id="adminButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
@@ -322,7 +324,6 @@ class Chat extends React.Component {
                                                             <Tooltip placement="top" isOpen={this.state.hoveringAdmin} target="adminButton" toggle={this.hoverAdmin}>
                                                                 Make User Admin
                                                             </Tooltip>
-                                                            {/*<Button className="userListButton" size="sm" outline color="primary" onClick={() => this.makeAdmin(name.id)} value = {name.id}> Make Admin </Button>*/}
                                                         </td>
                                                     </tr>
                                                 )}

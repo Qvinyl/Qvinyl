@@ -17,7 +17,7 @@ import {parse, toSeconds} from 'iso8601-duration';
 
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
-import SearchBar from './search_bar.js'
+import SearchBar from './SearchBar.js'
 const API_KEY = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
 
 
@@ -43,34 +43,44 @@ class Main extends Component {
         this.getRoomName = this.getRoomName.bind(this);
         this.openYoutubeSearch = this.openYoutubeSearch.bind(this);
 
-        this.videoSearch('lofi');
+        this.videoSearch('lofi'); // default youtube search = lofi
     }
 
+    // accounts for userID issue, as page might grab userID before firebase can respond
+    componentDidMount() {
+        setTimeout(this.getRoomName.bind(this), 1000);
+    }
+
+    // hover tooltip for key button
     hoverKey() {
         this.setState({
             hoveringKey: !this.state.hoveringKey
         })
     }
 
-
+    // hover tooltip for search button
     hoverSearch() {
         this.setState({
             hoveringSearch: !this.state.hoveringSearch
         })
     }
 
+    // hover tooltip for hover button
     hoverDelete() {
         this.setState({
             hoveringDelete: !this.state.hoveringDelete
         })
     }
 
+    // modal for delete room button
     deleteRoom() {
         this.setState({
             deletingRoom: !this.state.deletingRoom
         })
     }
 
+    // pushing music link to database, parses link to grab and feed to YouTube API
+    // grabs the youtube thumbnail, song title, and song duration
     pushMusicToDB(link) {
         var userID = firebase.auth().currentUser.uid;
         var name = firebase.auth().currentUser.displayName;
@@ -91,9 +101,7 @@ class Main extends Component {
             var youtubeAPIduration = 'https://www.googleapis.com/youtube/v3/videos?key='
             + API_KEY + '&part=contentDetails&id=' + youtubeID;
 
-            if (link.includes("https://www.youtube.com/")
-            || link.includes("https://soundcloud.com/")
-            || link.includes("https://vimeo.com/")) {
+            if (link.includes("https://www.youtube.com/")) {
                 fetch(youtubeAPItitle).then((response) => response.json()).then((json) => {
                     var title = json.items[0].snippet.title;
                     fetch(youtubeAPIduration).then((response) => response.json()).then((json) => {
@@ -126,6 +134,7 @@ class Main extends Component {
         });
     }
 
+    // finds the room key of current user and copies to clipboard
     getRoomKey() {
         var userID = firebase.auth().currentUser.uid;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -149,6 +158,7 @@ class Main extends Component {
         textField.remove();
     }
 
+    // dynamically finds and loads the room name to display
     getRoomName() {
         var userID = firebase.auth().currentUser.uid;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -175,6 +185,7 @@ class Main extends Component {
         });
     }
 
+    // deletes a room in the database by looking through room branch
     destroyRoom() {
         var userID = firebase.auth().currentUser.uid;
         var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
@@ -203,10 +214,7 @@ class Main extends Component {
         });
     }
 
-    componentDidMount() {
-        setTimeout(this.getRoomName.bind(this), 1000);
-    }
-
+    // YouTube search API storing prop
     videoSearch(term) {
         YTSearch({ key: API_KEY, term: term }, videos => {
             this.setState({
@@ -215,6 +223,7 @@ class Main extends Component {
         });
     }
 
+    // deals with prop opening youtube search
     openYoutubeSearch() {
         this.setState({
             youtubeOpen: !this.state.youtubeOpen
@@ -224,6 +233,7 @@ class Main extends Component {
     render () {
         const {videos} = this.state;
 
+        // constantly parses search field for youtube videos
         const videoSearch = _.debounce(term => {
             this.videoSearch(term);
         }, 300);

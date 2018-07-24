@@ -11,6 +11,7 @@ import {
     Form, FormGroup, Container, Row, Col, Input, Button, FormText
 } from 'reactstrap';
 
+// error message handling
 function setErrorMsg(error) {
     return {
         registerError: error.message
@@ -19,6 +20,8 @@ function setErrorMsg(error) {
 
 export default class Register extends Component {
     state = { registerError: null }
+
+    // handles register and setting displayName
     handleSubmit = (error) => {
         error.preventDefault();
         auth(this.email.value, this.pw.value)
@@ -36,6 +39,7 @@ export default class Register extends Component {
             });
         });
     }
+    
     render () {
         return (
             <div className='background'>
