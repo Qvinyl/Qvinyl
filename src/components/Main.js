@@ -155,6 +155,9 @@ class Main extends Component {
     userRoomKey.on('value', (snapshot) => {
       try {
         var roomKey = snapshot.val().currentRoom;
+        this.setState({
+          currentRoomKey: roomKey
+        })
       } catch (exception) {
         this.getRoomName.bind(this);
       }
