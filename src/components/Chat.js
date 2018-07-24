@@ -27,7 +27,8 @@ class Chat extends React.Component {
             collapse: false,
             activeTab: '1',
             hoveringKickUser: false,
-            hoveringAdmin: false
+            hoveringAdmin: false,
+            currentRoomKey: '',
         };
 
         this.hoverAdmin = this.hoverAdmin.bind(this);
@@ -88,6 +89,9 @@ class Chat extends React.Component {
         getRoom.once('value').then((snapshot) => {
           try {
             var roomKey = snapshot.val().currentRoom;
+            this.setState({
+                currentRoomKey: roomKey
+            })
           } catch (exception) {
             this.getUserID.bind(this);
           }
@@ -280,9 +284,13 @@ class Chat extends React.Component {
                           )
                         }
                     </ul>
-                    <Form autoComplete="off" className="input" onSubmit={(e) => this.submitMessage(e)}>
-                        <Input placeholder="Type a message..." id="currentMessage" type="text" ref="msg" />
-                    </Form>
+                        <Form autoComplete="off" className="input" onSubmit={(e) => this.submitMessage(e)}>
+                        {   this.state.currentRoomKey &&
+                            <div>
+                                  <Input placeholder="Type a message..." id="currentMessage" type="text" ref="msg" />
+                            </div>
+                        }
+                        </Form>
                   </div>
                 </div>
               </Card>

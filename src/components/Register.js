@@ -23,14 +23,14 @@ export default class Register extends Component {
     error.preventDefault();
     auth(this.email.value, this.pw.value)
       .catch(error => this.setState(setErrorMsg(error)))
-    firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
+      firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
         .then((user) => {
             console.log("email: " + this.email.value);
             var user1= firebase.auth().currentUser;
             user1.updateProfile({
                 displayName: this.firstName.value + " " + this.lastName.value,
             }).then(function() {
-                console.log("email: " + user1.displayName);
+
             }).catch(function(error) {
                 // An error happened.
             });
