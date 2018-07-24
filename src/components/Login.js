@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { login, resetPassword } from '../helpers/auth'
 import './Login.css'
-import logo from './LoginLogo.png';
+import logo from './Logo7.png';
 import { Link } from 'react-router-dom'
 
 import {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { auth } from '../helpers/auth'
 import './Login.css'
-import logo from './LoginLogo.png';
+import logo from './Logo7.png';
 import {firebaseAuth } from '../config/constants'
 import firebase from 'firebase/app'
 import './Register.css'
