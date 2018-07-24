@@ -9,7 +9,7 @@ import {
 import {Circle} from 'rc-progress';
 
 function logoutButton(){
-    firebase.auth().signOut();
+	firebase.auth().signOut();
 }
 
 class Player extends Component {
@@ -53,9 +53,9 @@ class Player extends Component {
 	}
 
 	incrementDownvotes() {
-	    var userID = firebase.auth().currentUser.uid;
-	    var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
-	    userRoomKey.once('value').then((snapshot) => {
+		var userID = firebase.auth().currentUser.uid;
+		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
+		userRoomKey.once('value').then((snapshot) => {
 			var roomKey = snapshot.val().currentRoom;
 			var downvoteLocation = firebase.database().ref('rooms/'+roomKey);
 			downvoteLocation.once('value').then((snapshot) => {
@@ -64,15 +64,15 @@ class Player extends Component {
 				downvotes += 1;
 				downvoteLocation.push();
 				downvoteLocation.update({
-			    	downvotes: downvotes
+					downvotes: downvotes
 				});
 				if (downvotes/numUsers >= 0.5) {
 					this.skipVideo();
-				 	this.setDownvotesToZ();
+					this.setDownvotesToZ();
 				}
 			});
-	  });
- 	}
+		});
+	}
 
 	checkUserDownVote() {
 		this.setState({
@@ -88,25 +88,25 @@ class Player extends Component {
 		var userID = firebase.auth().currentUser.uid;
 		var userRoomKey = firebase.database().ref('users/' + userID + '/roomKeys');
 		userRoomKey.once('value').then((snapshot) => {
-		var roomKey = snapshot.val().currentRoom;
-		if (roomKey === "") return;
-		var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
-		downvotersLocation.once('value').then((snapshot) => {
-			var downvoter = snapshot.val();
-			snapshot.forEach((childSnapshot) => {
-				if (childSnapshot.val() === userID) {
+			var roomKey = snapshot.val().currentRoom;
+			if (roomKey === "") return;
+			var downvotersLocation = firebase.database().ref('rooms/'+roomKey+"/downvoters");
+			downvotersLocation.once('value').then((snapshot) => {
+				var downvoter = snapshot.val();
+				snapshot.forEach((childSnapshot) => {
+					if (childSnapshot.val() === userID) {
+						temp = true;
+						return true;
+					}
+				});
+				if(temp === false || downvoter === '') {
+					var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
+					downvotersLoc.push(userID);
+					this.incrementDownvotes();
 					temp = true;
-					return true;
 				}
 			});
-			if(temp === false || downvoter === '') {
-				var downvotersLoc = firebase.database().ref('rooms/'+ roomKey + '/downvoters');
-				downvotersLoc.push(userID);
-				this.incrementDownvotes();
-				temp = true;
-			}
 		});
-	 });
 	}
 
 	// hide playing video
@@ -126,14 +126,14 @@ class Player extends Component {
 				downvoters: ''
 			});
 		});
-  }
+	}
 
-  // skip current video
+	// skip current video
 	skipVideo (){
 		this.setDownvotesToZ();
 		var userID = firebase.auth().currentUser.uid;
-	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-	    getRoom.once('value').then((snapshot) => {
+		var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+		getRoom.once('value').then((snapshot) => {
 			var roomKey = snapshot.val().currentRoom;
 			var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 			songLocation.limitToFirst(1).once('value').then((snapshot) => {
@@ -146,8 +146,8 @@ class Player extends Component {
 					});
 				});
 			});
-	    });
-    }
+		});
+	}
 
 	// hide volume settings
 	hideVolume () {
@@ -164,17 +164,17 @@ class Player extends Component {
 	}
 
 	onPageLoad () {
-	    try {
-	     	var userID = firebase.auth().currentUser.uid;
-	    } catch(exception) {
-	        this.onPageLoad.bind(this);
-	    }
-	    var userName = firebase.auth().currentUser.displayName;
-	    this.setState({
+		try {
+			var userID = firebase.auth().currentUser.uid;
+		} catch(exception) {
+			this.onPageLoad.bind(this);
+		}
+		var userName = firebase.auth().currentUser.displayName;
+		this.setState({
 			currentUser: userName
 		});
-	    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-	    getRoom.once('value').then((snapshot) => {
+		var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+		getRoom.once('value').then((snapshot) => {
 			try {
 				var roomKey = snapshot.val().currentRoom;
 			} catch (exception) {
@@ -197,17 +197,17 @@ class Player extends Component {
 					})
 				});
 			});
-	    });
+		});
 
-	 	setInterval(() => {
-	 		this.findDownvotePercentage();
-		    try {
-		     	var userID = firebase.auth().currentUser.uid;
-		    } catch(exception) {
-		        this.onPageLoad.bind(this);
-		    }
-		    var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
-		    getRoom.once('value').then((snapshot) => {
+		setInterval(() => {
+			this.findDownvotePercentage();
+			try {
+				var userID = firebase.auth().currentUser.uid;
+			} catch(exception) {
+				this.onPageLoad.bind(this);
+			}
+			var getRoom = firebase.database().ref('users/' + userID + '/roomKeys');
+			getRoom.once('value').then((snapshot) => {
 				try {
 					if(snapshot.val().currentRoom !== "") {
 						var roomKey = snapshot.val().currentRoom;
@@ -218,21 +218,21 @@ class Player extends Component {
 				} catch (exception) {
 					return;
 				}
-			    var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
+				var songLocation = firebase.database().ref('rooms/' + roomKey + '/songs');
 				songLocation.limitToFirst(1).once('value').then((snapshot) => {
 					snapshot.forEach((childSnapshot) => {
 						var songLink = childSnapshot.val().link;
 						this.setState({
 							song: songLink
 						});
-						      // get youtube ID
+						// get youtube ID
 						var youtubeID = songLink.slice(songLink.lastIndexOf("=") + 1, songLink.length);
 						var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
 						var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
-						              + APIkey + '&part=snippet&id=' + youtubeID;
-		              	fetch(youtubeAPItitle).then((response) => response.json()).then((json) => {
-	              	  		var title = json.items[0].snippet.title;
-	              	  		var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
+						+ APIkey + '&part=snippet&id=' + youtubeID;
+						fetch(youtubeAPItitle).then((response) => response.json()).then((json) => {
+							var title = json.items[0].snippet.title;
+							var youtubeImgURL = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
 							this.setState({
 								currentSongTitle: title,
 								currentSongImage: youtubeImgURL
@@ -242,10 +242,10 @@ class Player extends Component {
 				});
 				var songProgress = firebase.database().ref('rooms/' + roomKey);
 				songProgress.update({
-			    	songProgress: this.state.played
+					songProgress: this.state.played
 				});
-		  });
-	 	}, 500);
+			});
+		}, 500);
 	}
 
 	findDownvotePercentage () {
@@ -277,9 +277,9 @@ class Player extends Component {
 		});
 	}
 
-  	componentDidMount() {
-	 	setTimeout(this.onPageLoad.bind(this), 2000);
- 	}
+	componentDidMount() {
+		setTimeout(this.onPageLoad.bind(this), 2000);
+	}
 
 	ref = player => {
 		this.player = player
@@ -303,7 +303,7 @@ class Player extends Component {
 							this.state.currentSongTitle &&
 							<div className="songTitle">
 								<p className="currentPlay">
-								♫♪  Currently playing...
+									♫♪  Currently playing...
 								</p>
 
 								<br />
@@ -313,27 +313,24 @@ class Player extends Component {
 							</div>
 						}
 					</div>
-
 					<div className="center">
-						 <img src={logo} alt="Logo" className='logo' />
+						<img src={logo} alt="Logo" className='logo' />
 					</div>
-
 					<div className="right">
 						<p className="userName">
 							Welcome, <b>{this.state.currentUser}</b>
 						</p>
 						<Button style={{borderRadius:100}} onClick={logoutButton} className="logout">Logout</Button>
 					</div>
-		            <div>
+					<div>
 						<progress className="progressBar"
-							max='1'
-							value={this.state.played}
+						max='1'
+						value={this.state.played}
 						/>
 					</div>
-		        </div>
+				</div>
 
 				<div className="player">
-
 					<div className="right">
 						<a onClick={this.toggleMute}>
 							<i className={"fas fa-volume-off muting" + (this.state.mute ? " show" : " hide")}></i>
@@ -345,33 +342,30 @@ class Player extends Component {
 							<i className="fas fa-arrows-alt fullScreen fa-rotate-45"></i>
 						</a>
 					</div>
-
 					<div className="skipDiv">
 						<a style={hideSkipButton} onClick={this.checkUserDownVote}>
-
-							<Circle
-							style={hideSkipButton}
-							className="skipProgress"
-							percent={this.state.percentage}
-							strokeWidth="6"
-							strokeColor="lightgrey"/>
+						<Circle
+						style={hideSkipButton}
+						className="skipProgress"
+						percent={this.state.percentage}
+						strokeWidth="6"
+						strokeColor="lightgrey"/>
 							<i id="downvote" className="fas fa-fast-forward thumbsdown" ></i>
 						</a>
-
 					</div>
 
 					<div className="minimizedPlayer" style={video}>
 						<div className="blur">
 							<ReactPlayer
-								ref={this.ref}
-								playing={true}
-								volume={this.state.volume}
-								url={this.state.song}
-								width="100vw"
-								height="100vh"
-								muted={this.state.mute}
-								onProgress={this.onProgress}
-								onEnded={this.skipVideo}
+							ref={this.ref}
+							playing={true}
+							volume={this.state.volume}
+							url={this.state.song}
+							width="100vw"
+							height="100vh"
+							muted={this.state.mute}
+							onProgress={this.onProgress}
+							onEnded={this.skipVideo}
 							/>
 						</div>
 					</div>
