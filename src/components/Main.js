@@ -52,6 +52,7 @@ class Main extends Component {
     })
   }
 
+
   hoverSearch() {
     this.setState({
       hoveringSearch: !this.state.hoveringSearch

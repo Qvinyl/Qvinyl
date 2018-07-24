@@ -19,21 +19,22 @@ function setErrorMsg(error) {
 
 export default class Register extends Component {
   state = { registerError: null }
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (error) => {
+    error.preventDefault();
     auth(this.email.value, this.pw.value)
-      .catch(e =>  window.alert("Email is already in use"))
+      .catch(error => this.setState(setErrorMsg(error)))
     firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
-      .then((user) => {
-      var user1= firebase.auth().currentUser;
-      user1.updateProfile({
-        displayName: this.firstName.value + " " + this.lastName.value,
-      }).then(function() {
-        // Update successful.
-      }).catch(function(error) {
-        // An error happened.
-      });
-    });
+        .then((user) => {
+            console.log("email: " + this.email.value);
+            var user1= firebase.auth().currentUser;
+            user1.updateProfile({
+                displayName: this.firstName.value + " " + this.lastName.value,
+            }).then(function() {
+                console.log("email: " + user1.displayName);
+            }).catch(function(error) {
+                // An error happened.
+            });
+        });
   }
   render () {
     return (
