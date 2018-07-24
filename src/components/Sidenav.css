@@ -9,7 +9,12 @@
 
 .b_width {
   width: 100%;
+  height:100%;
   cursor: pointer;
+}
+
+.hovering:hover{
+  background-color:#212529;
 }
 
 #roomList td {

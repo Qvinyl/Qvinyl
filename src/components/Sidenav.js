@@ -20,7 +20,6 @@ class Sidenav extends Component {
       hoveringJoin: false,
       addingRoom: false,
       joiningRoom: false
-
     };
     this.hoverAdd = this.hoverAdd.bind(this);
     this.hoverJoin = this.hoverJoin.bind(this);
@@ -316,7 +315,7 @@ class Sidenav extends Component {
             {
               roomList.map((room, index) =>
                 <tr key={index}>
-                  <td>
+                  <td className="hovering">
                     <a className="b_width" onClick={() => this.joinPublicRoom(room.roomKey)}>{room.roomName} </a>
                   </td>
                 </tr>
