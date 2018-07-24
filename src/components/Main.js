@@ -247,24 +247,24 @@ class Main extends Component {
                     {
                         this.state.currentRoomKey &&
                         <div>
-                            <Button id="keyButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                <i className="fas fa-key roomKey" onClick={this.getRoomKey}></i>
+                            <Button id="keyButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={this.getRoomKey}>
+                                <i className="fas fa-key roomKey"></i>
                             </Button>
                             <Tooltip placement="bottom" isOpen={this.state.hoveringKey} target="keyButton" toggle={this.hoverKey}>
                                 Click to Copy to ClipBoard
                             </Tooltip>
 
                             {/****************** TOOLTIP FOR SEARCH MUSIC ******************/}
-                            <Button id="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                <i className="fas fa-search searchSong" onClick={this.openYoutubeSearch}></i>
+                            <Button id="searchButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={this.openYoutubeSearch}>
+                                <i className="fas fa-search searchSong"></i>
                             </Button>
                             <Tooltip placement="bottom" isOpen={this.state.hoveringSearch} target="searchButton" toggle={this.hoverSearch}>
                                 Search Music
                             </Tooltip>
 
                             {/****************** TOOLTIP FOR DELETE ROOM ******************/}
-                            <Button id="deleteButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                <i className="fas fa-times removeRoom" onClick={this.deleteRoom}></i>
+                            <Button id="deleteButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={this.deleteRoom}>
+                                <i className="fas fa-times removeRoom"></i>
                             </Button>
                             <Tooltip placement="bottom" isOpen={this.state.hoveringDelete} target="deleteButton" toggle={this.hoverDelete}>
                                 Delete Room

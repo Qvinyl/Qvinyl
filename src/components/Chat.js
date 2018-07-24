@@ -310,16 +310,16 @@ class Chat extends React.Component {
                                                     <tr key={index}>
                                                         <td className="userNames">{name.name}</td>
                                                         <td>
-                                                            <Button id="kickUserButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                                                <i className="fas fa-frown-open" onClick={() => this.kickUser(name.id)} value = {name.id}></i>
+                                                            <Button id="kickUserButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={() => this.kickUser(name.id)}>
+                                                                <i className="fas fa-frown-open" value = {name.id}></i>
                                                             </Button>
                                                             <Tooltip placement="top" isOpen={this.state.hoveringKickUser} target="kickUserButton" toggle={this.hoverKickUser}>
                                                                 Kick Out User
                                                             </Tooltip>
                                                         </td>
                                                         <td>
-                                                            <Button id="adminButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                                                <i className="fas fa-crown" onClick={() => this.makeAdmin(name.id)} value = {name.id}></i>
+                                                            <Button id="adminButton" style={{borderRadius:100, margin: "2px 2px 2px 2px"}} onClick={() => this.makeAdmin(name.id)}>
+                                                                <i className="fas fa-crown" value = {name.id}></i>
                                                             </Button>
                                                             <Tooltip placement="top" isOpen={this.state.hoveringAdmin} target="adminButton" toggle={this.hoverAdmin}>
                                                                 Make User Admin
