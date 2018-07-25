@@ -263,7 +263,7 @@ class Player extends Component {
 	// finds the percentage towards a skip for downvotes
 	// displays on circular progress bar
 	findDownvotePercentage () {
-		try{
+		try {
 			var userID = firebase.auth().currentUser.uid;
 		} catch (exception) {
 			return;

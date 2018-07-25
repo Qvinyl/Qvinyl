@@ -294,10 +294,9 @@ class Main extends Component {
                                                     <br/>
                                                 </td>
                                                 <td>
-                                                    <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}>
-                                                        <i className="fas fa-plus roomKey"
-                                                        onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
-                                                        </i>
+                                                    <Button style={{borderRadius:100, margin: "2px 2px 2px 2px"}}
+                                                    onClick={() => this.pushMusicToDB("https://www.youtube.com/watch?v=" + video.id.videoId)}>
+                                                        <i className="fas fa-plus roomKey"></i>
                                                     </Button>
                                                 </td>
                                             </tr>
