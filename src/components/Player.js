@@ -150,7 +150,7 @@ class Player extends Component {
 						});
 						// get youtube ID, find and set the song name and thumbnail
 						var youtubeID = songLink.slice(songLink.lastIndexOf("=") + 1, songLink.length);
-						var APIkey = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
+						var APIkey = 'AIzaSyBUXNmtcQ1epEEKF5f5RXbEmLw54kjAPY8';
 						var youtubeAPItitle = 'https://www.googleapis.com/youtube/v3/videos?key='
 						+ APIkey + '&part=snippet&id=' + youtubeID;
 						fetch(youtubeAPItitle).then((response) => response.json()).then((json) => {

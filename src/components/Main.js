@@ -18,7 +18,7 @@ import {parse, toSeconds} from 'iso8601-duration';
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
 import SearchBar from './SearchBar.js'
-const API_KEY = 'AIzaSyA04eUTmTP3skSMcRXWeXlBNI0luJ2146c';
+const API_KEY = 'AIzaSyCY4YD8stSLV1eyBlGUPk0qzqy8T490VM4';
 
 
 class Main extends Component {
@@ -281,7 +281,7 @@ class Main extends Component {
                             </h3>
                             <div>
                                 <SearchBar onSearchTermChange={videoSearch} />
-                                <Table className="col-md-4 list-group">
+                                <Table className="list-group">
                                     <tbody>
                                         {
                                             videos.map((video, index) =>
